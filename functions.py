@@ -23,4 +23,4 @@ def squared(x: np.array,params: np.array) -> float:
     a = params[0]
     b = params[1]
     c = params[2]
-    return return np.power(a * x,2) + b * x + c
+    return np.power(a * x,2) + b * x + c
