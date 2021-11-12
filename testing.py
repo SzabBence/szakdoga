@@ -16,7 +16,7 @@ def trapez_method(x: np.array, func: str, func_params = None) -> float:
 #Inputs = np.array([1,2])
 #values = trapez_method(Inputs,"squared",[1,2,0])
 
-intervals_to_integrate = np.asarray([[1,1.33], [1.33,1.66],[1.66,2]])
+intervals_to_integrate = np.asarray([[1,1.33], [1.33,1.66], [1.66,2]])
 integrate_sum = 0
 squared_params = np.array([1,2,0])
 for interval_to_integrate in intervals_to_integrate:

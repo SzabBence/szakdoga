@@ -4,38 +4,12 @@
 \usepackage{algorithmic}
 \usepackage{amsthm}
 \usepackage{graphicx}
-\usepackage{listings}
-\usepackage{xcolor}
 \theoremstyle{definition}
 \newtheorem{definition}{Definíció}
 \title{Szakdolgozat}
 \author{Szabó Bence Dániel }
 \date{Date}
 
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
-}
-\lstset{style=mystyle}
 \begin{document}
 
 \maketitle
@@ -55,42 +29,32 @@ Célunk az x vektor kiszámolása. Természetesen x vektort megkaphatjuk egy má
 \end{center}
 Azonban most nem az invertálást nézzük meg, hanem a Gauss eljárást. A Gauss eljárás úgy működik, hogy fentről lefelé ellenőrizve a sorokat mindig kiejtünk egy ismeretlen, a legvégén pedig egyértelműen kapunk egy ismeretlen - konstans párost. Ekkor pedig meghatározzuk az első ismeretlent, onnan a következő sorban behelyettesítjük az elöző lépésben megkapott ismeretlent és megint egyértelműen meghatározható a következő ismeretlen. Ezt pedig addig folytatjuk, amíg nincs meg a teljes x vektor. A következőben a Gauss eljárás egyik pszeudo kódját láthatjuk. Természetesen, ha az átlóban 0 elem kerül, akkor hibára futunk. A gyakorlatban azért, mert 0-val nem tudunk osztani, klasszikus matematikai értelemben azért, mert nem lesz megoldható az egyenletrendszer.
 
+\begin{algorithm}
+%http://www.math-cs.gordon.edu/courses/ma342/handouts/gauss.pdf
+\caption{Gauss eljárás}
+\begin{algorithmic}
+\STATE INPUT: A együttható mátrix utolsó oszlopában az egyenletek értékeivel
+\STATE OUTPUT: x megoldás vektor
+\STATE n: A és b sorainak száma
+\FOR{$(k = 1,k < n - 1 ; k ++$)} 
+\FOR{$(i = k + 1,k < n ; i ++$)}
+\STATE $a_{ik} = a_{ik} / a_{kk}$
+\FOR{$(j = k + 1,k < n ; j ++$)} 
+\STATE $a_{ik} = a_{ij} - a_{ik} a_{kj}$
+\ENDFOR 
+\ENDFOR 
+\ENDFOR 
 
-\newpage
-\section{Python nyelv}
-\begin{center}
-    \includegraphics[width=\textwidth]{plots/python-logo.png}
-    %https://www.python.org/static/community_logos/python-logo-master-v3-TM.png
-\end{center}
-
-A Python egy magas szintű programozási nyelv egy könnyen elsajátítható szintaxissal. Azért erre a nyelvre esett
-a választásom, mert sok csomag elérhető hozzá, nagyon jól dokumentált, nem kell típusokat használni benne az 
-esetek nagy többségében, nyílt és ebben dolgozom, ezért ezt ismerem a legjobban. 
-
+\FOR{$(k = n , k > 1 , k--)$}
+BALANCE(a_{k,})
 \newline
+$ x_i = SUM(a_{k,})$
+\ENDFOR
+\end{algorithmic}
 
-A Python nyelvben zárójeleket igazából csak a függvények után a paraméter megadásoknál és az indexeléseknél szoktuk igazából használni. Ez egy nagy különbség sok másik nyelvvel szemben, ahol a kódok különböző részeit zárójelekbe / kapcsoszárójelekbe kell írnunk. Itt a tabulátor lesz az elválasztó karakter a kódrészletek között.
 
-A következőkben nézzünk meg néhány nyelv specifikus dolgot, amelyeket a szakdolgozat további részében felhasználunk.
-
-\subsection{Python függvények}
-Pythonban minden függvényt a \textit{def} szóval kezdünk, amit a függvény neve követ, majd zárójelek közé beírjuk a paramétereket és vesszővel választjuk el, ha vannak. A csukó zárójel után mindig ki kell tenni a kettőspontot. Ezután a következő sorban kell folytatnunk a kódot, de egy tabulátornyi hellyel jobbrább, mint ahogy a \textit{def} szócskát elhelyeztük.
-\lstinputlisting[language=Python]{python-bevezetohoz-scriptek/function_template.py}
-A függvény paramétereinél nem szükséges, hogy megadjuk milyen típusú inputot vár el, azonban a saját segítségünkre megadhatjuk ezeket a következő képpen: a paraméter neve után kettőspontot írunk, majd az adattípus nevét, pl. str, mint String, dict, mint Dictionary, int, mint integer, stb...
-\lstinputlisting[language=Python]{python-bevezetohoz-scriptek/typing_template.py}
-
-A függvény visszatérési értékét pedig a \textit{return} szó után adhatjuk meg, amennyiben szükség van rá
-\subsection{Ciklusok}
-\subsubsection{For ciklus}
-A \textit{for} ciklus ebben a nyelvben nagyon hasonlít más nyelvek \textit{for each} megoldásaira, mert a for mindig valamilyen listán iterál végig, legyenek azok számok vagy egyéb objektumok. A szintaxisa a következő :
-A \textit{for} szó után megadjuk az változót, amit használunk az iterálás alatt, majd az \textit{in} szó után megadjuk a sorozatot, amin végiglépkedünk. A végére itt is kettőspontot kell raknunk, akárcsak a függvényeknél
-\lstinputlisting[language=Python]{python-bevezetohoz-scriptek/for_template.py}
-***** ki kell venni az ékezeteket ******
-\subsubsection{While ciklus}
-A while ciklust hasonlóan adjuk meg , mint más nyelvekben. A \textit{while} szó után jön az eldöntendő feltétel, és ameddig a feltétel igaz, addig a blokkban lefog futni a kódrészlet. A feltétel végét itt is kettősponttal zárjuk le.
-\lstinputlisting[language=Python]{python-bevezetohoz-scriptek/while_template.py}
-\subsection{PEP8}
-**kódformázási útmutató**
+\end{algorithm}
+\newpage
 \section{Numerikus integrálás}
 A numerikus integrálás nagyon fontos része a numerikus módszereknek. Egyrészről gyorsabban megkaphatjuk a határozott  integrál értékét, másrésszről vannak olyan függvények, amelyeknek nem tudjuk kiszámolni papíron az integrál értéket, csak becsülni tudjuk alulról és/vagy felülről.
 
@@ -172,10 +136,9 @@ Ekkor
 \end{center}
 Ez pedig pont a trapéz területe!
 \newline
+\textbf{ide rakj be egy trapézt}
 
-\includegraphics{plots/trapez_with_area.png}
-
-ötlet : rakd bele ,hogy az integrál 7/3 itt de ez most 2.5-t ad . Ezt látni,hogy a trapéz teteje a vonal fölött van. Ezután osszd fel 2,3,4,... részre és számold ki ezzel a területet.
+\includegraphics{plots/trapez.png}
 \begin{definition}
 Legendre polinom
 [...]
@@ -184,8 +147,7 @@ Legendre polinom
 Gauss - féle kvadratúra összegek
 \end{definition}
 
-\subsection{Python kódok a fejezethez (saját , legyen SciPy?)}
-\lstinputlisting[language=Python]{functions.py}
-\subsection{Feladatmegoldások}
+\subsection{Python kódok a fejezethez (saját , legyeb SciPy?)}
 
+\subsection{Feladatmegoldások}
 \end{document}
