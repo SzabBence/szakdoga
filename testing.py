@@ -13,12 +13,19 @@ def trapez_method(x: np.array, func: str, func_params = None) -> float:
         s = 0.5 * (y[i] + y[i + 1]) * (x[i + 1] - x [i])
     return s
 
-#Inputs = np.array([1,2])
-#values = trapez_method(Inputs,"squared",[1,2,0])
+Inputs = np.array([1,1.5])
+values1 = trapez_method(Inputs,"squared",[1,0,0])
+print(values1)
 
-intervals_to_integrate = np.asarray([[1,1.33], [1.33,1.66], [1.66,2]])
-integrate_sum = 0
-squared_params = np.array([1,2,0])
-for interval_to_integrate in intervals_to_integrate:
-    integrate_sum = integrate_sum + trapez_method(interval_to_integrate,"squared",squared_params)
-    print(integrate_sum)
+Inputs = np.array([1.5,2])
+values2 = trapez_method(Inputs,"squared",[1,0,0])
+print(values2)
+
+print(values1 + values2)
+
+# intervals_to_integrate = np.asarray([[1,1.33], [1.33,1.66], [1.66,2]])
+# integrate_sum = 0
+# squared_params = np.array([1,2,0])
+# for interval_to_integrate in intervals_to_integrate:
+#     integrate_sum = integrate_sum + trapez_method(interval_to_integrate,"squared",squared_params)
+#     print(integrate_sum)
