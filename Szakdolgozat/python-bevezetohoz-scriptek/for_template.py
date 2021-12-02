@@ -1,12 +1,12 @@
-#számlistán iterálunk
+#szamlistan iteralunk
 
 for i in range(10):
     print(i)
-    #0-tól 9-ig kiírjuk a számokat
+    #0-tol 9-ig kiirjuk a szamokat
 
-#string listán iterálunk végig
+#string listan iteralunk vegig
 
-lista = ["Egy", "Kettő", "Három", "..."]
+lista = ["Egy", "Ketto", "Harom", "..."]
 
 for i in lista:
     print(i)
