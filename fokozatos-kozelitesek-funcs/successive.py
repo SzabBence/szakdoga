@@ -1,4 +1,4 @@
-def subscessive_approx(y0: float,
+def successive_approx(y0: float,
                        n: int,
                        func: str,
                        params: dict):
@@ -15,5 +15,12 @@ def subscessive_approx(y0: float,
     """
     if n==1:
         return y0 + integral(func, params)
+    elif n < 1:
+        return "Nem lehet n<1"
     else:
-        return y0 + integral(subscessive_approx(y0, n - 1, func))
+        return y0 + integral("successive_approx" [y0, n - 1])
+
+def integral(func: str,
+             params: list):
+
+    return None
