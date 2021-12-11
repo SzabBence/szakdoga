@@ -18,7 +18,7 @@ def successive_approx(y0: float,
     elif n < 1:
         return "Nem lehet n<1"
     else:
-        return y0 + integral("successive_approx" [y0, n - 1])
+        return y0 + integral("successive_approx", [y0, n - 1])
 
 def integral(func: str,
              params: list):
