@@ -1,7 +1,3 @@
-# Python program to implement Runge Kutta method
-# A sample differential equation "dy / dx = (x - y)/2"
-
-
 def rk4(lepeskoz: float,
         kezdeti_pont: float,
         kezdeti_ertek: float,
