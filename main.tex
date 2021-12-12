@@ -14,7 +14,7 @@
 \geometry{a4paper,left=25mm,right=25mm,bottom=25mm,top=25mm,footskip=10mm}
 \newtheorem{definition}{Definíció}
 \newtheorem{theorem}{Tétel}
-\newtheorem{proof}{Bizonyítás}
+
 \newtheorem{example}{Példa}
 \renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
 \title{Szakdolgozat}
@@ -46,8 +46,24 @@
 }
 \lstset{style=mystyle}
 \begin{document}
+
+\begin{center}
+\fontsize{40pt}{12pt}\selectfont
+    
+    DIFFERENCIÁLEGYENLETEK NUMERIKUS MEGKÖZELÍTÉSE A KÖZGAZDASÁGBAN\\
+    \bigskip
+    Témavezető: Kánnai Zoltán\\
+    \bigskip
+    Készítette: Szabó Bence Dániel\\
+    \bigskip
+    Szak : Gazdaság-és pénzügy matematikai elemzés
+\end{center}
+
+\pagebreak
 \section{Bevezetés}
-Itt van a bevezető szöveg
+A szakdolgozatomban megvizsgálom a differenciálegyenletek numerikus megoldásait. Ehhez kimondom a szükséges tételeket, definíciókat és módszereket. A gyakorlati megvalósítást pedig a Python programozási nyelvben valósítom meg. Azonban elkerülhetetlen a programozás alatt, hogy az átláthatóság érdekében kövessünk bizonyos normákat, így ezeket itt legjobb tudásom szerint követem. A dolgozat felépítése egy Python nyelv bevezetővel indít, majd tárgyalja a numerikus integrálás témakörét. Itt szándékosan kerülöm a különböző módszerek hibatulajdonságait, mivel ez önmagában kitenne egy szakdolgozatot. A dolgozatban beépített integrál függvényt használok a $\textit{SciPy}$ csomagból. Ezután tárgyalom az ODE-k témakörét.\\
+
+Több rész egyelőre nem készült el a szakdolgozatból.\\ Tervek szerint folytatom a módszertanok tárgyalását és utána konkrét modelleken is alkalmazom azokat
 \section{Python nyelv}
 \begin{center}
     \includegraphics[width=\textwidth]{plots/python-logo.png}
@@ -56,14 +72,7 @@ Itt van a bevezető szöveg
 
 A Python egy magas szintű programozási nyelv egy könnyen elsajátítható szintaxissal. Azért erre a nyelvre esett
 a választásom, mert sok csomag elérhető hozzá, nagyon jól dokumentált, nem kell típusokat használni benne az 
-esetek nagy többségében, nyílt és ebben dolgozom, ezért ezt ismerem a legjobban. \newline
-
-
-
-A Python nyelvben zárójeleket igazából csak a függvények után a paraméter megadásoknál és az indexeléseknél szoktuk használni. Ez egy nagy különbség sok másik nyelvvel szemben, ahol a kódok különböző részeit zárójelekbe / kapcsoszárójelekbe kell írnunk. Itt a tabulátor lesz az elválasztó karakter a kódrészletek között.
-
-A következőkben nézzünk meg néhány nyelv specifikus dolgot, amelyeket a szakdolgozat további részében felhasználunk.
-
+esetek nagy többségében, nyílt és ebben dolgozom, ezért ezt ismerem a legjobban. 
 \subsection{Python függvények}
 Pythonban minden függvényt a \textit{def} szóval kezdünk, amit a függvény neve követ, majd zárójelek közé beírjuk a paramétereket és vesszővel választjuk el, ha vannak. A csukó zárójel után mindig ki kell tenni a kettőspontot. Ezután a következő sorban kell folytatnunk a kódot, de egy tabulátornyi hellyel jobbrább, mint ahogy a \textit{def} szócskát elhelyeztük.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/function_template.py}
@@ -75,7 +84,7 @@ A függvény visszatérési értékét pedig a \textit{return} szó után adhatj
 \subsubsection{For ciklus}
 A \textit{for} ciklus ebben a nyelvben nagyon hasonlít más nyelvek \textit{for each} megoldásaira, mert a for mindig valamilyen listán iterál végig, legyenek azok számok vagy egyéb objektumok. A szintaxisa a következő :
 A \textit{for} szó után megadjuk a változót, amit használunk az iterálás alatt, majd az \textit{in} szó után megadjuk a sorozatot, amin végiglépkedünk. A végére itt is kettőspontot kell raknunk, akárcsak a függvényeknél
-\pagebreak
+
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/for_template.py}
 
 \subsubsection{While ciklus}
@@ -85,27 +94,20 @@ A while ciklust hasonlóan adjuk meg , mint más nyelvekben. A \textit{while} sz
 **kódformázási útmutató**
 
 \subsection{Python csomagok}
-Mint minden nyelvben, itt is tudunk importálni már készen levő csomagokat, amelyek tartalmaznak a célnak megfelelő osztályokat, azon belül metódusokat és egyéb hasznos dolgokat. Ha nincs feltelepítve a csomag, akkor a \textbf{pip install csomag-neve} paranccsal tehetjük meg azt.
+Mint minden nyelvben, itt is tudunk importálni már készen levő csomagokat, amelyek tartalmaznak a célnak megfelelő osztályokat, azon belül metódusokat. Ha nincs feltelepítve a csomag, akkor a \textbf{pip install csomag-neve} paranccsal tehetjük meg azt.
 Amint ezt megtettük, az \textit{import csomag-neve as alias-csomag-neve} módon importálhatjuk a kódunkba. A könnyebb olvashatóság érdekében szokás \textit{alias}-t használni, de nem szükséges.
 
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/import_template.py}
 \section{Numerikus integrálás}
-A numerikus integrálás nagyon fontos része a numerikus módszereknek. Egyrészről gyorsabban megkaphatjuk a határozott  integrál értékét, másrésszről vannak olyan függvények, amelyeknek nem tudjuk kiszámolni papíron az integrál értéket, csak becsülni tudjuk alulról és/vagy felülről.
-
-\begin{definition}
-Lagrange-féle interpolációs polinom
-
-Ezt még meg kell írni + nézd meg az opkut3-as dolgokat!
-\end{definition}
-A numerikus integrálás nagyban támaszkodik a kvadratúra képletekre.
+A numerikus integrálás nagyon fontos része a numerikus módszereknek. Egyrészről gyorsabban megkaphatjuk a határozott  integrál értékét, másrészről vannak olyan függvények, amelyeknek nem tudjuk kiszámolni papíron az integrál értéket, csak becsülni tudjuk alulról és/vagy felülről. A numerikus integrálás nagyban támaszkodik a kvadratúra képletekre.
 \begin{definition}
 Kvadratúra képletek általánosan
 
 Az integrál értékét tudjuk közelíteni az ún. \textit{Kvadratúra képlettel}.\newline 
 \begin{equation*}
-    \int_{a}^{b} f(x) dx \approx \sum_{k = 0}^{n} c_k f(x_k) = \sum_{k=0}^n \sigma_k
+    \int_{a}^{b} f(x) dx \approx \sum_{k = 0}^{n} c_k f(x_k) = \sum_{k=0}^n \sigma_k \;\; , ahol\;\; x_i \in [a,b]
 \end{equation*}
- , ahol $x_i \in [a,b]$
+
 \end{definition}
 
 Most nézzünk meg néhány kvadratúra képletet.
@@ -113,14 +115,14 @@ Most nézzünk meg néhány kvadratúra képletet.
 
 
 Az integrálni való halmazt osszuk fel egyforma hosszúságúra, így vegyünk ekvidisztáns alappontokat.
-$x_k = a + hk $, ahol $k=0,1,...,n$ , $h = \frac{b-a}{n}$
 
+\begin{equation*}
+    x_k = a + hk \;\;, \;\;ahol \;\;k=0,1,...,n ,\;\; h = \frac{b-a}{n}
+\end{equation*}
 Írjuk fel az interpolációs kvadratúra képletet.
 \newline
 \begin{equation*}
     c_k = \int_a^{b} l_k(x) dx = h \int_0^{n} l_k (a+ht) dt = \frac{b-a}{n} \int_0 ^{n} \Pi_{j=0, j \neq k}^n \frac{t-j}{k-j} dt = \frac{b-a}{n} \frac{1}{k! (n-k)!} \int_0^n \Pi_{j=0}^{k-1} (t-j) \Pi_{j=k+1}^{n} (j-t) dt
-
-
 \end{equation*}
 
 \subsection{Összetett kvadratúra képlet}
@@ -145,9 +147,9 @@ Innen helyettesítsünk vissza az eredeti képletbe
 
 Az érintő formulához felfogjuk használni a függvények lineáris Taylor közelítését. Ezen felül vegyük az intervallum ekvidisztáns felosztását.
 \begin{equation*}
-   x_k = a + (k - \frac{1}{2})h  
+   x_k = a + (k - \frac{1}{2})h ,\;\; ahol\;\; h = \frac{b-a}{n},\;\; k =1,...,n. 
 \end{equation*}
-, ahol $h = \frac{b-a}{n}, k =1,...,n$. 
+
 
 
 A Taylor közelítése a függvénynek a $[x_k-\frac{h}{2},x_k+\frac{h}{2}]$ intervallumon
@@ -156,7 +158,6 @@ A Taylor közelítése a függvénynek a $[x_k-\frac{h}{2},x_k+\frac{h}{2}]$ int
 \end{equation*}
 
 \begin{equation*}
-   
 \int_{x_k-\frac{h}{2}}^{x_k + \frac{h}{2}} \approx \int_{x_k - \frac{h}{2}}^{x_k + \frac{h}{2}} [f(x_k) + f'(x_k)(x-x_k)] dx = hf(x_k)
 \end{equation*}
 \newline
@@ -179,9 +180,11 @@ c_1 = \frac{b-a}{2}
 Ekkor 
 
 \begin{equation*}
-    \int_a^b f(x) dx \approx \frac{b-a}{2}[f(a) + f(b)] = \sum_{k=0}^{1} \frac{b-a}{2} f(x_k), 
+    \int_a^b f(x) dx \approx \frac{b-a}{2}[f(a) + f(b)] = \sum_{k=0}^{1} \frac{b-a}{2} f(x_k),\\
+    \;\;ahol \;\;x_0 = a,\;\;x_1=b
+    \;\;
 \end{equation*}
-ahol $x_0 = a,x_1=b$
+
 Ez pedig pont a trapéz területe! Nézzünk erre egy példát :
 \newline
 
@@ -191,64 +194,106 @@ Az integrál értéke ezen az intervallum 7/3.
 \begin{center}
 $\int_{1}^{2} x ^2 dx = \frac{7}{3}$
 \end{center}
-Azonban, ha a ezen paraméterek között végezzük el a trapéz - területszámítást akkor 2.5 - t kapunk eredményként. Ezt onnan is láthatjuk, hogy a fenti ábrán a kék és piros vonal között még akad zöld terület. Azonban most számoljuk ki ezzel a módszerrel az integrál értékét az [1,1.5] és [1.5,2] intervallumokon. Ekkor eredményül 0.8125 és 1.5625, összesen 2.375 értéket kapunk, ami közelebb van a 7/3-hoz
+Azonban, ha ezen paraméterek között végezzük el a trapéz - területszámítást akkor 2.5 - t kapunk eredményként. Ezt onnan is láthatjuk, hogy a fenti ábrán a kék és piros vonal között még akad zöld terület. Azonban most számoljuk ki ezzel a módszerrel az integrál értékét az [1,1.5] és [1.5,2] intervallumokon. Ekkor eredményül 0.8125 és 1.5625, összesen 2.375 értéket kapunk, ami közelebb van a 7/3-hoz
 
 \includegraphics{plots/trapez_n=2.png}
-
-\begin{definition}
-Legendre polinom
-[...]
-\end{definition}
-\begin{definition}
-Gauss - féle kvadratúra összegek
-\end{definition}
 
 \subsection{Python kódok a fejezethez (saját , legyen SciPy?)}
 \lstinputlisting[language=Python]{functions.py}
 \subsection{Feladatmegoldások}
 
 \section{Fokozatos közelítések módszere}
+
+\begin{definition}{ODE}\\
+Közönséges differenciálegyenletnek(Ordinary Differential Equation) nevezzük azokat az egyenleteket, amelyekben szerepel egy függvény egy változója szerinti deriváltja és célunk meghatározni a derivált függvényt.\\
+Például
+\begin{equation*}
+    \frac{dx}{dt} (t) = cos(t)
+\end{equation*}
+\end{definition}
+
+\begin{definition}Autonóm differenciálegyenlet\\
+Írjuk fel a következő ODE-t:
+\begin{equation*}
+    f(x,y) = \frac{dy}{dt} = y'
+\end{equation*}
+Azokat a differenciálegyenleteket nevezzük autonómnak, amelyek nem függnek az x változótol a fent leírt egyenletben. Erre egy jó példa lehet a következő feladat. 
+\begin{equation*}
+    \frac{dy}{dt} = f(y)
+\end{equation*}
+Ha t paramétert az időnek vesszük, akkor ebben az egyenletben azt láthatjuk, hogy nem függ az időtől az y megváltozása, mindig állandó a deriváltja, f(y) a változás időtől függetlenül.
+\end{definition}
+
+\begin{definition}Lineáris differenciálegyenlet\\
+Lineáris differenciálegyenletnek nevezzük azokat a differenciálegyenleteket, ahol a jobb oldali f függvényt feltudjuk írni x deriváltjainak lineáris kombinációjaként.
+Példa erre a következő:
+\begin{equation*}
+    a_1 x'(t) + a_2 x''(t) = f(t,x(t))
+\end{equation*}
+\end{definition}
+
+\begin{definition}Nemlineáris differenciálegyenlet\\
+Azokat a differenciálegyenleteket nevezzük \textit{nemlineáris differenciálegyenleteknek}, amelyben a deriváltak nem írhatóak fel egy lineáris kombinációban
+\end{definition}
+
+\begin{definition}Homogén differenciálegyenlet\\
+Az olyan differenciálegyenlet, amely 0-val egyenlő, \textit{homogén differenciálegyenleteknek} nevezzük.
+\end{definition}
+\begin{definition}Nemhomogén differenciálegyenlet\\
+Az olyan differenciálegyenleteket, amelyek nem 0-val egyenlőek \textit{nemhomogén differenciálegyenleteknek} nevezzük
+\end{definition}
+\begin{definition}{Kezdetiérték-feladat}\\
+kakken ein
+\end{definition}
 \begin{definition}{Lipschitz folytonosság}
 
+\begin{equation*}
+Legyen \;\;    f : \mathbb{R} \rightarrow \mathbb{R}, \; és \;\; L\; \;\in \mathbb{R}^+
+\end{equation*}
+
+Ha f minden x és y pontjára fennáll a következő 
+\begin{equation*}
+    |f(x) - f(y)| \leq L |x-y|
+\end{equation*}
+egyenlőtlenség, akkor \textit{Lipschitz folytonosnak} nevezzük az f függvényt
 \end{definition}
-\begin{definition}{ODE}
-
-\end{definition}
-
-\begin{definition}Autonóm differenciál egyenlet
-
-\end{definition}
-
-\begin{definition}Lineáris differenciál egyenlet
-
-\end{definition}
-
-\begin{definition}Nem lineáris differenciál egyenlet
-
-\end{definition}
-
-\begin{definition}Homogén differenciál egyenlet
-
-\end{definition}
-\begin{definition}Nem homogén differenciál egyenlet
-
-\end{definition}
-\begin{definition}[Kezdetiérték-feladat]
-
+\begin{definition}{Kontrakció}\\
+Legyen (X,$\textit{d}$) egy teljes metrikus tér. T leképezést $\textit{kontrakciónak}$ nevezzük X alaphalmazon, ha $\exists$ $q \in [0,1)$, hogy 
+\begin{equation*}
+    d(T(x),T(y)) \leq q \textit{d}(x,y) \;\;,\forall x,y \in X
+\end{equation*}
+Pongyolán fogalmazva ezt jelenti, hogy azok a  Lipschitz folytonos függvények a kontrakciók, amelyekben az L Lipschitz konstans kisebb 1-nél 
 \end{definition}
 \begin{theorem}[Banach-féle fixponttétel]
-
+Legyen (X,$\textit{d}$) egy nemüres, teljes metrikus tér ellátva egy T kontrakcióval. Ekkor 
+\begin{equation*}
+    \exists!\;\; x^* \in X : T(x^*) = x^*
+\end{equation*}
 \end{theorem}
+\begin{proof}
+Részletesen nem tisztázzuk a tétel bizonyítását, csak megemlítjük a főbb lépéseket.
+ 
+\begin{equation*}
+Legyen\;\;(X_n)_{n \in \mathbb{N}},\;\; x_n = T(x_{n-1}), \;\;x_0 \in X \;\;egy \;\; sorozat
+\end{equation*}
+Mivel T kontrakció, így igaz a következő egyenlőtlenség 
+\begin{equation*}
+    d(x_{n+1},x_n) \leq q^n d(x_1,x_0)
+\end{equation*}
+Ha ezeket felhasználva elkezdünk \textit{n}-ben iterálni, könnyű belátni, hogy
+\begin{equation*}
+    \forall \;\; \epsilon >0 : \;\;d(x_j,x_k) j < \epsilon\;\;, \;\;j\neq k  \;\; 
+\end{equation*}
+azaz  $(x_n)$ Cauchy  sorozat.
+Mivel (X,d) metrikus tér teljesn ezért a sorozatunknak létezik határértéke, sőt ez a határéték pont T leképezés fix pontja lesz. A fix pont egyértelműségét igazolhatjuk, ha indirekt feltesszük, hogy van másik fix pont.
+\end{proof}
 %https://en.wikibooks.org/wiki/Ordinary_Differential_Equations/The_Picard–Lindelöf_theorem
-\begin{theorem} [Picard - Lindenlöf]\\
-
-
+\begin{theorem} [Picard - Lindenlöf] \\
 Legyen I =[a,b] egy intervallum , és egy f függvény,
 
-\[
-f :  I \times \mathbb{R}^n \rightarrow \mathbb{R}^n f
-
-\]
+\begin{equation*}
+f :  I \times \mathbb{R}^n \rightarrow \mathbb{R}^n 
+\end{equation*}
 Legyen x' pedig egy ODE
 \[
 x'(t) = f(t,x(t))
@@ -286,10 +331,9 @@ Ez a Newton - Leibniz tétel miatt pedig erre az alakra hozható:
      \end{split}
  \end{equation*}
  
- Ezt pedig nem értem teljesen: then 
-T is a contraction, and hence the Banach fixed-point theorem is applicable, giving us both existence and uniqueness.
+ Mivel T pedig kontrakció, így a Banach-féle fixpont tétel alkalmazható,amivel igazoltuk a létezését a megoldásnak. Továbbá felhasználva a Peano-egyenlőtlenséget megkapjuk az egyértelműséget is.
 \end{proof}
-\begin{definition}[Szubszcesszív approximációs módszer]
+\begin{definition}[Szukcesszív approximációs módszer]
 Vegyük a következő kezdetiérték problémát
 \begin{equation*}
     \begin{cases}
@@ -300,11 +344,11 @@ Vegyük a következő kezdetiérték problémát
 Fentebb tárgyaltuk a Picard-Lindelöf tételnél, hogy a Newton - Leibniz tétel miatt fennáll a következő
 egyenlőség: \newline
 \begin{equation*}
-    x(t) = x(0) + \int_a^x f(t,x(t)) dt
+    x(t) = x(0) + \int_a^t f(s,x(s)) ds
 \end{equation*}
-Ekkor vegyük az \[x_0(l) = b\] állandót, majd kezdjünk el előre iterálni a következő képlet alapján:
+Ekkor vegyük az \[x_0(t) = b\] állandót, majd kezdjünk el előre iterálni a következő képlet alapján:
 \begin{equation*}
-    x_{n + 1}(l) = b + \int_a^x f(t,x_n(t)) dt 
+    x_{n + 1}(t) = b + \int_a^t f(s,x_n(s)) ds 
 \end{equation*}
 \end{definition}
 
@@ -317,15 +361,65 @@ Ekkor vegyük az \[x_0(l) = b\] állandót, majd kezdjünk el előre iterálni a
 \end{equation*}
 Kezdjünk el lépkedni.
 \begin{equation*}
-    y_1(x) = 1 + \int_0^x 1 dt = 1 + x
+    y_1(t) = 1 + \int_0^x 1 dt = 1 + x
 \end{equation*}
 \begin{equation*}
-    y_2(x) = 1 + \int_0^x 1+t dt = 1 + x + \frac{x^2}{2}
+    y_2(t) = 1 + \int_0^x 1+t dt = 1 + x + \frac{x^2}{2}
+\end{equation*}
+\begin{equation*}
+    y_3(t) = 
+\end{equation*}
+\begin{equation*}
+    y_4(t) = 
 \end{equation*}
 \begin{equation*}
     y_{\infty}(x) = exp(x)
 \end{equation*}
 \end{example}
-\lstinputlisting[language=Python]{fokozatos_kozelitesek/subscessive.py}
+\lstinputlisting[language=Python]{fokozatos_kozelitesek/successive.py}
 \subsection{RK4}
+A Runge-Kutta módszerek az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, nevesen Carl Runge és Wilhelm Kuttáról.
+
+\subsection{Euler módszer}
+Alapvetően nem fogjuk használni az Euler módszert, azonban mindképp említést kell tennünk róla, mivel a Runge - Kutta módszer erre épít. Ez nagyon szemléletes megoldási metódus, azonban nem praktikus ha általánosan akarunk felírni egy kódot hozzá, mert épít a deriváltakra.\\
+
+Vegyünk egy kezdetiérték problémát és hozzá egy lépésközt.
+\begin{equation*}
+    \begin{cases}
+       x'(t) = f(t,x(t))\\
+       x(a) = b \\
+       t_i = a + ih , i \in \{0,1,...,N\}
+    \end{cases}       
+\end{equation*}
+
+Itt pedig a lépésköz pedig legyen \[h = \frac{b-a}{N} = t_i - t_{i-1} \]
+
+Használjuk fel a Taylor sorbafejtést másodrendben x-re.
+\begin{equation*}
+    x(t_{i+1}) = x(t_i) + h x'(t_i) + \frac{h^2}{2} x''(\xi_i) \;\;,\;ahol \;\;\xi _i \in (t_i, t_{i+1})
+\end{equation*}
+
+Ezek alapján pedig láthatjuk, hogy az algoritmust a következőképpen írhatjuk fel:
+\begin{equation*}
+    \begin{cases}
+        x_0 = \alpha \\
+        x_{i+1} = x_i + h f(t_i,x_i) \;\;\forall i \in{0,1,...,N-1}
+    \end{cases}       
+\end{equation*}
+
+Runge - Kutta módszerekből sokat alkottak az utóbbi időkben, azonban mi az ún. 'RK4' módszert tárgyaljuk, ami az eredeti RK módszer negyed fokú közelítését jelenti.
+
+A képlete pedig:
+\begin{equation*}
+\begin{split}
+        x_0 = \alpha \\
+        k_1 = h f(t_i,w_i) \\
+        k_2 = h f(t_i + \frac{h}{2}, w_i + \frac{1}{2} k_1) \\
+        k_3 = h f(t_{i + 1} + \frac{h}{2}, w_i + \frac{1}{2} k_2) \\
+        k_4 = h f(t_{i + 1}, w_i + k_3)\\
+        w_{i+1} = w_i + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)\\
+        t_{i+1} = a + ih
+\end{split}
+\end{equation*}
+
 \end{document}
