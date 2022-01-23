@@ -4,11 +4,11 @@ def rk4(lepeskoz: float,
         pont: float,
         func: str) -> float:
     """
-
+    Ha x(t_0) = x_0 felirasban nezzuk, akkor és x(t) = ...
     :param lepeskoz: h
-    :param kezdeti_pont: x_0
-    :param kezdeti_ertek: y_0
-    :param pont: x
+    :param kezdeti_pont: t_0
+    :param kezdeti_ertek: x_0
+    :param pont: t
     :param func: fuggveny neve, amivel a problemat megoldjuk
     :return: RK4 kozelitese a feladatnnak
     """
@@ -35,10 +35,30 @@ def dydx(input_list: list):
     """
     return (input_list[0] - input_list[1]) / 2
 
+def kamatlab(input_list: list):
+    r = 0.1
+    x = input_list[1]
+    return r*x
 
+def konstans(x: list):
+    """
+    Az 1 indexu elemet kerjuk ki, mert ebben a peldaban igy mukodik helyesen a fuggveny
+    """
+    return 5 * x[1] - 3
+
+# A ket feladat numerikus megoldasa:
 if __name__ == "__main__":
-    x0 = 0
-    y = 1
-    x = 2
-    h = 0.2
-    print('A fuggveny erteke az x=' + str(x) + " pontban: " + str(rk4(h, x0, y, x, "dydx")))
+   t_0 = 0
+   x_0 = 1
+   t = 1
+   h = 0.1
+   print("A kamatlab feladat numerikus eredmenye: \n")
+   print(str(rk4(h,t_0,x_0,t,"kamatlab")))
+
+   t_0 = 0
+   x_0 = 1
+   t = 1
+   h = 0.01
+   print("A konstans egyutthatos feladat numerikus eredmenye: \n")
+   print(str(rk4(h,t_0,x_0,t,"konstans")))
+
