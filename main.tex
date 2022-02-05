@@ -60,10 +60,12 @@
 \end{center}
 
 \pagebreak
+\tableofcontents
 \section{Bevezetés}
 A szakdolgozatomban megvizsgálom a differenciálegyenletek numerikus megoldásait. Ehhez kimondom a szükséges tételeket, definíciókat és módszereket. A gyakorlati megvalósítást pedig a Python programozási nyelvben valósítom meg. Azonban elkerülhetetlen a programozás alatt, hogy az átláthatóság érdekében kövessünk bizonyos normákat, így ezeket itt legjobb tudásom szerint követem. A dolgozat felépítése egy Python nyelv bevezetővel indít, majd tárgyalja a numerikus integrálás témakörét. Itt szándékosan kerülöm a különböző módszerek hibatulajdonságait, mivel ez önmagában kitenne egy szakdolgozatot. A dolgozatban beépített integrál függvényt használok a $\textit{SciPy}$ csomagból. Ezután tárgyalom az ODE-k témakörét.\\
 
 Több rész egyelőre nem készült el a szakdolgozatból.\\ Tervek szerint folytatom a módszertanok tárgyalását és utána konkrét modelleken is alkalmazom azokat
+
 \section{Python nyelv}
 \begin{center}
     \includegraphics[width=\textwidth]{plots/python-logo.png}
@@ -90,8 +92,6 @@ A \textit{for} szó után megadjuk a változót, amit használunk az iterálás 
 \subsubsection{While ciklus}
 A while ciklust hasonlóan adjuk meg , mint más nyelvekben. A \textit{while} szó után jön az eldöntendő feltétel, és ameddig a feltétel igaz, addig a blokkban lefog futni a kódrészlet. A feltétel végét itt is kettősponttal zárjuk le.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/while_template.py}
-\subsection{PEP8}
-**kódformázási útmutató**
 
 \subsection{Python csomagok}
 Mint minden nyelvben, itt is tudunk importálni már készen levő csomagokat, amelyek tartalmaznak a célnak megfelelő osztályokat, azon belül metódusokat. Ha nincs feltelepítve a csomag, akkor a \textbf{pip install csomag-neve} paranccsal tehetjük meg azt.
@@ -166,7 +166,7 @@ Innen pedig kapjuk, hogy
 \int_a^b = f(x) dx = \sum_{k=1}^n \int_{x_k - \frac{h}{2}}^{x_k + \frac{h}{2}} f(x)dx \approx h \sum_{k=1}^n f(x_k)
 \end{equation*}
 
-\textbf{Ide rakd be az érintős-integrálós rajzot}
+
 
 \subsection{A trapéz módszer és a Newton - Cortes módszer}
 Írjuk fel a Newton - Cortes formulát n = 1 és k = 0 melett:
@@ -198,11 +198,12 @@ Azonban, ha ezen paraméterek között végezzük el a trapéz - területszámí
 
 \includegraphics{plots/trapez_n=2.png}
 
-\subsection{Python kódok a fejezethez (saját , legyen SciPy?)}
+\subsection{Python kódok a fejezethez}
+A trapéz függvényben használjuk a globals() metódust. Ez a metódus visszaadja az összes olyan objektumot, amely az adott programunk futásakor belekerült a compilerbe(fordítoprogram). Ezek között lesznek azok a függvények, amiket megírtunk. A globals() egy dictionaryt ad vissza, amiben mi a függvény nevét fogjuk használni, mint kulcs.
+\pagebreak
 \lstinputlisting[language=Python]{functions.py}
-\subsection{Feladatmegoldások}
 
-\section{Fokozatos közelítések módszere}
+\section{Szukcesszív approximációs módszer}
 
 \begin{definition}{ODE}\\
 Közönséges differenciálegyenletnek(Ordinary Differential Equation) nevezzük azokat az egyenleteket, amelyekben szerepel egy függvény egy változója szerinti deriváltja és célunk meghatározni a derivált függvényt.\\
@@ -243,7 +244,13 @@ Az olyan differenciálegyenlet, amely 0-val egyenlő, \textit{homogén differenc
 Az olyan differenciálegyenleteket, amelyek nem 0-val egyenlőek \textit{nemhomogén differenciálegyenleteknek} nevezzük
 \end{definition}
 \begin{definition}{Kezdetiérték-feladat}\\
-kakken ein
+Vegyünk egy ODE problémát és adjunk meg hozzá egy (kezdeti) pont-függvény párost. Az ODE-t ezzel a tulajdonsággal ellátva kezdetiérték problémának  nevezzük
+\begin{equation*}
+    \begin{cases}
+       x'(t) = f(t,x(t))\\
+       x(t_0) = x_0 \\
+    \end{cases}       
+\end{equation*}
 \end{definition}
 \begin{definition}{Lipschitz folytonosság}
 
@@ -367,17 +374,18 @@ Kezdjünk el lépkedni.
     y_2(t) = 1 + \int_0^x 1+t dt = 1 + x + \frac{x^2}{2}
 \end{equation*}
 \begin{equation*}
-    y_3(t) = 
+    y_3(t) =  1 + x + \frac{x^2}{2} + \frac{x^3}{6}
 \end{equation*}
 \begin{equation*}
-    y_4(t) = 
+    y_4(t) = 1 + x + \frac{x^2}{2} + \frac{x^3}{6} + \frac{x^4}{24}
 \end{equation*}
 \begin{equation*}
-    y_{\infty}(x) = exp(x)
+    y_{\infty}(t) = exp(x)
 \end{equation*}
 \end{example}
+\subsection{Python kódok a fejezethez}
 \lstinputlisting[language=Python]{fokozatos_kozelitesek/successive.py}
-\subsection{RK4}
+\section{Runge-Kutta módszer}
 A Runge-Kutta módszerek az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, nevesen Carl Runge és Wilhelm Kuttáról.
 
 \subsection{Euler módszer}
@@ -406,20 +414,332 @@ Ezek alapján pedig láthatjuk, hogy az algoritmust a következőképpen írhatj
         x_{i+1} = x_i + h f(t_i,x_i) \;\;\forall i \in{0,1,...,N-1}
     \end{cases}       
 \end{equation*}
-
-Runge - Kutta módszerekből sokat alkottak az utóbbi időkben, azonban mi az ún. 'RK4' módszert tárgyaljuk, ami az eredeti RK módszer negyed fokú közelítését jelenti.
-
-A képlete pedig:
+\subsection{RK4}
+Runge - Kutta módszerekből sokat alkottak az utóbbi időkben. Mi most a Runge-Kutta negyedfokó közelítését használjuk, amire a szakirodalomban sokszor csak 'RK4' módon hivatkoznak. A 4-ed rendű közelítés a következő formulából vezethető le:
 \begin{equation*}
 \begin{split}
+      y_{t+h} = y_t + h \sum_{i=1}^{s} a_i k_i + \mathcal{O}(h^{s+1}),\\ 
+      ahol\;\;k_i = y_t + h \sum_{j=1}^{s} \beta_{i,j} f(k_j,t_n + \alpha_ih)  
+\end{split}
+\end{equation*}
+
+A képlete pedig s=4 mellett:
+\begin{equation*}
+\begin{cases}
         x_0 = \alpha \\
         k_1 = h f(t_i,w_i) \\
         k_2 = h f(t_i + \frac{h}{2}, w_i + \frac{1}{2} k_1) \\
         k_3 = h f(t_{i + 1} + \frac{h}{2}, w_i + \frac{1}{2} k_2) \\
         k_4 = h f(t_{i + 1}, w_i + k_3)\\
         w_{i+1} = w_i + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)\\
-        t_{i+1} = a + ih
+        t_{i+1} = \alpha + ih
+\end{cases}
+\end{equation*}
+Ezt pedig már tudjuk iterálni i-ben egy rögzített h mellett. Ennek a közelítésnek előnye, hogy a hibahatára már elfogadható és nem igényel annyira sok számítást, mint egy magasabb rendű közelítés
+\subsection{Példa feladatok}
+\begin{example} [Konstans együtthatós lineáris ODE]
+Legyen \\
+\begin{center}
+   \begin{cases}
+    x' = 5x - 3 \\
+    x(0) = 1
+   \end{cases} 
+\end{center}
+Ennek a kezdetiérték feladatnak az analitikus megoldása a következő:
+\begin{equation*}
+\begin{split}
+        \frac{dx}{dt} &= 5x - 3 \\
+        \frac{1}{5x-3} dx &= 1\; dt \\
+        \int \frac{1}{5x-3} dx &= \int 1\; dt \\
+        \frac{1}{5} ln|5x-3| &=t + C \\
+        5x -3 &=e^{5(t + C)} \\
+        x &= \frac{e^{5(t+C)} + 3}{5}
 \end{split}
 \end{equation*}
+Mivel x(0) = 1, így
+\begin{equation*}
+    x(0) = \frac{e^{0+C} + 3}{5} = \frac{e^{5C}+3}{5} = 1
+\end{equation*}
+\begin{equation*}
+    e^{5C} + 3 = 5
+\end{equation*}
+\begin{equation*}
+    5C = ln2
+\end{equation*}
+\begin{equation*}
+    C = \frac{ln2}{5}
+\end{equation*}
+Tehát a keresett függvény :
+\begin{equation*}
+    x(t) = \frac{e^{5(t + \frac{ln2}{5})} + 3}{5}
+\end{equation*}
+Nézzük meg mennyit ad a függvény a t=1 pontban:
+\begin{equation*}
+    x(1) = \frac{e^{5(1 + \frac{ln2}{5})} + 3}{5} \approx 59.9653
+\end{equation*}
+A függvényünk h = 0.1-es lépésköz mellett 59.8632 -es értéket adott. Ha h = 0.01, akkor sok tizedesjegyig megegyezik az eredmény. Azonban nem feltétlen szabad a megoldó algoritmusban h - t igazán kicsinek venni, mert könnyen a visszajára fordulhat. (Ez például függ attól, hogy hány bites a processzor. Nagyon nagy irodalma van az optimális értékek beállítására, azonban most ez a szakdolgozat ezzel nem foglalkozik)
+\end{example}
 
+\begin{example}[Folytonos kamatozás]
+Tegyük fel, hogy elhelyezünk egy bankban konstans kamatláb mellett egy betétet folytonos kamatozás mellett. Tudjuk, hogy a folytonos kamatozás képlete
+\begin{equation*}
+    e^{rt},\;\; ahol \; r\; a\; kamatláb \;és\;t\; az \;idő
+\end{equation*}
+Ezt kifejezhetjük egy kezdetiérték probléma alakban is a következő módon : \\
+\begin{center}
+  \begin{cases}
+        x' = rx \\
+        x(0) = 1
+  \end{cases}  
+\end{center}
+Ennek a megoldása pedig pont visszaadja a fentebb írt képletet: \\
+\begin{equation*}
+    \frac{dx}{dt} = r x
+\end{equation*}
+\begin{equation*}
+    \frac{1}{x} dx = r dt
+\end{equation*}
+\begin{equation*}
+    \int \frac{1}{x} dx = \int r dt
+\end{equation*}
+\begin{equation*}
+    ln|x| = rt + c
+\end{equation*}
+\begin{equation*}
+    x = e^{rt + c}
+\end{equation*}
+Mivel a kezdetifeltétel x(0) = 1, így c = 0 és visszakapjuk az eredeti képletet\\
+
+Nézzük meg mennyi lehet x(1), úgy hogy r = 0.1 a kamatláb. A képlet szerint tudjuk, hogy
+\begin{equation*}
+    e^0.1 = x(1) = 1.105170918...
+\end{equation*}
+Ha ezt az értéket beheleyttesítjük a numerikus RK4-es függvényünkbe, akkor az x(1) = 1.1051709180665144 eredményt kapjuk 0.1-es lépésköz mellett. Ennél példánál a negyedrendű Runge-Kutta módszer elég pontos eredményt adott
+\end{example}
+
+
+\begin{example}[Másik példa]\\
+Legyen \\
+\begin{center}
+   \begin{cases}
+    x' = \frac{x^3}{3} \\
+    x(0) = 3
+   \end{cases} 
+\end{center}
+egy kezdeti érték feladat. Ennek a megoldása pedig
+\begin{equation*}
+    x(t) = \frac{3}{\sqrt{1-6t}}
+\end{equation*}
+
+Az analitikus eredmény t = 0.1 pontban :
+\begin{equation*}
+    x(0.1) \approx 4.7434
+\end{equation*}
+A Runge-Kutta módszer eredménye úgyszintén 4.7434.
+\end{example}
+
+\begin{example} [Egy nehezebb elsőrendű feladat]
+Nézzük a következő feladatot: \\
+\begin{center}
+    \begin{cases}
+     x' = \frac{1}{x(9 + 4 t^2)} \\
+     x(0) = 1
+    \end{cases}
+\end{center}    
+Ennek a feladatnak az analitikus megoldása :
+\begin{equation*}
+    x(t) = \sqrt{\frac{1}{3} arctg(\frac{2t}{3}) + 1}
+\end{equation*}
+\begin{equation*}
+   x(0) = \sqrt{\frac{1}{3} arctg(\frac{0}{3}) + 1} = 1 
+\end{equation*}
+A numerikus eredmény pedig: 1.0110.
+Ez az első feladat, ahol jelentős az eltérés, nevesen kb. 0.01
+\end{example}
+A Runge-Kutta és minden egyéb numerikus módszer tehát nem arra jó, hogy meghatározzuk analitikusan , képlettel a függvény formáját, hanem egy közelítést ad arra, hogy mi lehet a keresett függvény \textbf{értéke az adott pontban.}
+\subsection{Python kódok a fejezethez}
+\lstinputlisting[language=Python]{RK4/rk4.py}
+\section{Stabilitás elméleti kitekintés}
+A stabilitás elmélet egy nagy része a differenciálegyenletek témakörének. Ebben a dolgozatban szeretnénk egy kicsi betekintést nyerni ebbe a világba. Első körben tisztázzunk néhány definíciót
+\subsection{Alapfogalmak}
+A fejezetben végig vegyük adottnak a 
+\begin{equation*}
+    x' = f(t,x)
+\end{equation*}
+függvényt, ahol 
+\begin{equation*}
+    f: I \times \Omega \rightarrow \mathbb{R}^n \\
+\end{equation*}
+\begin{equation*}
+    (t,x) \rightarrow f(t,x)
+\end{equation*}
+\begin{equation*}
+    I=(t,\infty)
+\end{equation*}
+\begin{equation*}
+    0 \in I
+\end{equation*}
+\begin{definition}[Egyensúlyi pont]
+A fent bevezetett függvény mellett az
+\begin{equation*}
+    x' = 0 = f(t,x)
+\end{equation*}
+pontot egyensúlyi pontnak nevezzük
+\end{definition}
+A továbbiakban az 
+\begin{equation*}
+    (x_0,t_o) \in I \times \Omega 
+\end{equation*}
+legyen olyan intervallum, hogy f-nek egy megoldása legyen csak
+
+\begin{definition}
+Jelöljük a következő módon a vektorok felsőbecslésének halmazát :
+\begin{equation*}
+    B_{\rho} : = \{ x \in \mathbb{R}^n: \lVert x \rVert < \rho \}
+\end{equation*}
+\end{definition}
+A következő néhány definíció fontos alapfogalmai a stabilitáselméletnek, így minnél pontosabb megfogalmazásra törekedünk, a [Sárga könyv] alapján. Amikor egy stabilitás fajtát tárgyalunk, azt a megoldásra kell értelmezni. Tehát ha megállapítjuk, hogy valami stabil, akkor azt arra fogjuk érteni, hogy a megoldás stabil.
+\begin{definition} [Stabilitás]
+\begin{equation*}
+    \forall \epsilon > 0 \;-hoz\;\;és\;\;t_0 \in I \;-re\; \exists\;
+    \delta >0\;,\;hogy\;\; \forall x_0 \in B_{\delta} \;és\; t \in J^+ \;esetén
+\end{equation*}
+\begin{equation*}
+    \lVert x(t,(t_0,x_0)) \rVert < \epsilon
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Instabilitás]
+Az instabil, ami nem stabil.
+\end{definition}
+
+\begin{definition}[Vonzás (attraktivitás)]
+Az x' = f(t,x) x=0 megoldását vonzónak nevezzük, ha
+\begin{equation*}
+    \forall t_0 \in I \; esetén\; \exists\; \eta = \eta(t_0)
+\end{equation*}
+\begin{center}
+    és
+\end{center}
+\begin{equation*}
+    \forall \epsilon > 0\; esetén \;és\; \forall \; \lVert x_0 \rVert < \eta \;-ra \; \exists \; \sigma = \sigma(t_0,\epsilon,x_0) > 0
+\end{equation*}
+\begin{center}
+    olyan módon, hogy
+\end{center}
+\begin{equation*}
+    \forall \; t_0 + \sigma \leq t \;és\; t \in J^+ \;esetén \; \lVert x(t,t_o,x_0) \rVert < \epsilon
+\end{equation*}
+\end{definition}
+\begin{definition}[Egyenletes stabilitás]
+\begin{equation*}
+    \forall \; \epsilon > 0 \; mellett \; \exists \; \delta  = \delta(\epsilon) \;olyan \;módon,\;hogy
+\end{equation*}
+\begin{equation*}
+    \lVert x(t,(t_0,x_0)) \rVert < \epsilon
+\end{equation*}
+\begin{equation*}
+    \forall t_0 \in I, \forall \; \lVert x_0 \rVert < \delta,
+    \forall \; t_0 \leq t-ra \;teljesül
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Egyenlően vonzó]
+\begin{equation*}
+    \forall \; t_0 \in I \; esetén \; \exists \eta = \eta(t_0).
+\end{equation*}
+\begin{center}
+    és
+\end{center}
+\begin{equation*}
+    \forall \epsilon > 0 \; mellett \; \exists \; \sigma = \sigma(t_0,\epsilon) > 0
+\end{equation*}
+\begin{center}
+    olyan módon, hogy
+\end{center}
+\begin{equation*}
+    t_0 + \sigma \in J^+ : \lVert x(t,(t_0,x_0)) \rVert < \epsilon
+    \; 
+\end{equation*}
+\begin{equation*}
+     \forall \; \lVert x_0 \rVert < \eta
+\end{equation*}
+\begin{equation*}
+     \forall t_0 + \sigma \leq ; \; t \in J^+
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Egyenletesen vonzó]
+\begin{equation*}
+  \exists \eta > 0 \;és \; \forall \; \epsilon > 0 \;mellett \; \exists \sigma = \sigma(\epsilon)   
+\end{equation*}
+\begin{center}
+olyan módon, hogy $t_0 + \sigma \in J^+,$ és
+\end{center}
+\begin{equation*}
+    \lVert x(t,(t_0,x_0)) \rVert < \epsilon
+\end{equation*}
+\begin{equation*}
+    \forall \lVert x_0 \rVert < \eta, \;és
+\end{equation*}
+\begin{equation*}
+    t_0 + \sigma \leq t, t \in J^+
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Globálisan vonzó]
+\begin{equation*}
+    \forall \eta > 0 \;és\; \forall t_0 \in I\;esetén
+\end{equation*}
+\begin{equation*}
+     \lim_{t\to 0} x(t,(t_0,x_0))  \rightarrow 0
+\end{equation*}
+és emellé mind $t_0$-ban ,mind $x_0$-ban egyenletes a konvergencia
+\end{definition}
+
+A globálisan vonzó megoldás definíciója után ésszerű lehet kimondani ,hogy milyen lehet egy pont vonzási körzete, jelesül az origóé.
+
+\begin{definition}[Origó vonzási körzete vagy attraktivitási tartománya]
+Jelölje A() a következő halmazt :
+\begin{equation*}
+    A(t_0) := \{ x_0 \in \Omega : \lim_{t\to 0} x(t,(t_0,x_0))  \rightarrow 0 \}
+\end{equation*}
+Ha ez $t_0$-tól független, akkor egyenletesnek mondjuk a vonzási körzetet.
+\end{definition}
+
+Az alapvető definíciók mellé még mondjunk ki 4 megoldási jellemzhetőséget, amelyek egymásnak finomításai.
+
+\begin{definition}[Aszimptotikus stabilitás]
+Az x' = f(t,x) függvénynek az x = 0 megoldási aszimptotikusan stabil, ha stabil és vonzó
+\end{definition}
+
+\begin{definition}[Egyenlően aszimptotikusan stabil]
+Minden megoldás egyenlően aszimptotikusan stabil, ha stabil és egyenlően vonzó
+\end{definition}
+
+\begin{definition}[Egyenletesen aszimptotikusan stabil]
+Egyenletesen aszimptotikusan stabilnak nevezzük azokat a megoldásokat, amelyek egyenletesen stabilok és egyenletesen vonzóak
+\end{definition}
+
+\begin{definition}[Globálisan egyenletesen aszimptotikusan stabil]
+Globálisan egyenletesen aszimptotikusan stabil hívjuk azokat a megoldásokat, amelyek egyenletesen stabil és egyenletesen globálisan vonzó
+\end{definition}
+\subsection{Rendszerek stabilitásának vizsgálata}
+\section{Perturbáció elméleti megközelítés}
+...Ezzel a résszel a stabilitás után fogok foglalkozni...
+\section{Felhasznált irodalom}
+\begin{itemize}
+    \item Kis Ottó, Kovács Margit - Numerikus módszerek
+    \item Richard L. Burden, J Douglas Faires - Numerical Analysis (9th edition)
+    \item Kánnai Zoltán dinamika jegyzetei
+    \item stabilitásos sárga könyv
+\end{itemize}
+\section{Numba}
+\subsection{költségminimum}
+egyensúly: akkor maximális a profit, ha a költség minimális -> ezen az analógián felvezetem a Numba-t, hogy ha nagy szimulációt végzek akkor érdemes numpyban megírni és ráereszteni a numba jit dekorátort + vanilla python így lassú, lassú de numpyos már, gyors mert numpy és numbás példákat beirni
+\section{Git és GitHub}
+A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat , és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam. A szakdolgozat teljes formájában elérhető ezen a linken keresztül :
+\begin{center}
+    https://github.com/SzabBence?tab=repositories
+\end{center}
 \end{document}
