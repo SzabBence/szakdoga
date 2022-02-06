@@ -599,6 +599,12 @@ Jelöljük a következő módon a vektorok felsőbecslésének halmazát :
 \end{equation*}
 \end{definition}
 A következő néhány definíció fontos alapfogalmai a stabilitáselméletnek, így minnél pontosabb megfogalmazásra törekedünk, a [Sárga könyv] alapján. Amikor egy stabilitás fajtát tárgyalunk, azt a megoldásra kell értelmezni. Tehát ha megállapítjuk, hogy valami stabil, akkor azt arra fogjuk érteni, hogy a megoldás stabil.
+\begin{definition}[Megoldás legbővebb halmaza]
+Jelölje $J^+$ az x legbővebb lehetséges megoldás halmazát. Természetesen
+\begin{equation*}
+    J^+ \subseteq [t_0, \infty]
+\end{equation*}
+\end{definition}
 \begin{definition} [Stabilitás]
 \begin{equation*}
     \forall \epsilon > 0 \;-hoz\;\;és\;\;t_0 \in I \;-re\; \exists\;
@@ -659,7 +665,7 @@ Az x' = f(t,x) x=0 megoldását vonzónak nevezzük, ha
 \end{center}
 \begin{equation*}
     t_0 + \sigma \in J^+ : \lVert x(t,(t_0,x_0)) \rVert < \epsilon
-    \; 
+    \;
 \end{equation*}
 \begin{equation*}
      \forall \; \lVert x_0 \rVert < \eta
@@ -671,7 +677,7 @@ Az x' = f(t,x) x=0 megoldását vonzónak nevezzük, ha
 
 \begin{definition}[Egyenletesen vonzó]
 \begin{equation*}
-  \exists \eta > 0 \;és \; \forall \; \epsilon > 0 \;mellett \; \exists \sigma = \sigma(\epsilon)   
+  \exists \eta > 0 \;és \; \forall \; \epsilon > 0 \;mellett \; \exists \sigma = \sigma(\epsilon)
 \end{equation*}
 \begin{center}
 olyan módon, hogy $t_0 + \sigma \in J^+,$ és
@@ -724,7 +730,59 @@ Egyenletesen aszimptotikusan stabilnak nevezzük azokat a megoldásokat, amelyek
 \begin{definition}[Globálisan egyenletesen aszimptotikusan stabil]
 Globálisan egyenletesen aszimptotikusan stabil hívjuk azokat a megoldásokat, amelyek egyenletesen stabil és egyenletesen globálisan vonzó
 \end{definition}
-\subsection{Rendszerek stabilitásának vizsgálata}
+\subsection{Lineáris algebrai kitekintő}
+Amikor egy rendszer stabilitását vizsgáljuk, akkor nagyban kell támaszkodnunk a különböző lineáris algebrai ismereteinkre.Ezért a következőkben kimondunk néhány tételt és definíciót, amelyek segítenek megérteni a különböző tételeket amelyek a stabilitásvizsgálathoz kapcsolódnak.
+
+\subsubsection{Mátrix az exponenciális függvényben}
+Az egydimenziós exponenciális függvény és a mátrixokra kiterjesztett változata képletben nem mutat eltérést, sőt a különböző konvergencia megállapítások is hasonlítanak egymásra.
+\begin{definition}[Mátrixokra kiterjesztett exponenciális függvény]
+Legyen X egy négyzetes mátrix. Ekkor a következő módon értelmezzük a mátrix kitevőt az exponenciális függvényben.
+\begin{equation*}
+    exp(X) := \sum_{k=0}^{\infty} \frac{X^k}{k!}
+\end{equation*}
+\end{definition}
+\begin{theorem}
+A mátrixokra kiterjesztett exponenciáliss függvény tartja a következő tulajdonságokat:
+        \begin{equation*}
+            e^{A+B} = e^A + e^B
+        \end{equation*}
+
+        \begin{equation*}
+            e^{-A} e^{A} = I
+        \end{equation*}
+
+        \begin{equation*}
+            \frac{d}{dt} e^{tA} = A e^{tA}
+        \end{equation*}
+\end{theorem}
+\subsubsection{Sajátértékek és sajátvektorok}
+\begin{definition}[Lineáris operátor]
+
+\end{definition}
+\begin{definition}[Sajátérték]
+Legyen A egy lineáris operátor (mátrix). Vegyünk emellé egy nem nem nulla vektort. Ekkor a $ \lambda \in \mathbb{C}$ az A mátrix sajátértéke, ha kielégíti a következő egyenletet
+\begin{equation*}
+    Ax = \lambda x
+\end{equation*}
+Szokás átrendezni ezt az egyenletet és a következő formában megadni:
+
+\begin{equation*}
+    (A-\lambda I)x= \textbf{0},
+\end{equation*}
+ahol I természetesen az egységoperátor (mátrix)
+\end{definition}
+A lambda skalárt a komplex számok felett definiáltuk, hogy ne sértsük meg az általánosságot, de ez működik a valós számtest felett is (ami a komplex számtest részhalmaza).
+\begin{definition}[Sajátvektor]
+Legyen A egy lineáris operátor , jelesül egy mátrix .Az A mátrix minden olyan nem zérus \mathbb{x} vektorát sajátvektorának nevezzük, amelyre fenáll a következő egyenlőség
+\begin{equation*}
+    Ax = \lambda x
+\end{equation*}
+\end{definition}
+A sajátvektor skalárszorosa is sajátvektor marad ugyanazzal a sajátértékkel.
+
+Tehát a sajátérték és a sajátvektor fogalmak nagyon szoros kapcsolatban állnak egymással.
+\subsubsection{Diagonalizálhatóság}
+\subsection{Numerikus kitekintés a használt lineáris algebrai módszerekhez}
 \section{Perturbáció elméleti megközelítés}
 ...Ezzel a résszel a stabilitás után fogok foglalkozni...
 \section{Felhasznált irodalom}
