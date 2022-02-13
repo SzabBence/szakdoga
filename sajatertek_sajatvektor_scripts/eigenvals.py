@@ -1,9 +1,9 @@
 import numpy as np
 
-def von_mises(A,
-              iteracio_szam: int):
+
+def von_mises(A, iteracio_szam: int):
     """
-    
+
     :param A: matrix
     :param iteracio_szam: mennyi szimulaciot szeretnenk futtatni
     :return: dominans sajat vektor kozelitese
@@ -21,12 +21,11 @@ def von_mises(A,
         norm = np.linalg.norm(b_k0)
 
         # normalizaljuk a vektort a normalt vektorral
-        b_k= b_k0 / norm
+        b_k = b_k0 / norm
 
         #  ezt a harom lepest folytatjuk
     return b_k
 
 
-    
 matrix = np.array([[1, 0], [0, 1]])
 print(von_mises(matrix, 1000))
