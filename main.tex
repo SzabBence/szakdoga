@@ -756,9 +756,6 @@ A mátrixokra kiterjesztett exponenciáliss függvény tartja a következő tula
         \end{equation*}
 \end{theorem}
 \subsubsection{Sajátértékek és sajátvektorok}
-\begin{definition}[Lineáris operátor]
-
-\end{definition}
 \begin{definition}[Sajátérték]
 Legyen A egy lineáris operátor (mátrix). Vegyünk emellé egy nem nem nulla vektort. Ekkor a $ \lambda \in \mathbb{C}$ az A mátrix sajátértéke, ha kielégíti a következő egyenletet
 \begin{equation*}
@@ -781,8 +778,63 @@ Legyen A egy lineáris operátor , jelesül egy mátrix .Az A mátrix minden oly
 A sajátvektor skalárszorosa is sajátvektor marad ugyanazzal a sajátértékkel.
 
 Tehát a sajátérték és a sajátvektor fogalmak nagyon szoros kapcsolatban állnak egymással.
-\subsubsection{Diagonalizálhatóság}
-\subsection{Numerikus kitekintés a használt lineáris algebrai módszerekhez}
+
+\subsubsection{Sajátértékek meghatározása}
+Amikor meg kell határoznunk egy mátrix sajátértékeit, akkor azt alapvetően több féle képpen tudjuk megtenni. Azonban amikor ezeket papíron végezzük el, az a mátrix dimenziójának növekedésével nem lineárisan megnöveli a számítási igényt, ezzel pedig méginkább nagyobb lesz az esély, hogy valahol elrontjuk a számolást és ezzel a végeredményt. A lineáris rendszerek stabilitásvizsgálatában központi szerepet játszanak a sajátértékek, így ebben az alfejeztben körbejárunk ezt numerikus megközelítésből.
+
+Amikor felakarjuk írni egy mátrix sajátértékeit, akkor azt általában a karakterisztikus polinom gyökeinek megoldásaiként szoktuk megkapni.
+
+\begin{equation*}
+    det(A-\lambda I) = 0
+\end{equation*}
+
+Ez egy nxn-es mátrix esetén egy legfeljebb n-edfokú polinomot eredményet.
+\begin{equation*}
+    p(\lambda) = \sum_{i=0}^{n} c_i \lambda^i
+\end{equation*}
+Polinomokra mindig fogunk megoldást találni, így a sajátértékek is megfogjuk találni.
+
+Elsőre  érdekességképp bemutatjuk a hatványmódszert (power method). Ez a módszer azért érdekes, mert csak a domináns sajátértékét számolja ki egy mátrixnak. Az alapgondolatát Richard von Mises és H. Pollaczek-Geiringer mutatták be még az 1920-as években. Ez egy iteratív eljárás, ami lépésről lépésre konvergál a domináns sajátérték felé. Gyakorlati haszna olyan mátrixok esetében van, amiben rengeteg a 0. Ez leginkább csak a számítógépes problémák esetében kerül elő. Talán a leghíresebb algoritmus, ami épít erre az a Google PageRank algoritmusa. Ez pont ideális, mert ha a honlapok kapcsolati gráfját mátrix formában írjuk fel, akkor meglehetősen sok 0 elemet fog tartalmazni (sparse matrix) és ekkor már ideális megközelítés lehet a hatványmódszer.
+
+Az algoritmus maga úgy működik, hogy veszünk egy diagonalizálható mátrixot (A) és mellé egy \textbf{b} vektort. Ez a vektor legyen véletlen vagy ha tudunk valamit a problémáról, akkor közelítése a domináns sajátvektort.
+
+Ezután a következő lépéssorozatot iteráljuk, addig ameddig beállítjuk, hogy k milyen indexhalmazon megy végig:
+\begin{equation*}
+    b_{k+1} =\frac{A b_{k}}{\lVert A b_{k} \rVert}
+\end{equation*}
+A norma alatt a szokásos euklideszi normát értjük. A módszer azonban nem feltétlen lesz konvergens, különböző feltételeknek kell teljesülnie ahhoz, hogy azzá váljon adott mátrixra.
+
+Erre nézzünk egy rövid Python kódot, ami elvégzni ezt a lépéssorozatot.:
+
+\lstinputlisting[language=Python]{linalg/eigenvals.py}
+
+Ha azonban minden sajátértékre szükségünk van, akkor megprobálhatunk a QR algoritmussal haladni, aminek az alapjait az 1950-es években John G. F. Francis és Vera N. Kublanovskaya dolgozták ki egymástól függetlenül.
+
+Végezetül nézzük meg a \textit{numpy} csomag sajátérték és sajátvektor kiszámító függvényt.
+
+A függvény bemenete egy mátrix (numpy arrayt adunk meg most), a kimenete pedig a sajátértékek listája és a sajátvektorok listája.
+
+Példaként nézzük meg a
+\begin{bmatrix}
+10 & 20\\
+30 & 40
+\end{bmatrix}
+mátrix sajátértékeit és sajátvektorait.
+\begin{equation*}
+    \lambda_1 = -5 \sqrt{33}+25 \approx -3.7228
+\end{equation*}
+\begin{equation*}
+    \lambda_2 = 5 \sqrt{33} + 25 \approx 53.7227
+\end{equation*}
+
+\begin{equation*}
+    v_1 = [-1.4574 , 1]
+\end{equation*}
+\begin{equation*}
+    v_2 = [0.4574 , 1]
+\end{equation*}
+és ezek a sajátvektorok konstanszorosai a numpy.linalg.ein() által megadott eredményeknek
+\lstinputlisting[language=Python]{linalg/numpy_linalg_eigenvals.py}
 \section{Perturbáció elméleti megközelítés}
 ...Ezzel a résszel a stabilitás után fogok foglalkozni...
 \section{Felhasznált irodalom}
@@ -793,8 +845,7 @@ Tehát a sajátérték és a sajátvektor fogalmak nagyon szoros kapcsolatban á
     \item stabilitásos sárga könyv
 \end{itemize}
 \section{Numba}
-\subsection{költségminimum}
-egyensúly: akkor maximális a profit, ha a költség minimális -> ezen az analógián felvezetem a Numba-t, hogy ha nagy szimulációt végzek akkor érdemes numpyban megírni és ráereszteni a numba jit dekorátort + vanilla python így lassú, lassú de numpyos már, gyors mert numpy és numbás példákat beirni
+
 \section{Git és GitHub}
 A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat , és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam. A szakdolgozat teljes formájában elérhető ezen a linken keresztül :
 \begin{center}
