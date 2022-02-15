@@ -835,6 +835,58 @@ mátrix sajátértékeit és sajátvektorait.
 \end{equation*}
 és ezek a sajátvektorok konstanszorosai a numpy.linalg.ein() által megadott eredményeknek
 \lstinputlisting[language=Python]{linalg/numpy_linalg_eigenvals.py}
+Szerencsére ez a függvény a numpy.linalg csomagból azt is meghatározza, ha egy mátrix sajátértéke komplex szám, amire nagy szükségünk lesz a lineáris rendszerek stabilitásának vizsgálatakor.
+
+
+A következő alfejezetben nézzünk meg néhány tételt, amelyek a stabilitás meghatározására vonatkoznak a lineáris esetekben
+\subsection{Rendszerek stabilitása linearizálással}
+
+\begin{theorem}
+Legyen A négyzetes mátrix diagonalizálható, és
+
+\begin{equation*}
+    \lambda_{1}, \lambda_{2}, \lambda_{3}, ... ,\lambda_{r}
+\end{equation*}
+a különböző sajátértékei. Ha P jelöli a következő halmazt,
+\begin{equation*}
+    P_k := \prod_{j \neq k, 1 \leq j \leq r} \frac{A - \lambda_{j} I} {\lambda_{k} - \lambda_{j}}
+\end{equation*}
+akkor
+\begin{equation*}
+    P_k^2 = P_k
+\end{equation*}
+és
+\begin{equation*}
+    \sum_{k=1}^r P_k = I
+\end{equation*}
+\end{theorem}
+
+Ez a tétel azért volt fontos, mert ennek a segítségével könnyen fogjuk tudni kezelni egy mátrix exponenciális eredményét.
+
+\begin{theorem}
+Legyen A egy négyzetes és diagonalizálható mátrix, $\lambda_1,...,\lambda_r$ pedig az összes különböző sajátértéke. Ekkor, az elöző tétel jelölését követve fenáll a következő egyenlőség
+\begin{equation*}
+    e^{tA} = \sum_{k=1}^r e^{\lambda_k t} P_k
+\end{equation*}
+\end{theorem}
+A következő néhány tétel erejéig a vizsgálandó mátrix alatt az \textbf{x'} = f(\textbf{x}) -et értjük
+\begin{theorem}
+Ha az f'(a) \in \mathbb{R} ^ {n x n} \;\;mátrixra \;\;
+\begin{equation*}
+    \forall \lambda_i : Re(\lambda_i) < 0
+\end{equation*}
+
+akkor a pont aszimptotikusan stabil megoldása a feladatnak
+\end{theorem}
+
+\begin{theorem}
+Ha az f'(a) mátrixnak
+
+\begin{equation*}
+    \exists \lambda_i : Re(\lambda_i) > 0,
+\end{equation*}
+ akkor a pont instabil egyensúlya a feladatnak
+\end{theorem}
 \section{Perturbáció elméleti megközelítés}
 ...Ezzel a résszel a stabilitás után fogok foglalkozni...
 \section{Felhasznált irodalom}
