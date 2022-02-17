@@ -11,7 +11,7 @@ eigenvals, eigenvectors = np.linalg.eig(matrix)
 #     print("Instabil")
 # print(np.iscomplex(eigenvals))
 m2 = np.array([[1, 0], [0, 1]])
-def linear_stabily_check(matrix):
+def linear_stabily_check(matrix: np.array):
     eigenvals,eigenvectors = np.linalg.eig(matrix)
     real_part = eigenvals.real
     if all(eigenval_real_part < 0 for eigenval_real_part in real_part):
