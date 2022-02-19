@@ -28,4 +28,5 @@ def von_mises(A, iteracio_szam: int):
 
 
 matrix = np.array([[1, 0], [0, 1]])
-print(von_mises(matrix, 1000))
+print(von_mises(matrix, 10000))
+
