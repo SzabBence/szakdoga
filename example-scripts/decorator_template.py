@@ -1,8 +1,19 @@
-def dekorator_fuggveny():
+def dekorator_fuggveny(dekoralando_fuggveny):
+    def tenyleges_funkcionalitas():
+        print("Fuggvenyhivas elott vagyunk")
 
-    return None
+        # meghivjuk
+        return_val = dekoralando_fuggveny
 
-@dekorator_fuggveny()
-def dekoralni_kivant_fuggveny():
+        print("Fuggvenyhivas utan vagyunk")
+        return return_val
+    return tenyleges_funkcionalitas()
 
-    return None
+
+@dekorator_fuggveny
+def dekoralni_kivant_fuggveny(bemenet: int):
+
+    return bemenet + 1
+
+
+print(dekoralni_kivant_fuggveny(1))
