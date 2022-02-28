@@ -92,7 +92,10 @@ A \textit{for} szó után megadjuk a változót, amit használunk az iterálás 
 \subsubsection{While ciklus}
 A while ciklust hasonlóan adjuk meg , mint más nyelvekben. A \textit{while} szó után jön az eldöntendő feltétel, és ameddig a feltétel igaz, addig a blokkban lefog futni a kódrészlet. A feltétel végét itt is kettősponttal zárjuk le.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/while_template.py}
-
+\subsection{Dekorátorok}
+A dekorátorok olyan lehetőséget nyújtanak a programozás során, ami megkönnyíti az egymásba ágyazott függvények használatát, átláthatóbbá teszi a kódunkat és kevesebb sort kell írni emiatt, ami nagy előny ha hosszú és bonyolult problémát kell implementálnunk. Amikor dekorátort használunk, akkor egy meglévő funkcionalitást bővítünk ki anélkül, hogy újra dolgoznánk egy meglévő kódunkat. A Python nyelvben ezt a következőképpen használhatjuk: '@', majd utána a függvény neve, amivel dekorálunk.
+\lstinputlisting[language=Python]{python-bevezetohoz-scriptek/decorator_template.py}
+Egy matematikával analóg példa lehet a numerikus deriválás függvény használata dekorátorként. Amikor papíron jelöljük egy függvény deriváltját, akkor általában egy vesszővel jelöljük, mondhatni dekoráltuk a függvényünket a differenciálás operátorral.
 \subsection{Python csomagok}
 Mint minden nyelvben, itt is tudunk importálni már készen levő csomagokat, amelyek tartalmaznak a célnak megfelelő osztályokat, azon belül metódusokat. Ha nincs feltelepítve a csomag, akkor a \textbf{pip install csomag-neve} paranccsal tehetjük meg azt.
 Amint ezt megtettük, az \textit{import csomag-neve as alias-csomag-neve} módon importálhatjuk a kódunkba. A könnyebb olvashatóság érdekében szokás \textit{alias}-t használni, de nem szükséges.
@@ -103,7 +106,7 @@ A numerikus integrálás nagyon fontos része a numerikus módszereknek. Egyrés
 \begin{definition}
 Kvadratúra képletek általánosan
 
-Az integrál értékét tudjuk közelíteni az ún. \textit{Kvadratúra képlettel}.\newline 
+Az integrál értékét tudjuk közelíteni az ún. \textit{Kvadratúra képlettel}.\newline
 \begin{equation*}
     \int_{a}^{b} f(x) dx \approx \sum_{k = 0}^{n} c_k f(x_k) = \sum_{k=0}^n \sigma_k \;\; , ahol\;\; x_i \in [a,b]
 \end{equation*}
@@ -128,9 +131,9 @@ Az integrálni való halmazt osszuk fel egyforma hosszúságúra, így vegyünk 
 \subsection{Összetett kvadratúra képlet}
 
 \begin{equation*}
- \int_a^{b} f(x) dx = \sum_{j = 1} ^{m} \int_{a_{j-1}} ^{a_j} f(x) dx 
+ \int_a^{b} f(x) dx = \sum_{j = 1} ^{m} \int_{a_{j-1}} ^{a_j} f(x) dx
 \end{equation*}
- ahol $a_0 = a, a_m =b $  
+ ahol $a_0 = a, a_m =b $
 
 A baloldali részintegrált írjuk fel az interpolációs kvadratúra képlettel:
 \begin{equation*}
@@ -147,7 +150,7 @@ Innen helyettesítsünk vissza az eredeti képletbe
 
 Az érintő formulához felfogjuk használni a függvények lineáris Taylor közelítését. Ezen felül vegyük az intervallum ekvidisztáns felosztását.
 \begin{equation*}
-   x_k = a + (k - \frac{1}{2})h ,\;\; ahol\;\; h = \frac{b-a}{n},\;\; k =1,...,n. 
+   x_k = a + (k - \frac{1}{2})h ,\;\; ahol\;\; h = \frac{b-a}{n},\;\; k =1,...,n.
 \end{equation*}
 
 
@@ -177,7 +180,7 @@ c_0 = \frac{b-a}{1} \frac{1}{0!(1-0)!} \int_0^{1} \Pi_{j=0}^{0-j} \Pi_{j=0+1}^{1
 \begin{equation*}
 c_1 = \frac{b-a}{2}
 \end{equation*}
-Ekkor 
+Ekkor
 
 \begin{equation*}
     \int_a^b f(x) dx \approx \frac{b-a}{2}[f(a) + f(b)] = \sum_{k=0}^{1} \frac{b-a}{2} f(x_k),\\
@@ -190,7 +193,7 @@ Ez pedig pont a trapéz területe! Nézzünk erre egy példát :
 
 \includegraphics{plots/trapez_with_area.png}
 
-Az integrál értéke ezen az intervallum 7/3. 
+Az integrál értéke ezen az intervallum 7/3.
 \begin{center}
 $\int_{1}^{2} x ^2 dx = \frac{7}{3}$
 \end{center}
@@ -218,7 +221,7 @@ Például
 \begin{equation*}
     f(x,y) = \frac{dy}{dt} = y'
 \end{equation*}
-Azokat a differenciálegyenleteket nevezzük autonómnak, amelyek nem függnek az x változótol a fent leírt egyenletben. Erre egy jó példa lehet a következő feladat. 
+Azokat a differenciálegyenleteket nevezzük autonómnak, amelyek nem függnek az x változótol a fent leírt egyenletben. Erre egy jó példa lehet a következő feladat.
 \begin{equation*}
     \frac{dy}{dt} = f(y)
 \end{equation*}
@@ -249,7 +252,7 @@ Vegyünk egy ODE problémát és adjunk meg hozzá egy (kezdeti) pont-függvény
     \begin{cases}
        x'(t) = f(t,x(t))\\
        x(t_0) = x_0 \\
-    \end{cases}       
+    \end{cases}
 \end{equation*}
 \end{definition}
 \begin{definition}{Lipschitz folytonosság}
@@ -258,38 +261,38 @@ Vegyünk egy ODE problémát és adjunk meg hozzá egy (kezdeti) pont-függvény
 Legyen \;\;    f : \mathbb{R} \rightarrow \mathbb{R}, \; és \;\; L\; \;\in \mathbb{R}^+
 \end{equation*}
 
-Ha f minden x és y pontjára fennáll a következő 
+Ha f minden x és y pontjára fennáll a következő
 \begin{equation*}
     |f(x) - f(y)| \leq L |x-y|
 \end{equation*}
 egyenlőtlenség, akkor \textit{Lipschitz folytonosnak} nevezzük az f függvényt
 \end{definition}
 \begin{definition}{Kontrakció}\\
-Legyen (X,$\textit{d}$) egy teljes metrikus tér. T leképezést $\textit{kontrakciónak}$ nevezzük X alaphalmazon, ha $\exists$ $q \in [0,1)$, hogy 
+Legyen (X,$\textit{d}$) egy teljes metrikus tér. T leképezést $\textit{kontrakciónak}$ nevezzük X alaphalmazon, ha $\exists$ $q \in [0,1)$, hogy
 \begin{equation*}
     d(T(x),T(y)) \leq q \textit{d}(x,y) \;\;,\forall x,y \in X
 \end{equation*}
-Pongyolán fogalmazva ezt jelenti, hogy azok a  Lipschitz folytonos függvények a kontrakciók, amelyekben az L Lipschitz konstans kisebb 1-nél 
+Pongyolán fogalmazva ezt jelenti, hogy azok a  Lipschitz folytonos függvények a kontrakciók, amelyekben az L Lipschitz konstans kisebb 1-nél
 \end{definition}
 \begin{theorem}[Banach-féle fixponttétel]
-Legyen (X,$\textit{d}$) egy nemüres, teljes metrikus tér ellátva egy T kontrakcióval. Ekkor 
+Legyen (X,$\textit{d}$) egy nemüres, teljes metrikus tér ellátva egy T kontrakcióval. Ekkor
 \begin{equation*}
     \exists!\;\; x^* \in X : T(x^*) = x^*
 \end{equation*}
 \end{theorem}
 \begin{proof}
 Részletesen nem tisztázzuk a tétel bizonyítását, csak megemlítjük a főbb lépéseket.
- 
+
 \begin{equation*}
 Legyen\;\;(X_n)_{n \in \mathbb{N}},\;\; x_n = T(x_{n-1}), \;\;x_0 \in X \;\;egy \;\; sorozat
 \end{equation*}
-Mivel T kontrakció, így igaz a következő egyenlőtlenség 
+Mivel T kontrakció, így igaz a következő egyenlőtlenség
 \begin{equation*}
     d(x_{n+1},x_n) \leq q^n d(x_1,x_0)
 \end{equation*}
 Ha ezeket felhasználva elkezdünk \textit{n}-ben iterálni, könnyű belátni, hogy
 \begin{equation*}
-    \forall \;\; \epsilon >0 : \;\;d(x_j,x_k) j < \epsilon\;\;, \;\;j\neq k  \;\; 
+    \forall \;\; \epsilon >0 : \;\;d(x_j,x_k) j < \epsilon\;\;, \;\;j\neq k  \;\;
 \end{equation*}
 azaz  $(x_n)$ Cauchy  sorozat.
 Mivel (X,d) metrikus tér teljesn ezért a sorozatunknak létezik határértéke, sőt ez a határéték pont T leképezés fix pontja lesz. A fix pont egyértelműségét igazolhatjuk, ha indirekt feltesszük, hogy van másik fix pont.
@@ -299,33 +302,33 @@ Mivel (X,d) metrikus tér teljesn ezért a sorozatunknak létezik határértéke
 Legyen I =[a,b] egy intervallum , és egy f függvény,
 
 \begin{equation*}
-f :  I \times \mathbb{R}^n \rightarrow \mathbb{R}^n 
+f :  I \times \mathbb{R}^n \rightarrow \mathbb{R}^n
 \end{equation*}
 Legyen x' pedig egy ODE
 \[
 x'(t) = f(t,x(t))
 \]
-Ha f Lipschitz folytonos x(t)-ben, akkor az ODE-nek létezik egyértelmű megoldása [a,a + $\epsilon$] 
-intervallumon minden 
+Ha f Lipschitz folytonos x(t)-ben, akkor az ODE-nek létezik egyértelmű megoldása [a,a + $\epsilon$]
+intervallumon minden
 \[
 x(0) = x_0 \in \mathbb{R}^n, \epsilon < \frac{1}{L}
 \] halmazra és L pedig x(t) Lipschitz konstansa
 \end{theorem}
 \begin{proof}
-Írjuk fel ezt egy kezdeti-érték feladatra 
+Írjuk fel ezt egy kezdeti-érték feladatra
 \begin{equation*}
     \begin{cases}
        f :  I \times \mathbb{R}^n \rightarrow \mathbb{R}^n , t \in [a,a + \epsilon]\\
        x'(t) = f(t,x(t))\\
-    \end{cases}       
+    \end{cases}
 \end{equation*}
 
 Ez a Newton - Leibniz tétel miatt pedig erre az alakra hozható:
 \begin{equation*}
     \forall t \in [a, a +\epsilon] : x(t) = x_0 + \int_{a}^{t} f(s,x(s)) ds
 \end{equation*}
- ahol pedig $\epsilon < \frac{1}{L}$. Eszerint x(t) fixpontja a következő függvénynek : 
- 
+ ahol pedig $\epsilon < \frac{1}{L}$. Eszerint x(t) fixpontja a következő függvénynek :
+
  \begin{equation*}
      T : \mathcal{C}([a, a +\epsilon]) \rightarrow \mathcal{C}([a, a +\epsilon]), T(x,t) := x_0 + \int_a^t f(s,x(s)) ds
  \end{equation*}
@@ -337,7 +340,7 @@ Ez a Newton - Leibniz tétel miatt pedig erre az alakra hozható:
      \leq (t-a) L \lVert x-y\rVert_{\infty} \leq \epsilon L \lVert x - y \rVert_{\infty}
      \end{split}
  \end{equation*}
- 
+
  Mivel T pedig kontrakció, így a Banach-féle fixpont tétel alkalmazható,amivel igazoltuk a létezését a megoldásnak. Továbbá felhasználva a Peano-egyenlőtlenséget megkapjuk az egyértelműséget is.
 \end{proof}
 \begin{definition}[Szukcesszív approximációs módszer]
@@ -346,7 +349,7 @@ Vegyük a következő kezdetiérték problémát
     \begin{cases}
        x'(t) = f(t,x(t))\\
        x(a) = b
-    \end{cases}       
+    \end{cases}
 \end{equation*}
 Fentebb tárgyaltuk a Picard-Lindelöf tételnél, hogy a Newton - Leibniz tétel miatt fennáll a következő
 egyenlőség: \newline
@@ -355,7 +358,7 @@ egyenlőség: \newline
 \end{equation*}
 Ekkor vegyük az \[x_0(t) = b\] állandót, majd kezdjünk el előre iterálni a következő képlet alapján:
 \begin{equation*}
-    x_{n + 1}(t) = b + \int_a^t f(s,x_n(s)) ds 
+    x_{n + 1}(t) = b + \int_a^t f(s,x_n(s)) ds
 \end{equation*}
 \end{definition}
 
@@ -364,7 +367,7 @@ Ekkor vegyük az \[x_0(t) = b\] állandót, majd kezdjünk el előre iterálni a
     \begin{cases}
        y'(t) = y\\
        y(0) = 1
-    \end{cases}       
+    \end{cases}
 \end{equation*}
 Kezdjünk el lépkedni.
 \begin{equation*}
@@ -397,7 +400,7 @@ Vegyünk egy kezdetiérték problémát és hozzá egy lépésközt.
        x'(t) = f(t,x(t))\\
        x(a) = b \\
        t_i = a + ih , i \in \{0,1,...,N\}
-    \end{cases}       
+    \end{cases}
 \end{equation*}
 
 Itt pedig a lépésköz pedig legyen \[h = \frac{b-a}{N} = t_i - t_{i-1} \]
@@ -412,14 +415,14 @@ Ezek alapján pedig láthatjuk, hogy az algoritmust a következőképpen írhatj
     \begin{cases}
         x_0 = \alpha \\
         x_{i+1} = x_i + h f(t_i,x_i) \;\;\forall i \in{0,1,...,N-1}
-    \end{cases}       
+    \end{cases}
 \end{equation*}
 \subsection{RK4}
 Runge - Kutta módszerekből sokat alkottak az utóbbi időkben. Mi most a Runge-Kutta negyedfokó közelítését használjuk, amire a szakirodalomban sokszor csak 'RK4' módon hivatkoznak. A 4-ed rendű közelítés a következő formulából vezethető le:
 \begin{equation*}
 \begin{split}
-      y_{t+h} = y_t + h \sum_{i=1}^{s} a_i k_i + \mathcal{O}(h^{s+1}),\\ 
-      ahol\;\;k_i = y_t + h \sum_{j=1}^{s} \beta_{i,j} f(k_j,t_n + \alpha_ih)  
+      y_{t+h} = y_t + h \sum_{i=1}^{s} a_i k_i + \mathcal{O}(h^{s+1}),\\
+      ahol\;\;k_i = y_t + h \sum_{j=1}^{s} \beta_{i,j} f(k_j,t_n + \alpha_ih)
 \end{split}
 \end{equation*}
 
@@ -443,7 +446,7 @@ Legyen \\
    \begin{cases}
     x' = 5x - 3 \\
     x(0) = 1
-   \end{cases} 
+   \end{cases}
 \end{center}
 Ennek a kezdetiérték feladatnak az analitikus megoldása a következő:
 \begin{equation*}
@@ -490,7 +493,7 @@ Ezt kifejezhetjük egy kezdetiérték probléma alakban is a következő módon 
   \begin{cases}
         x' = rx \\
         x(0) = 1
-  \end{cases}  
+  \end{cases}
 \end{center}
 Ennek a megoldása pedig pont visszaadja a fentebb írt képletet: \\
 \begin{equation*}
@@ -524,7 +527,7 @@ Legyen \\
    \begin{cases}
     x' = \frac{x^3}{3} \\
     x(0) = 3
-   \end{cases} 
+   \end{cases}
 \end{center}
 egy kezdeti érték feladat. Ennek a megoldása pedig
 \begin{equation*}
@@ -545,13 +548,13 @@ Nézzük a következő feladatot: \\
      x' = \frac{1}{x(9 + 4 t^2)} \\
      x(0) = 1
     \end{cases}
-\end{center}    
+\end{center}
 Ennek a feladatnak az analitikus megoldása :
 \begin{equation*}
     x(t) = \sqrt{\frac{1}{3} arctg(\frac{2t}{3}) + 1}
 \end{equation*}
 \begin{equation*}
-   x(0) = \sqrt{\frac{1}{3} arctg(\frac{0}{3}) + 1} = 1 
+   x(0) = \sqrt{\frac{1}{3} arctg(\frac{0}{3}) + 1} = 1
 \end{equation*}
 A numerikus eredmény pedig: 1.0110.
 Ez az első feladat, ahol jelentős az eltérés, nevesen kb. 0.01
@@ -562,11 +565,11 @@ A Runge-Kutta és minden egyéb numerikus módszer tehát nem arra jó, hogy meg
 \section{Stabilitás elméleti kitekintés}
 A stabilitás elmélet egy nagy része a differenciálegyenletek témakörének. Ebben a dolgozatban szeretnénk egy kicsi betekintést nyerni ebbe a világba. Első körben tisztázzunk néhány definíciót
 \subsection{Alapfogalmak}
-A fejezetben végig vegyük adottnak a 
+A fejezetben végig vegyük adottnak a
 \begin{equation*}
     x' = f(t,x)
 \end{equation*}
-függvényt, ahol 
+függvényt, ahol
 \begin{equation*}
     f: I \times \Omega \rightarrow \mathbb{R}^n \\
 \end{equation*}
@@ -586,9 +589,9 @@ A fent bevezetett függvény mellett az
 \end{equation*}
 pontot egyensúlyi pontnak nevezzük
 \end{definition}
-A továbbiakban az 
+A továbbiakban az
 \begin{equation*}
-    (x_0,t_o) \in I \times \Omega 
+    (x_0,t_o) \in I \times \Omega
 \end{equation*}
 legyen olyan intervallum, hogy f-nek egy megoldása legyen csak
 
@@ -889,6 +892,44 @@ Ha az f'(a) mátrixnak
 \end{theorem}
 \section{Perturbáció elméleti megközelítés}
 ...Ezzel a résszel a stabilitás után fogok foglalkozni...
+\section{Numba}
+Mikroökonómia órán, majd részletesebben egyensúlyelméleten elhangzott, hogy egy vállalat a profitmaximumát többek között akkor tudja elérni, ha a költségeit minimalizálja.A gyakorlatban persze nagyon kevés vállalat tud felírni egy költségfüggvényt, amin azután szélsőértéket tud számolni, de sokféleképpen lehet a 'termelésünket' olcsóbbá tenni. Az utóbbi időkben egyre több és több adatot termelünk magunk után, ami igaz a vállalatokra, sőt van, hogy kifejezetten cél, hogy generáljunk adatot. Minnél több az adat, annál inkább letudjuk modellezni a problémát és annál inkább pontosabb választ tudunk adni egy felmerülő kérdésre, aminek a legvégén valószínűleg az lesz a célja, hogy több pénzt keressünk, vagy épp kevesebb pénzt költsünk.
+
+Amikor nagyobb mennyiségű adatot kell feldolgozni, már gyakran kiszervezik azt külső szolgáltatókhoz, ahol számítási kapacitást bérelnek. Persze ez nem olcsó és minnél gyorsabban minnél több eredményre van szükségünk, annál inkább a zsebünkbe kell nyúlni.
+
+Ez az elgondolás vezetett oda, hogy beletegyem a szakdolgozatba ezt a fejezetet, ami egy python csomagról szól, nevesen a \textit{Numbáról}\footnote{https://github.com/numba}.
+\newline
+A Numba egy ingyenes, nyílt forráskódú csomag, amit többek között az Anaconda fejlesztői tartanak karban. Nagyon sok mindenben a segítségünkre lehet, többek között a párhuzamos futtatások beállítására (azaz attól lesz gyorsabb a kód, hogy nem 1, hanem több magját kihasználjuk a processzornak), ami önmagában nem egyszerű feladat ha nincsenek jó előismereteink a témában. Ezen felül pedig a \textit{NumPy} csomag függvényeire nyújt egy nagyon jó optimalizálást. Ez azt jelenti, hogy ha nem NumPy objektumokra használjuk, elképzelhető, hogy csak lassabb lesz az egész.\newline
+A Numba egy jit (just-in-time) compiler, ami azt jelenti, hogy a függvényünket rögtön gépi kódra fordítja, ezzel pedig nagyon meggyorsítja a futást, mivel már benne lesz a processzorban a végrehajtandó feladat és nem kell mindig betölteni. Emiatt azonban az első futásra lassab lesz a kód, de utána minden hívásnál gyorsabb lesz, mint az eredeti változat. Ez akkor lehet különösen hasznos, ha pl. szimulálunk egy problémát.
+
+
+Azonban ha a Numba-n keresztül szeretnénk futtatni sokkal körültekintőbben kell a kódunkat megírni.Sok hasznos tanácsot találni a csomag honlapján, amiket érdemes figyelembe venni, amikor szeretnénk idő-optimalizálni a szkriptjeinket. A legfőbb dolog, amire figyelnünk kell, az az, hogy ahol tudunk ott NumPyos megoldásokat használjunk. Amikor én elkészítettem a példa feladatokat sokszor figyelembe kellett vennem, hogy ha nem elég körültekintően hozom létre a különböző objektumokat akkor az hibát tud eredményezni és még nem annyira elterjedt a csomag, így több idő megtalálni a fórumokon mi is lesz a hibánk forrása (leginkább a a github oldalon lehetett az 'issue'-k között fórumozni.\newline
+Nézzük meg mit jelent ez a gyorsítás a Von Mises eljárás során (domináns sajátérték meghatározása).
+\subsection{Domináns sajátérték probléma}
+Fentebb már láttuk, hogy miképpen implementáltuk ezt a PageRank algoritmust. A 'gyorsítását' egyszerűen megtudjuk tenni a következőképpen. Definiálunk egy más nevű függvényt, de tartalmilag teljesen egyezőt az eredeti metódussal, csak egy \textbf{@jit(nopython = True)} dekorátort elé teszünk. Ezáltal, amikor ezt a függvényt meghívjuk, akkor a jit függvényen keresztül kerül végrehajtásra és a második hívástól kezdve pedig már várhatóan gyorsabb lesz (de nem feltétlen!).
+\pagebreak
+\lstinputlisting[language=Python]{Numba_examples/von_mises_example.py}
+Egy futás idejét nem célszerű viszonyítási alapnak venni, mert nagyon sok tényező történik egyszerre, emiatt pedig mindig egy kicsit másabb lesz a futásidő. Emiatt minden tesztesetre százszor futattan le mindkét fajta implementációra a függvényeket és minden lépésben egy új véletlen mátrixxal dolgoztak a függvények.\newline
+A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg, illetve ezek arányát (eredeti implementációs értékek / dekorált értékek). Fontos figyelembe venni, hogy ezek az értékek a táblázatban azt a célt szolgálják mutatni, hogy nem volt olyan eset, ahol lasította volt a futást a dekorátor. Néhol elképesztően nagy gyorsítást vitt végbe, néhol 'csak' kétszeresen, ami már önmagában nagy szó, például akkor, amikor egy több órás szimulációt futtatunk és fele idő alatt elkészül az eredmény.
+
+%\begin{table}[htb]
+\begin{center}
+\begin{tabular}{l|ll|ll|ll|}
+\cline{2-7}
+                              & \multicolumn{2}{c|}{eredeti}           & \multicolumn{2}{c|}{numba}             & \multicolumn{2}{c|}{arány}              \\ \cline{2-7}
+                              & \multicolumn{1}{l|}{átlag}   & szórás  & \multicolumn{1}{l|}{átlag}   & szórás  & \multicolumn{1}{l|}{átlag}    & szórás  \\ \hline
+\multicolumn{1}{|l|}{2x2}     & \multicolumn{1}{l|}{0.00112} & 0.00230 & \multicolumn{1}{l|}{0.00019} & 0.00117 & \multicolumn{1}{l|}{5.73675}  & 1.96674 \\ \hline
+\multicolumn{1}{|l|}{3x3}   & \multicolumn{1}{l|}{0.00123} & 0.00270 & \multicolumn{1}{l|}{3.00049 e-05} & 0.00017 & \multicolumn{1}{l|}{41.10750} & 15.78762 \\ \hline
+\multicolumn{1}{|l|}{5x5}   & \multicolumn{1}{l|}{0.00138} & 0.00252 & \multicolumn{1}{l|}{5.04755 e-05} & 0.00026 & \multicolumn{1}{l|}{27.53634} & 9.50339  \\ \hline
+\multicolumn{1}{|l|}{10x10} & \multicolumn{1}{l|}{0.00132} & 0.00265 & \multicolumn{1}{l|}{6.99949 e-05} & 0.00048 & \multicolumn{1}{l|}{18.91917} & 5.52487  \\ \hline
+\multicolumn{1}{|l|}{20x20}   & \multicolumn{1}{l|}{0.00161} & 0.00314 & \multicolumn{1}{l|}{0.00013} & 0.00077 & \multicolumn{1}{l|}{11.90909} & 4.07444 \\ \hline
+\multicolumn{1}{|l|}{30x30} & \multicolumn{1}{l|}{0.00099} & 0.00208 & \multicolumn{1}{l|}{4.51707 e-05} & 0.00019 & \multicolumn{1}{l|}{22.10002} & 10.48075 \\ \hline
+\multicolumn{1}{|l|}{50x50}   & \multicolumn{1}{l|}{0.00167} & 0.00322 & \multicolumn{1}{l|}{0.00019} & 0.00087 & \multicolumn{1}{l|}{8.71627}  & 3.66516 \\ \hline
+\multicolumn{1}{|l|}{100x100} & \multicolumn{1}{l|}{0.00150} & 0.00230 & \multicolumn{1}{l|}{0.00067} & 0.00173 & \multicolumn{1}{l|}{2.23159}  & 1.32747 \\ \hline
+\end{tabular}
+\end{center}
+%\end{table}
+
 \section{Felhasznált irodalom}
 \begin{itemize}
     \item Kis Ottó, Kovács Margit - Numerikus módszerek
@@ -896,7 +937,6 @@ Ha az f'(a) mátrixnak
     \item Kánnai Zoltán dinamika jegyzetei
     \item stabilitásos sárga könyv
 \end{itemize}
-\section{Numba}
 
 \section{Git és GitHub}
 A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat , és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam. A szakdolgozat teljes formájában elérhető ezen a linken keresztül :
