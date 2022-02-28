@@ -1,16 +1,12 @@
 import numpy as np
 
-def numerical_derivation(func,point):
+def numerical_derivation(func):
     def calculation(point):
         h = 0.001
-        output = func
+        return (func(point+h) - func(point-h)) / h
+    return calculation
 
-        returnval = (output(point+h) + output(point-h)) / h
-
-        return returnval
-    return calculation()
-
-@numerical_derivation(point)
+@numerical_derivation
 def fuggveny(point):
 
     return point * 2
