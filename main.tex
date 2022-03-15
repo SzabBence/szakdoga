@@ -65,7 +65,27 @@
 A szakdolgozatomban megvizsgálom a differenciálegyenletek numerikus megoldásait. Ehhez kimondom a szükséges tételeket, definíciókat és módszereket. A gyakorlati megvalósítást pedig a Python programozási nyelvben valósítom meg. Azonban elkerülhetetlen a programozás alatt, hogy az átláthatóság érdekében kövessünk bizonyos normákat, így ezeket itt legjobb tudásom szerint követem. A dolgozat felépítése egy Python nyelv bevezetővel indít, majd tárgyalja a numerikus integrálás témakörét. Itt szándékosan kerülöm a különböző módszerek hibatulajdonságait, mivel ez önmagában kitenne egy szakdolgozatot. A dolgozatban beépített integrál függvényt használok a $\textit{SciPy}$ csomagból. Ezután tárgyalom az ODE-k témakörét.\\
 
 Több rész egyelőre nem készült el a szakdolgozatból.\\ Tervek szerint folytatom a módszertanok tárgyalását és utána konkrét modelleken is alkalmazom azokat
+\section{Szakirodalmi áttekintő}
+A differenciál egyenletek használata nagyon sok területen megjelenik a matematikán belül. Az egyik leginkább elterjedt ága ennek a tudománynak a dinamikai rendszerek alkalmazása közgazdasági modellekre. Itt alapvetően azt vizsgálják a kutatók, hogy az idő változásával hogyan és miképp változik meg egy - egy rendszer és annak a változói. Amint feltudtuk írni az egyenleteket akkor vizsgálhatjuk a rendszer stabilitáselméleti 'diagnosztikáit', amit majd látjuk a következő részekben, hogy a sajátértékek vizsgálatából von le következtetéseket, amit felhasználva tudunk valamit mondani a renszer időbeli fejlődéséről. Ilyen lehet például egy ország adósságrátája vagy a GDP - je. A. Tacchella et. al (2018) egy olyan dinamikai rendszert építettek, amely a vizsgált országok GDP változását (akár növekedését, akár csökkenésést) volt hivatott előrejelezni. A szerzők megemlítik, hogy a GDP előrejelzés egy nehéz és komplex feladat, mivel rengeteg változóból épül fel ez a negyedévente / évente megszülető adat, ezen feül sok utólagos korrigálásban részesülnek az adatok, amelyek nem jól modellezhetőek, mert szubjektívan készítik el őket. Az eredményeiket jelentősnek írták le, mivel 25 százalék feletti eredménnyel jelezték előre a változást a hivatalos IMF statisztikákhoz képest, ezenfelül az IMF hibái és ő hibáik között alacsony volt a korreláció, ami azt jelenti, hogy az eltéréseik között nem volt érdemi információs átfedés, így új összefüggésekre tudtak rámutatni. A szerzők kiemelnek egy fontos tényezőt a közgazdasági modellezéssel kapcsolban, hogy maga a közgazdaságtan, az elméleti modellezés és az előrejelzés tudomány ágak nincsenek szervesen összekapcsolva. A közgazdasági modell ép0tés azon alapszik, hogy vesznek a kutatók egy leegyszerűsített világot, majd egy váltzó hatását próbálják megérteni. Ezekkel a megközelítésekkel szemben a szerzők úgy álltak a problémához, hogy fizikusi szemmel kiváncsiak egy dinamikai rendszer időbeli fejlődésére olyan korlátozással, hogy egyedül csakis a múltbéli adatokra támaszkodhat. Ez azt jelenti, hogy az információ a historikus adatok és az adatpontok közötti időből nyerhető ki. A cikk bemutat egy nagyon érdekes módszert, angolul a 'method of analogues' módszert, ami azon az elgondoláson alapul, hogy amikor előre szeretnénk jelezni, de nincs információnk a rendszer épp aktuális állapotáról, akkor megnézzük, hogy a meglévő állapotok közül a jelenlegi ponthoz legközelebb álló helyzete miképp fejlődőtt egyik pillanatból a másikba, majd ezzel a tudással a kezünkben haladunk tovább. Az elemzés során felhasználták a \textit{fittség-komplexitás} (fitness-complexity) algoritmust, ami egy iteratív képlet és kapcsolatban áll a dinamikai rendszer megközelítéssel. A használata az előrejelzésekben jelenik meg. Gyakorlatilag egy inputot vár el, mégpedig egy olyan mátrixot amiben reprezentálják a gazdaságok export felépítését. Ez gyakorlatilag azt jelenti, hogy a sorok az országokat jelentik, az oszlopok a különböző termékeket. Ha az adott ország adott termékből kompetítven képes exportálni, akkor 1-es értéket kap, ha nem akkor 0-át. Egyik előnye, hogy nem függ a kezdeti értékektől, de részletesebben megtalálhatjuk a jellemzőit a többi cikkben. Az algoritmust a következő féle képpen írták fel a cikk szerzői:
+\begin{equation*}
+    \begin{cases}
+    \widetilde{F}_{c}^{(N + 1)} = \sum_{p} M_{cp} Q_{p}^{(N)} \\
+    \widetilde{Q}_{p}^{(N+1)} = (\sum_{c} \frac{M_{cp}}{F_c^N})^{-1} \\
 
+    \end{cases}
+\end{equation*}
+Itt M jelöli a fent említett bináris mátrixot, a c index jelöli az országot (country), p index pedig az adott terméket (product). A képletekben látni a nem hullámmal jelölt betűket is. Ezek gyakorlatilag mindig egy normalizált értéket adnak a következő iterációs lépéshez.
+\begin{equation*}
+    \begin{cases}
+    F_c^{(N)} = \frac{\widetilde{F}_{c}^{(N)}}{<\widetilde{F}>_c} \\
+    Q_p^{(N)} = \frac{\widetilde{Q}_{c}^{(N)}}{<\widetilde{Q}>_p}
+    \end{cases}
+\end{equation*}
+
+\begin{center}
+    LEGYEN DUMMY ADATTAL IMPLEMENTÁLÁS ÉS ESETLEG NUMBA? HA IGEN : NUMPY OPTIMÁLIS DATAFRAME SZŰRÉS- NEM PEDIG A MEGSZOKOTT PANDAS
+\end{center}
+\pagebreak
 \section{Python nyelv}
 \begin{center}
     \includegraphics[width=\textwidth]{plots/python-logo.png}
@@ -73,8 +93,8 @@ Több rész egyelőre nem készült el a szakdolgozatból.\\ Tervek szerint foly
 \end{center}
 
 A Python egy magas szintű programozási nyelv egy könnyen elsajátítható szintaxissal. Azért erre a nyelvre esett
-a választásom, mert sok csomag elérhető hozzá, nagyon jól dokumentált, nem kell típusokat használni benne az 
-esetek nagy többségében, nyílt és ebben dolgozom, ezért ezt ismerem a legjobban. 
+a választásom, mert sok csomag elérhető hozzá, nagyon jól dokumentált, nem kell típusokat használni benne az
+esetek nagy többségében, nyílt és ebben dolgozom, ezért ezt ismerem a legjobban.
 \subsection{Python függvények}
 Pythonban minden függvényt a \textit{def} szóval kezdünk, amit a függvény neve követ, majd zárójelek közé beírjuk a paramétereket és vesszővel választjuk el, ha vannak. A csukó zárójel után mindig ki kell tenni a kettőspontot. Ezután a következő sorban kell folytatnunk a kódot, de egy tabulátornyi hellyel jobbrább, mint ahogy a \textit{def} szócskát elhelyeztük.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/function_template.py}
@@ -95,7 +115,10 @@ A while ciklust hasonlóan adjuk meg , mint más nyelvekben. A \textit{while} sz
 \subsection{Dekorátorok}
 A dekorátorok olyan lehetőséget nyújtanak a programozás során, ami megkönnyíti az egymásba ágyazott függvények használatát, átláthatóbbá teszi a kódunkat és kevesebb sort kell írni emiatt, ami nagy előny ha hosszú és bonyolult problémát kell implementálnunk. Amikor dekorátort használunk, akkor egy meglévő funkcionalitást bővítünk ki anélkül, hogy újra dolgoznánk egy meglévő kódunkat. A Python nyelvben ezt a következőképpen használhatjuk: '@', majd utána a függvény neve, amivel dekorálunk.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/decorator_template.py}
-Egy matematikával analóg példa lehet a numerikus deriválás függvény használata dekorátorként. Amikor papíron jelöljük egy függvény deriváltját, akkor általában egy vesszővel jelöljük, mondhatni dekoráltuk a függvényünket a differenciálás operátorral.
+Egy matematikával analóg példa lehet a numerikus deriválás függvény használata dekorátorként. Amikor papíron jelöljük egy függvény deriváltját, akkor általában egy vesszővel jelöljük, mondhatni dekoráltuk a függvényünket a differenciálás operátorral. Nézzünk egy példát arra, hogy ezt miképp lehet implementálni.
+\lstinputlisting[language=Python]{python-bevezetohoz-scriptek/numerical_derivation_decorator.py}
+A fent csatolt kódban láthatjuk miképp vezettük be a deriválás dekorátort : a függvény, amit deriválunk a 2x lineáris leképezés. Amikor meghívjuk ezt az x = 1 helyen, akkor a dekorátor függvény belsejében létrejön egy belső függvény, ami megkap minden paramétert a 2x függvényből. Ezután elvégzi a differenciálást a belső függvény és ezt az értéket visszaadja a dekorátor függvénynek. A következő lépésben pedig az eredetileg meghívott függvény már ezt az értéket fogja visszaadni. Ehhez a folyamathoz csatoltuk a következő magyarázó ábrát. \newline
+\includegraphics[width=\textwidth]{plots/numerical_derivation_decorator_explanation.png}
 \subsection{Python csomagok}
 Mint minden nyelvben, itt is tudunk importálni már készen levő csomagokat, amelyek tartalmaznak a célnak megfelelő osztályokat, azon belül metódusokat. Ha nincs feltelepítve a csomag, akkor a \textbf{pip install csomag-neve} paranccsal tehetjük meg azt.
 Amint ezt megtettük, az \textit{import csomag-neve as alias-csomag-neve} módon importálhatjuk a kódunkba. A könnyebb olvashatóság érdekében szokás \textit{alias}-t használni, de nem szükséges.
