@@ -962,8 +962,37 @@ A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg,
 \end{itemize}
 
 \section{Git és GitHub}
-A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat , és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam. A szakdolgozat teljes formájában elérhető ezen a linken keresztül :
+A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat , és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam.
+\subsection{GIT}
+A Git egy olyan szoftver, amelyet a Linux alkotója, Linus Torvalds kezdett el fejleszteni 2005-ben, mert elégedetlen volt az akkor elterjedt verziókövető rendszerekkel. A szoftver elnevezése szándékosan homályos, több lehetséges magyarázatot is megadott hozzá Torvalds, mint pl. a 'Global Information Tracker', de egyéb szakdolgozati nyelvet nem tűrő lehetőséget is felsorolt. A Git egy alacsony szintű motor, ami megadja a vázát a különböző rendszereknek, amelyek felhasználóbarát módon tudják a fejlesztők elé tárni a változásokat. Ilyen rendszer például a GitLab, a GitHub, vagy a BitBucket.
+
+Nézzük meg nagyvonalakban a Git működését. Szép analógiát lehet vonni az élőlények evolúciója és a kódok verziókövetése között. Az előlények is generációról generációra lassan és megfontolva változnak és adaptálódnak az új fajta környezet újfajta kihívásaihoz, a genetikához értő emberek pedig megtudják állapítani, hogy miben változtak meg az egyedeket felépítő kódok. Hasonlóan működik ez egy szoftver fejlesztése közben is. Az új igényekhez adaptálni kell a kódot, ami magát a funkciót adja, ezt pedig kicsi és megfontolt lépéseken keresztül érik el a fejlesztők, akik a verziókövetést használva pontosan dokumentálják, hogy miben és mikor változott az adott részlet amihez hozzányúltak. A kulcsa az, hogy minden kis lépést nyomon követünk.
+
+\begin{example}
+Nézzünk meg egy olyan esetet, ahol egyszerűen a fő águnkonról leszármaztatunk egy másik ágat, azon dolgozunk, majd végül ezeket a változtatásokat visszavezetjük.
 \begin{center}
-    https://github.com/SzabBence?tab=repositories
+    \includegraphics{git/branch_with_only_commits.png}
+\end{center}
+\end{example}
+
+Az ábrán azt látni, hogy a narancs sárgával jelölt vonal jelenti a kiinduló változatot, majd ahol az első citromsárga kör található, ott megindul egy új ág, amit zöld vonallal jelöltünk. Ezen az ágon 3 változtatás történt meg, amit piros körrel jelölünk. Ezután a jobb oldali függőleges zöld vonal jelöli a feature branchből való mergelést az eredeti branchbe.
+
+
+\pagebreak
+
+\begin{example}
+Nézzünk meg egy olyan esetet, amely egy olyan helyzetet mutat be, amikor 2 leágazás készül el egy adott verzióról, de a változtatások felvezetése egyik esetben már másabb verzióba fog megtörténni.
+\end{example}
+A következő ábrán pedig azt az esetet szemléltejük, amikor egy ágról 2 branch ágazik le. Ez magával hozza, hogy ha egy fájlban történik változtatás, akkor könnyen problémába ütközhetünk, mivel össze kell fésülni a 2 változtatást. Ha ez nem okoz gondot akkor automatikusan megtörténik, ha gondot okoz akkor pedig ezt kézzel kell megoldanunk. Látni, hogy az első leágazott verzióban 2 változtatás történt, majd ez be is épült az eredeti branchbe. Azonban a másik leágazott branch ugyan abból az állapotból indult, mint a másik, de amikor beépítenénk az ottani commitokat, akkor már egy olyan változatban kell azt megtenni, ami már eltér a kiinduló állapottól, ezt jelöli a zöld és sárga vonalakkal tűzdelt ábra.
+
+\begin{center}
+    \includegraphics{git/conflict_vibe.png}
+\end{center}
+\subsection{GitHub}
+A GitHub egy szolgáltató oldal, amin nyomon tudjuk követni a szoftvereink verzióit a Git segítségével. Ez azt jelenti, hogy könnyebbé teszi számunkra a Git használatát, mert felhasználó barátabb környezetbe helyezi azt számunkra, emellé sok egyéb szolgáltatást is igénybe lehet venni rajta keresztül.
+
+A következő ábrán pedig kiválasztottam egy commitom, ami a szakdolgozat írása közben készült. Itt a stabilitás vizsgálathoz kapcsolódó függvényhez készítettem el egy változtatást és jól látni milyen sorokban történt módosítás. A piros színű sorok jelölik a régi változatot, a zöld pedig  az újat.
+\begin{center}
+    \includegraphics[width=\textwidth]{git/github usage.PNG}
 \end{center}
 \end{document}
