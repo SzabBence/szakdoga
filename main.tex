@@ -11,7 +11,7 @@
 \theoremstyle{definition}
 \theoremstyle{theorem}
 \usepackage{geometry}
-\geometry{a4paper,left=25mm,right=25mm,bottom=25mm,top=25mm,footskip=10mm}
+\geometry{a4paper,left=25mm,right=25mm,bottom=25mm,top=25mm,footskip=15mm}
 \newtheorem{definition}{Definíció}
 \newtheorem{theorem}{Tétel}
 
@@ -27,21 +27,21 @@
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
+    backgroundcolor=\color{backcolour},
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false,
     tabsize=2
 }
 \lstset{style=mystyle}
@@ -49,7 +49,7 @@
 
 \begin{center}
 \fontsize{40pt}{12pt}\selectfont
-    
+
     DIFFERENCIÁLEGYENLETEK NUMERIKUS MEGKÖZELÍTÉSE A KÖZGAZDASÁGBAN\\
     \bigskip
     Témavezető: Kánnai Zoltán\\
@@ -61,10 +61,9 @@
 
 \pagebreak
 \tableofcontents
+\pagebreak
 \section{Bevezetés}
-A szakdolgozatomban megvizsgálom a differenciálegyenletek numerikus megoldásait. Ehhez kimondom a szükséges tételeket, definíciókat és módszereket. A gyakorlati megvalósítást pedig a Python programozási nyelvben valósítom meg. Azonban elkerülhetetlen a programozás alatt, hogy az átláthatóság érdekében kövessünk bizonyos normákat, így ezeket itt legjobb tudásom szerint követem. A dolgozat felépítése egy Python nyelv bevezetővel indít, majd tárgyalja a numerikus integrálás témakörét. Itt szándékosan kerülöm a különböző módszerek hibatulajdonságait, mivel ez önmagában kitenne egy szakdolgozatot. A dolgozatban beépített integrál függvényt használok a $\textit{SciPy}$ csomagból. Ezután tárgyalom az ODE-k témakörét.\\
-
-Több rész egyelőre nem készült el a szakdolgozatból.\\ Tervek szerint folytatom a módszertanok tárgyalását és utána konkrét modelleken is alkalmazom azokat
+A szakdolgozatom fő célkitűzése az, hogy körbejárjam néhány differenciál egyenlet típus numerikus megoldásainak egy részét. Legfőképp kezdetiérték feladatokról lesz szó a témák körbejárása alatt. A numerikus részt pedig úgy próbálom teljesíteni, hogy ahol tudtam, ott az elmélet mellé csatoltam kódot is. A kódokat Pythonban írtam meg és ahol vannak számítási eredmények, ott ezekből a kódokból érkeznek a szakdolgozatba. Amikor csatoltam egy kódot azt próbáltam minnél olvashatóbban tagolni, például követve a flake8 csomag útmutatásait a formázásra nézve. Az volt az elgondolásom, hogy úgy lesz kerek és egész a dolgozat, ha az eszközökről is teszek említést, amivel írtam a munkát, ezért pedig egy rövid Python leírást is készítettem, abban pedig megemlítem a használt csomagokat. Ezen felül egy úgyszintén tömör összefoglalót is mellékeltem a nyelv felépítéséről, működéséről . A differenciál egyenletek témaköre amiatt keltette fel az érdeklődésemet, mert mindig is érdekelt a programozás és ehhez a témakörhöz sok numerikus kutatás készült már, amelyek szépen programozhatóak. Mind a közgazdasági, mind pedig pénzügyi modellek között vannak differenciálegyenletek. Az előbbi inkább nem sztochasztikus, az utóbbi inkább sztochasztikus modellekre épít. A sztochasztikus modellek mögötti matematika egy lépcsőfokkal bonyolultabb a nem sztochasztikus egyenleteknél, a szakdolgozatom is inkább erre a témára helyezi a hangsúlyt.
 \section{Szakirodalmi áttekintő}
 A differenciál egyenletek használata nagyon sok területen megjelenik a matematikán belül. Az egyik leginkább elterjedt ága ennek a tudománynak a dinamikai rendszerek alkalmazása közgazdasági modellekre. Itt alapvetően azt vizsgálják a kutatók, hogy az idő változásával hogyan és miképp változik meg egy - egy rendszer és annak a változói. Amint feltudtuk írni az egyenleteket akkor vizsgálhatjuk a rendszer stabilitáselméleti 'diagnosztikáit', amit majd látjuk a következő részekben, hogy a sajátértékek vizsgálatából von le következtetéseket, amit felhasználva tudunk valamit mondani a renszer időbeli fejlődéséről. Ilyen lehet például egy ország adósságrátája vagy a GDP - je. A. Tacchella et. al (2018) egy olyan dinamikai rendszert építettek, amely a vizsgált országok GDP változását (akár növekedését, akár csökkenésést) volt hivatott előrejelezni. A szerzők megemlítik, hogy a GDP előrejelzés egy nehéz és komplex feladat, mivel rengeteg változóból épül fel ez a negyedévente / évente megszülető adat, ezen feül sok utólagos korrigálásban részesülnek az adatok, amelyek nem jól modellezhetőek, mert szubjektívan készítik el őket. Az eredményeiket jelentősnek írták le, mivel 25 százalék feletti eredménnyel jelezték előre a változást a hivatalos IMF statisztikákhoz képest, ezenfelül az IMF hibái és ő hibáik között alacsony volt a korreláció, ami azt jelenti, hogy az eltéréseik között nem volt érdemi információs átfedés, így új összefüggésekre tudtak rámutatni. A szerzők kiemelnek egy fontos tényezőt a közgazdasági modellezéssel kapcsolban, hogy maga a közgazdaságtan, az elméleti modellezés és az előrejelzés tudomány ágak nincsenek szervesen összekapcsolva. A közgazdasági modell ép0tés azon alapszik, hogy vesznek a kutatók egy leegyszerűsített világot, majd egy váltzó hatását próbálják megérteni. Ezekkel a megközelítésekkel szemben a szerzők úgy álltak a problémához, hogy fizikusi szemmel kiváncsiak egy dinamikai rendszer időbeli fejlődésére olyan korlátozással, hogy egyedül csakis a múltbéli adatokra támaszkodhat. Ez azt jelenti, hogy az információ a historikus adatok és az adatpontok közötti időből nyerhető ki. A cikk bemutat egy nagyon érdekes módszert, angolul a 'method of analogues' módszert, ami azon az elgondoláson alapul, hogy amikor előre szeretnénk jelezni, de nincs információnk a rendszer épp aktuális állapotáról, akkor megnézzük, hogy a meglévő állapotok közül a jelenlegi ponthoz legközelebb álló helyzete miképp fejlődőtt egyik pillanatból a másikba, majd ezzel a tudással a kezünkben haladunk tovább. Az elemzés során felhasználták a \textit{fittség-komplexitás} (fitness-complexity) algoritmust, ami egy iteratív képlet és kapcsolatban áll a dinamikai rendszer megközelítéssel. A használata az előrejelzésekben jelenik meg. Gyakorlatilag egy inputot vár el, mégpedig egy olyan mátrixot amiben reprezentálják a gazdaságok export felépítését. Ez gyakorlatilag azt jelenti, hogy a sorok az országokat jelentik, az oszlopok a különböző termékeket. Ha az adott ország adott termékből kompetítven képes exportálni, akkor 1-es értéket kap, ha nem akkor 0-át. Egyik előnye, hogy nem függ a kezdeti értékektől, de részletesebben megtalálhatjuk a jellemzőit a többi cikkben. Az algoritmust a következő féle képpen írták fel a cikk szerzői:
 \begin{equation*}
@@ -412,7 +411,7 @@ Kezdjünk el lépkedni.
 \subsection{Python kódok a fejezethez}
 \lstinputlisting[language=Python]{fokozatos_kozelitesek/successive.py}
 \section{Runge-Kutta módszer}
-A Runge-Kutta módszerek az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, nevesen Carl Runge és Wilhelm Kuttáról.
+A Runge-Kutta algoritmusok az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, nevesen Carl Runge és Wilhelm Kuttáról.
 
 \subsection{Euler módszer}
 Alapvetően nem fogjuk használni az Euler módszert, azonban mindképp említést kell tennünk róla, mivel a Runge - Kutta módszer erre épít. Ez nagyon szemléletes megoldási metódus, azonban nem praktikus ha általánosan akarunk felírni egy kódot hozzá, mert épít a deriváltakra.\\
@@ -441,7 +440,7 @@ Ezek alapján pedig láthatjuk, hogy az algoritmust a következőképpen írhatj
     \end{cases}
 \end{equation*}
 \subsection{RK4}
-Runge - Kutta módszerekből sokat alkottak az utóbbi időkben. Mi most a Runge-Kutta negyedfokó közelítését használjuk, amire a szakirodalomban sokszor csak 'RK4' módon hivatkoznak. A 4-ed rendű közelítés a következő formulából vezethető le:
+Runge - Kutta módszerekből sokat alkottak az utóbbi időkben. Ha egyszerűen próbáljuk meg megközelíteni ezeknek a megoldó algoritmusoknak a felépítését, akkor észrevehetjük, hogy ahányad rendű Runge - Kutta módszert használunk, annyiad rendű Taylor sor közelítést használunk.Mi most a Runge-Kutta negyedfokó közelítését használjuk, amire a szakirodalomban sokszor csak 'RK4' módon hivatkoznak. A 4-ed rendű közelítés a következő formulából vezethető le:
 \begin{equation*}
 \begin{split}
       y_{t+h} = y_t + h \sum_{i=1}^{s} a_i k_i + \mathcal{O}(h^{s+1}),\\
@@ -583,8 +582,95 @@ A numerikus eredmény pedig: 1.0110.
 Ez az első feladat, ahol jelentős az eltérés, nevesen kb. 0.01
 \end{example}
 A Runge-Kutta és minden egyéb numerikus módszer tehát nem arra jó, hogy meghatározzuk analitikusan , képlettel a függvény formáját, hanem egy közelítést ad arra, hogy mi lehet a keresett függvény \textbf{értéke az adott pontban.}
+\subsection{Eredmények összevetése}
+A Runge Kutta módszert kevesebb lépésből mindig pontosabb eredményt adott, ez is egy oka , amiért ez terjedt el inkább az iparban. Azonban most az egyszerűség kedvéért az Euler módszer eredményeit úgy közlöm ebben a táblázatban, hogy nem ugyanakkora energiabefektetéssel készültek, mint az RK4-es párjai. Ez a gyakorlatban azt jelenti, hogy minden esetben addig emelgettem az iterációs számokat, ameddig be nem állt az adott értékre, amitől már számottevően nem tért el a továbbiakban. Ezek után a legjobb Euler módszer eredményeket tettem bele a táblázatba, míg az RK4-es eredmények konzistensen nem változtak felépítésüket tekintve, nem nyúltam bele sehogy sem a megoldó algoritmus paramétereibe.
+\begin{table}[H]
+\begin{tabular}{|l|l|l|l|}
+\hline
+                           & Analitikus megoldás & Runge Kutta & Euler módszer \\ \hline
+Konstans együtthatós példa & 59.9653             & 59.9652     & 59.2302       \\ \hline
+Kamatláb példa             & 1.1051              & 1.1051      & 1.1051        \\ \hline
+Harmadfokú példa           & 4.7434              & 4.7434      & 4.7409        \\ \hline
+Bonyolultabb példa          & 1.0000              & 1.0110      & 1.0936        \\ \hline
+\end{tabular}
+\end{table}
+Látni az eredményeken, hogy az RK4 jobb eredményekre vezetett az Euler módszernél. A következő néhány képen pedig bemutatjuk a két módszer pontosságát. Az első képen a konstans együtthatós példa szerepel 100-as és 200-as lépésszámok mellett. Látni, hogy az RK4 kevesebb lépésből közelebb került a megoldáshoz.
+
+\includegraphics[width=\textwidth, height=290pt]{RK4/plotok/konstans_rk4=100_euler=200.png}
+A második képen pedig látni, hogy ugyanakkora lépésszám mellett ebben az esetben pedig pontosabb eredményt adott az RK4.
+
+\includegraphics[width=\textwidth]{RK4/plotok/konstans_mindketto_200.png}
+
+Természetesen úgy kerek, ha megmutatjuk, hogy más esetekben ezektől függetlenül nehéz leolvasni az ábráról, hogy van eltérés az eredmények között. Ilyen volt az a példa, ahol a kamatláb esetet vizsgáltuk. Itt a piros vonalat meg kellett vastag0tani, mert végig fej fej mellett haladt a két vonal
+
+\includegraphics[width=\textwidth, height=290pt]{RK4/plotok/kamatlab_step=100.png}
+\subsection{Magasabb rendű egyenletek megoldása}
+A Runge Kutta módszerek működnek magasabb rendű differenciál egyenletek megoldására is. Alapvetően nagyon hasonlít az elsőrendű megoldó képlethez. Amikor analitikusan szeretnénk megoldani egy magasabb rendű egyenletet, akkor általában úgy szoktuk megoldani, hogy bevezetünk új változókat az egyes deriváltakra és ezt folytatva redukáljuk a problémát egy olyan feladatra, aminek már ismerjük a megoldási lehetőségét, lehetőségeit. Ha letudtuk redukálni a problémát elsőrendű alfeladatokra, akkor azok össze lesznek kapcsolódva a bizonyos változókban és erre tudjuk alkalmazni, például a Runge Kutta módszert (nem feltétlen csak a negyed rendű közelítést).\newline
+Nézzük meg példának egy (általánosan felírt) másodrendű differenciál egyenlet megoldását az RK4 módszerrel.
+\begin{center}
+    \begin{cases}
+    x'' = f(t,x,x') \\
+    x(t_0) = x_0 \\
+    x'(t_0) = z_0
+   \end{cases}
+\end{center}
+Vezessük be a következő változókat:
+\begin{equation*}
+    z = x'
+\end{equation*}
+\begin{equation*}
+    z' = x'' = f(t,x,x') = f(t,x,z)
+\end{equation*}
+
+\begin{center}
+    \begin{equation*}
+        x = &
+        \begin{bmatrix}
+            x_n \\
+            z_n
+        \end{bmatrix}
+    \end{equation*}
+\end{center}
+\begin{center}
+    \begin{equation*}
+        K_i = &
+        \begin{bmatrix}
+            K_i \\
+            L_i
+        \end{bmatrix}
+    \end{equation*}
+\end{center}
+\begin{equation*}
+    K_1 = h Z_n , \;\;L_1 = h f(t_n, x_n, Z_n)
+\end{equation*}
+
+\begin{equation*}
+    K_2 = h (Z_n + \frac{L_{1}}{2}) , \;\;L_2 = h f(t_n + \frac{h}{2}, x_n+ \frac{K_{1}}{2}, Z_n + \frac{L_{1}}{2})
+\end{equation*}
+
+\begin{equation*}
+    K_3 = h (Z_n + \frac{L_{2}}{2}) , \;\;L_3 = h f(t_n + \frac{h}{2}, x_n+ \frac{K_{2}}{2}, Z_n + \frac{L_{2}}{2})
+\end{equation*}
+
+\begin{equation*}
+    K_4 = h (Z_n + L_{1}) , \;\;L_4 = h f(t_n + h, x_n+ K_{3}, Z_n + L_{1})
+\end{equation*}
+
+Ezután pedig a kettő megoldandó egyenletet az előbbiekhez nagyon hasonlóan elkezdjük iterálni a következő képletek alapján:
+
+\begin{equation*}
+    x_{n+1} = x_n + \frac{1}{6}(K_1 + 2K_2 + 2K_3 + K_4)
+\end{equation*}
+
+\begin{equation*}
+    Z_{n+1} = Z_n + \frac{1}{6}(K_1 + 2K_2 + 2K_3 + K_4)
+\end{equation*}
 \subsection{Python kódok a fejezethez}
+Elsőre itt találhatjuk meg a Runge Kutta numerikus módszer implementációját néhány példával, hogy követhető legyen a használata.
 \lstinputlisting[language=Python]{RK4/rk4.py}
+
+Itt pedig az Euler módszer általam megírt változatát találhatjuk.
+\lstinputlisting[language=Python]{RK4/euler_method_template.py}
 \section{Stabilitás elméleti kitekintés}
 A stabilitás elmélet egy nagy része a differenciálegyenletek témakörének. Ebben a dolgozatban szeretnénk egy kicsi betekintést nyerni ebbe a világba. Első körben tisztázzunk néhány definíciót
 \subsection{Alapfogalmak}

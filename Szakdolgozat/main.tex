@@ -65,7 +65,27 @@
 A szakdolgozatomban megvizsgálom a differenciálegyenletek numerikus megoldásait. Ehhez kimondom a szükséges tételeket, definíciókat és módszereket. A gyakorlati megvalósítást pedig a Python programozási nyelvben valósítom meg. Azonban elkerülhetetlen a programozás alatt, hogy az átláthatóság érdekében kövessünk bizonyos normákat, így ezeket itt legjobb tudásom szerint követem. A dolgozat felépítése egy Python nyelv bevezetővel indít, majd tárgyalja a numerikus integrálás témakörét. Itt szándékosan kerülöm a különböző módszerek hibatulajdonságait, mivel ez önmagában kitenne egy szakdolgozatot. A dolgozatban beépített integrál függvényt használok a $\textit{SciPy}$ csomagból. Ezután tárgyalom az ODE-k témakörét.\\
 
 Több rész egyelőre nem készült el a szakdolgozatból.\\ Tervek szerint folytatom a módszertanok tárgyalását és utána konkrét modelleken is alkalmazom azokat
+\section{Szakirodalmi áttekintő}
+A differenciál egyenletek használata nagyon sok területen megjelenik a matematikán belül. Az egyik leginkább elterjedt ága ennek a tudománynak a dinamikai rendszerek alkalmazása közgazdasági modellekre. Itt alapvetően azt vizsgálják a kutatók, hogy az idő változásával hogyan és miképp változik meg egy - egy rendszer és annak a változói. Amint feltudtuk írni az egyenleteket akkor vizsgálhatjuk a rendszer stabilitáselméleti 'diagnosztikáit', amit majd látjuk a következő részekben, hogy a sajátértékek vizsgálatából von le következtetéseket, amit felhasználva tudunk valamit mondani a renszer időbeli fejlődéséről. Ilyen lehet például egy ország adósságrátája vagy a GDP - je. A. Tacchella et. al (2018) egy olyan dinamikai rendszert építettek, amely a vizsgált országok GDP változását (akár növekedését, akár csökkenésést) volt hivatott előrejelezni. A szerzők megemlítik, hogy a GDP előrejelzés egy nehéz és komplex feladat, mivel rengeteg változóból épül fel ez a negyedévente / évente megszülető adat, ezen feül sok utólagos korrigálásban részesülnek az adatok, amelyek nem jól modellezhetőek, mert szubjektívan készítik el őket. Az eredményeiket jelentősnek írták le, mivel 25 százalék feletti eredménnyel jelezték előre a változást a hivatalos IMF statisztikákhoz képest, ezenfelül az IMF hibái és ő hibáik között alacsony volt a korreláció, ami azt jelenti, hogy az eltéréseik között nem volt érdemi információs átfedés, így új összefüggésekre tudtak rámutatni. A szerzők kiemelnek egy fontos tényezőt a közgazdasági modellezéssel kapcsolban, hogy maga a közgazdaságtan, az elméleti modellezés és az előrejelzés tudomány ágak nincsenek szervesen összekapcsolva. A közgazdasági modell ép0tés azon alapszik, hogy vesznek a kutatók egy leegyszerűsített világot, majd egy váltzó hatását próbálják megérteni. Ezekkel a megközelítésekkel szemben a szerzők úgy álltak a problémához, hogy fizikusi szemmel kiváncsiak egy dinamikai rendszer időbeli fejlődésére olyan korlátozással, hogy egyedül csakis a múltbéli adatokra támaszkodhat. Ez azt jelenti, hogy az információ a historikus adatok és az adatpontok közötti időből nyerhető ki. A cikk bemutat egy nagyon érdekes módszert, angolul a 'method of analogues' módszert, ami azon az elgondoláson alapul, hogy amikor előre szeretnénk jelezni, de nincs információnk a rendszer épp aktuális állapotáról, akkor megnézzük, hogy a meglévő állapotok közül a jelenlegi ponthoz legközelebb álló helyzete miképp fejlődőtt egyik pillanatból a másikba, majd ezzel a tudással a kezünkben haladunk tovább. Az elemzés során felhasználták a \textit{fittség-komplexitás} (fitness-complexity) algoritmust, ami egy iteratív képlet és kapcsolatban áll a dinamikai rendszer megközelítéssel. A használata az előrejelzésekben jelenik meg. Gyakorlatilag egy inputot vár el, mégpedig egy olyan mátrixot amiben reprezentálják a gazdaságok export felépítését. Ez gyakorlatilag azt jelenti, hogy a sorok az országokat jelentik, az oszlopok a különböző termékeket. Ha az adott ország adott termékből kompetítven képes exportálni, akkor 1-es értéket kap, ha nem akkor 0-át. Egyik előnye, hogy nem függ a kezdeti értékektől, de részletesebben megtalálhatjuk a jellemzőit a többi cikkben. Az algoritmust a következő féle képpen írták fel a cikk szerzői:
+\begin{equation*}
+    \begin{cases}
+    \widetilde{F}_{c}^{(N + 1)} = \sum_{p} M_{cp} Q_{p}^{(N)} \\
+    \widetilde{Q}_{p}^{(N+1)} = (\sum_{c} \frac{M_{cp}}{F_c^N})^{-1} \\
 
+    \end{cases}
+\end{equation*}
+Itt M jelöli a fent említett bináris mátrixot, a c index jelöli az országot (country), p index pedig az adott terméket (product). A képletekben látni a nem hullámmal jelölt betűket is. Ezek gyakorlatilag mindig egy normalizált értéket adnak a következő iterációs lépéshez.
+\begin{equation*}
+    \begin{cases}
+    F_c^{(N)} = \frac{\widetilde{F}_{c}^{(N)}}{<\widetilde{F}>_c} \\
+    Q_p^{(N)} = \frac{\widetilde{Q}_{c}^{(N)}}{<\widetilde{Q}>_p}
+    \end{cases}
+\end{equation*}
+
+\begin{center}
+    LEGYEN DUMMY ADATTAL IMPLEMENTÁLÁS ÉS ESETLEG NUMBA? HA IGEN : NUMPY OPTIMÁLIS DATAFRAME SZŰRÉS- NEM PEDIG A MEGSZOKOTT PANDAS
+\end{center}
+\pagebreak
 \section{Python nyelv}
 \begin{center}
     \includegraphics[width=\textwidth]{plots/python-logo.png}
@@ -392,7 +412,7 @@ Kezdjünk el lépkedni.
 \subsection{Python kódok a fejezethez}
 \lstinputlisting[language=Python]{fokozatos_kozelitesek/successive.py}
 \section{Runge-Kutta módszer}
-A Runge-Kutta módszerek az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, nevesen Carl Runge és Wilhelm Kuttáról.
+A Runge-Kutta algoritmusok az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, nevesen Carl Runge és Wilhelm Kuttáról.
 
 \subsection{Euler módszer}
 Alapvetően nem fogjuk használni az Euler módszert, azonban mindképp említést kell tennünk róla, mivel a Runge - Kutta módszer erre épít. Ez nagyon szemléletes megoldási metódus, azonban nem praktikus ha általánosan akarunk felírni egy kódot hozzá, mert épít a deriváltakra.\\
@@ -563,6 +583,17 @@ A numerikus eredmény pedig: 1.0110.
 Ez az első feladat, ahol jelentős az eltérés, nevesen kb. 0.01
 \end{example}
 A Runge-Kutta és minden egyéb numerikus módszer tehát nem arra jó, hogy meghatározzuk analitikusan , képlettel a függvény formáját, hanem egy közelítést ad arra, hogy mi lehet a keresett függvény \textbf{értéke az adott pontban.}
+\pagebreak
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|}
+\hline
+                           & Analitikus megoldás & Runge Kutta & Euler módszer \\ \hline
+Konstans együtthatós példa & 59.9653             & 59.9652     & 59.2302       \\ \hline
+Kamatláb példa             & 1.1051              & 1.1051      & 1.1051        \\ \hline
+Harmadfokú példa           & 4.7434              & 4.7434      & 4.7409        \\ \hline
+Bonyolultabb példa          & 1.0000              & 1.0110      & 1.0936        \\ \hline
+\end{tabular}
+\end{table}
 \subsection{Python kódok a fejezethez}
 \lstinputlisting[language=Python]{RK4/rk4.py}
 \section{Stabilitás elméleti kitekintés}
@@ -942,8 +973,37 @@ A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg,
 \end{itemize}
 
 \section{Git és GitHub}
-A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat , és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam. A szakdolgozat teljes formájában elérhető ezen a linken keresztül :
+A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat , és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam.
+\subsection{GIT}
+A Git egy olyan szoftver, amelyet a Linux alkotója, Linus Torvalds kezdett el fejleszteni 2005-ben, mert elégedetlen volt az akkor elterjedt verziókövető rendszerekkel. A szoftver elnevezése szándékosan homályos, több lehetséges magyarázatot is megadott hozzá Torvalds, mint pl. a 'Global Information Tracker', de egyéb szakdolgozati nyelvet nem tűrő lehetőséget is felsorolt. A Git egy alacsony szintű motor, ami megadja a vázát a különböző rendszereknek, amelyek felhasználóbarát módon tudják a fejlesztők elé tárni a változásokat. Ilyen rendszer például a GitLab, a GitHub, vagy a BitBucket.
+
+Nézzük meg nagyvonalakban a Git működését. Szép analógiát lehet vonni az élőlények evolúciója és a kódok verziókövetése között. Az előlények is generációról generációra lassan és megfontolva változnak és adaptálódnak az új fajta környezet újfajta kihívásaihoz, a genetikához értő emberek pedig megtudják állapítani, hogy miben változtak meg az egyedeket felépítő kódok. Hasonlóan működik ez egy szoftver fejlesztése közben is. Az új igényekhez adaptálni kell a kódot, ami magát a funkciót adja, ezt pedig kicsi és megfontolt lépéseken keresztül érik el a fejlesztők, akik a verziókövetést használva pontosan dokumentálják, hogy miben és mikor változott az adott részlet amihez hozzányúltak. A kulcsa az, hogy minden kis lépést nyomon követünk.
+
+\begin{example}
+Nézzünk meg egy olyan esetet, ahol egyszerűen a fő águnkonról leszármaztatunk egy másik ágat, azon dolgozunk, majd végül ezeket a változtatásokat visszavezetjük.
 \begin{center}
-    https://github.com/SzabBence?tab=repositories
+    \includegraphics{git/branch_with_only_commits.png}
+\end{center}
+\end{example}
+
+Az ábrán azt látni, hogy a narancs sárgával jelölt vonal jelenti a kiinduló változatot, majd ahol az első citromsárga kör található, ott megindul egy új ág, amit zöld vonallal jelöltünk. Ezen az ágon 3 változtatás történt meg, amit piros körrel jelölünk. Ezután a jobb oldali függőleges zöld vonal jelöli a feature branchből való mergelést az eredeti branchbe.
+
+
+\pagebreak
+
+\begin{example}
+Nézzünk meg egy olyan esetet, amely egy olyan helyzetet mutat be, amikor 2 leágazás készül el egy adott verzióról, de a változtatások felvezetése egyik esetben már másabb verzióba fog megtörténni.
+\end{example}
+A következő ábrán pedig azt az esetet szemléltejük, amikor egy ágról 2 branch ágazik le. Ez magával hozza, hogy ha egy fájlban történik változtatás, akkor könnyen problémába ütközhetünk, mivel össze kell fésülni a 2 változtatást. Ha ez nem okoz gondot akkor automatikusan megtörténik, ha gondot okoz akkor pedig ezt kézzel kell megoldanunk. Látni, hogy az első leágazott verzióban 2 változtatás történt, majd ez be is épült az eredeti branchbe. Azonban a másik leágazott branch ugyan abból az állapotból indult, mint a másik, de amikor beépítenénk az ottani commitokat, akkor már egy olyan változatban kell azt megtenni, ami már eltér a kiinduló állapottól, ezt jelöli a zöld és sárga vonalakkal tűzdelt ábra.
+
+\begin{center}
+    \includegraphics{git/conflict_vibe.png}
+\end{center}
+\subsection{GitHub}
+A GitHub egy szolgáltató oldal, amin nyomon tudjuk követni a szoftvereink verzióit a Git segítségével. Ez azt jelenti, hogy könnyebbé teszi számunkra a Git használatát, mert felhasználó barátabb környezetbe helyezi azt számunkra, emellé sok egyéb szolgáltatást is igénybe lehet venni rajta keresztül.
+
+A következő ábrán pedig kiválasztottam egy commitom, ami a szakdolgozat írása közben készült. Itt a stabilitás vizsgálathoz kapcsolódó függvényhez készítettem el egy változtatást és jól látni milyen sorokban történt módosítás. A piros színű sorok jelölik a régi változatot, a zöld pedig  az újat.
+\begin{center}
+    \includegraphics[width=\textwidth]{git/github usage.PNG}
 \end{center}
 \end{document}
