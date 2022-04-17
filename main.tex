@@ -11,7 +11,10 @@
 \theoremstyle{definition}
 \theoremstyle{theorem}
 \usepackage{geometry}
-\geometry{a4paper,left=25mm,right=25mm,bottom=25mm,top=25mm,footskip=15mm}
+%\geometry{a4paper,left=25mm,right=25mm,bottom=25mm,top=25mm,footskip=15mm}
+\geometry{a4paper,outer=25mm,inner=35mm,top=25mm,bottom=25mm}
+\linespread{1.5}
+\frenchspacing
 \newtheorem{definition}{Definíció}
 \newtheorem{theorem}{Tétel}
 
@@ -63,9 +66,23 @@
 \tableofcontents
 \pagebreak
 \section{Bevezetés}
-A szakdolgozatom fő célkitűzése az, hogy körbejárjam néhány differenciál egyenlet típus numerikus megoldásainak egy részét. Legfőképp kezdetiérték feladatokról lesz szó a témák körbejárása alatt. A numerikus részt pedig úgy próbálom teljesíteni, hogy ahol tudtam, ott az elmélet mellé csatoltam kódot is. A kódokat Pythonban írtam meg és ahol vannak számítási eredmények, ott ezekből a kódokból érkeznek a szakdolgozatba. Amikor csatoltam egy kódot azt próbáltam minnél olvashatóbban tagolni, például követve a flake8 csomag útmutatásait a formázásra nézve. Az volt az elgondolásom, hogy úgy lesz kerek és egész a dolgozat, ha az eszközökről is teszek említést, amivel írtam a munkát, ezért pedig egy rövid Python leírást is készítettem, abban pedig megemlítem a használt csomagokat. Ezen felül egy úgyszintén tömör összefoglalót is mellékeltem a nyelv felépítéséről, működéséről . A differenciál egyenletek témaköre amiatt keltette fel az érdeklődésemet, mert mindig is érdekelt a programozás és ehhez a témakörhöz sok numerikus kutatás készült már, amelyek szépen programozhatóak. Mind a közgazdasági, mind pedig pénzügyi modellek között vannak differenciálegyenletek. Az előbbi inkább nem sztochasztikus, az utóbbi inkább sztochasztikus modellekre épít. A sztochasztikus modellek mögötti matematika egy lépcsőfokkal bonyolultabb a nem sztochasztikus egyenleteknél, a szakdolgozatom is inkább erre a témára helyezi a hangsúlyt.
+A szakdolgozatomat szerettem volna egybekötni a programozással, ezen belül a Python nyelvvel és annak különböző részeivel, illetve a differenciálegyenletek numerikus megoldásaival. Ez azonban meglepően sok számomra eddig ismeretlen területet mutatott meg, ilyen volt például a dekorátorok használata, az ábra készítő csomagok működési elve, illetve az oszlopműveletek hatékonysága, beleértve a kapcsolatot az alacsonyabb szintű programozási nyelvekkel. Ezután jobban megértettem, hogy mit is jelent egy programozási nyelv és milyen hasonlóságok és eltérések lehetnek a különböző nyelvek között. A szakirodalom olvasása közben képet kaptam arról, hogy amikor a modellezésben előkerülnek a differenciálegyenletek, akkor a különböző tudományágak képviselői milyen megközelítésekkel szoktak élni a kutatásuk során és ennek milyen következményei lehetnek a cikkekre amiket írtak.
+
+Ahol programozható problémával találkoztam, ott törekedtem arra, hogy csatoljak hozzá egy általam megírt kódot követve a Python nyelv hivatalos útmutatóit. Ehhez segítségül is vettem a black csomagot, ami átrendezte a kódom, ha az nem felelt meg valamilyen formázási útmutatónak. Természetesen ez funkcionalitást semmilyen mértékben nem érintett, csak az olvashatóságon javított nagy mértékben. Mivel sokat fordul elő kód a szakdolgozatban, így probáltam egy tömör Python bevezetőt is elkészíteni, mert úgy gondoltam, hogy így lehet kerek a szakdolgozat. Célom volt, hogy amit csak lehet matematikai oldalon, azt mondjam ki.  A differenciálegyenletek elmélete nem egyszerű témakör a matematikán belül és a szakdolgozatnak nem is volt célja, hogy teljesen matematikai szempontból tárgyaljam a kérdést, mert ahhoz ez túl nehéz problémakör és nem lett volna rá lehetőségem emiatt. A numerikus analízis, aminek az eszköztárát vettem segítségül úgyszintén egy nehéz ága a matematikának és innen is csak érintőlegesen emeltem be módszereket.
+
+A lehető legnagyobb figyelmet próbáltam szentelni annak a takarékossági szempontnak, hogy a kód legyen a tőlem telhető leghatékonyabb. Miközben erre figyeltem szépen összeállt egy kép előttem, nevesen az, hogy az alap közgazdasági tételek ebben a világban is érvényesülnek, mégpedig az, hogy akkor tudunk a legtöbbet spórolni, ha a költségeinket a lehető legkisebb értékre redukáljuk. Ez mindig is szempont volt, amióta léteznek számítógépek, mert egy nem optimálisan megírt algoritmus sok ideig futhat, ezzel pedig több áramot fogyasztunk, ami például egy nagy adathalmazra nézve sok pénzt jelenthet, ha megnézzük a számítási kapacitások árát, főleg ha gyakoriak a feladatok, amire a kódot írtuk meg.
+
+Mivel én is sokat tanultam a szakdolgozat írása közben, olyan módon próbáltam felépíteni az egészet, hogy ha valaki olyan, aki nem ismeretes a témákban és kezébe veszi a dolgozatot, akkor ő könnyen megértse amit írtam. Egyfajta összefoglaló volt a célom, mintha egy kurzus anyagát készítettem volna elő egy félévben, ahol demonstrátor vagyok.
 \section{Szakirodalmi áttekintő}
-A differenciál egyenletek használata nagyon sok területen megjelenik a matematikán belül. Az egyik leginkább elterjedt ága ennek a tudománynak a dinamikai rendszerek alkalmazása közgazdasági modellekre. Itt alapvetően azt vizsgálják a kutatók, hogy az idő változásával hogyan és miképp változik meg egy - egy rendszer és annak a változói. Amint feltudtuk írni az egyenleteket akkor vizsgálhatjuk a rendszer stabilitáselméleti 'diagnosztikáit', amit majd látjuk a következő részekben, hogy a sajátértékek vizsgálatából von le következtetéseket, amit felhasználva tudunk valamit mondani a renszer időbeli fejlődéséről. Ilyen lehet például egy ország adósságrátája vagy a GDP - je. A. Tacchella et. al (2018) egy olyan dinamikai rendszert építettek, amely a vizsgált országok GDP változását (akár növekedését, akár csökkenésést) volt hivatott előrejelezni. A szerzők megemlítik, hogy a GDP előrejelzés egy nehéz és komplex feladat, mivel rengeteg változóból épül fel ez a negyedévente / évente megszülető adat, ezen feül sok utólagos korrigálásban részesülnek az adatok, amelyek nem jól modellezhetőek, mert szubjektívan készítik el őket. Az eredményeiket jelentősnek írták le, mivel 25 százalék feletti eredménnyel jelezték előre a változást a hivatalos IMF statisztikákhoz képest, ezenfelül az IMF hibái és ő hibáik között alacsony volt a korreláció, ami azt jelenti, hogy az eltéréseik között nem volt érdemi információs átfedés, így új összefüggésekre tudtak rámutatni. A szerzők kiemelnek egy fontos tényezőt a közgazdasági modellezéssel kapcsolban, hogy maga a közgazdaságtan, az elméleti modellezés és az előrejelzés tudomány ágak nincsenek szervesen összekapcsolva. A közgazdasági modell ép0tés azon alapszik, hogy vesznek a kutatók egy leegyszerűsített világot, majd egy váltzó hatását próbálják megérteni. Ezekkel a megközelítésekkel szemben a szerzők úgy álltak a problémához, hogy fizikusi szemmel kiváncsiak egy dinamikai rendszer időbeli fejlődésére olyan korlátozással, hogy egyedül csakis a múltbéli adatokra támaszkodhat. Ez azt jelenti, hogy az információ a historikus adatok és az adatpontok közötti időből nyerhető ki. A cikk bemutat egy nagyon érdekes módszert, angolul a 'method of analogues' módszert, ami azon az elgondoláson alapul, hogy amikor előre szeretnénk jelezni, de nincs információnk a rendszer épp aktuális állapotáról, akkor megnézzük, hogy a meglévő állapotok közül a jelenlegi ponthoz legközelebb álló helyzete miképp fejlődőtt egyik pillanatból a másikba, majd ezzel a tudással a kezünkben haladunk tovább. Az elemzés során felhasználták a \textit{fittség-komplexitás} (fitness-complexity) algoritmust, ami egy iteratív képlet és kapcsolatban áll a dinamikai rendszer megközelítéssel. A használata az előrejelzésekben jelenik meg. Gyakorlatilag egy inputot vár el, mégpedig egy olyan mátrixot amiben reprezentálják a gazdaságok export felépítését. Ez gyakorlatilag azt jelenti, hogy a sorok az országokat jelentik, az oszlopok a különböző termékeket. Ha az adott ország adott termékből kompetítven képes exportálni, akkor 1-es értéket kap, ha nem akkor 0-át. Egyik előnye, hogy nem függ a kezdeti értékektől, de részletesebben megtalálhatjuk a jellemzőit a többi cikkben. Az algoritmust a következő féle képpen írták fel a cikk szerzői:
+A differenciálegyenletek használata nagyon sok területen megjelenik az alkalmazott matematikán belül. A közgazdasági modellek körében számottevő módon használják a dinamikai rendszerek eszköztárát. Itt alapvetően azt vizsgálják a kutatók, hogy az idő változásával hogyan és miképp változik meg egy - egy rendszer és annak a változói. Amint feltudtuk írni az egyenleteket akkor vizsgálhatjuk a rendszer stabilitáselméleti 'diagnosztikáit', amit majd látjuk a következő részekben, hogy a sajátértékek vizsgálatából von le következtetéseket, ezt felhasználva tudunk valamit mondani a rendszer  időbeli fejlődéséről.\newline
+A dinamikai rendszerek másik érdekes ága a káoszelmélet. Ez az irány olyan nemlineáris dinamikai rendszereket vizsgál, amelyek ugyan determinisztikus modellek, mégis nagyon nehéz az előrejelzésük még rövid időtávra is nézve. Guegan \cite{GUEGAN200989} cikkében ad egy általánosabb összefoglalót arra, hogy a különböző problémákra milyen modelleket érdemes használni, illetve összehasonlítja, hogy a tudományágak képviselői milyen módon építenek dinamikai rendszereket.
+Azt mondja, hogy egy közgazdász próbálja megérteni a vizsgált helyzetet és leírni, egy fizikus pedig az adatokból az univerzum törvényeit próbálja megérteni. A káoszelmélet következtetéseit pedig a bifurkációk vizsgálatával nézik. Lorenz \cite{Lorenz1994} nemlineáris Keynesi modellt épített. Megemlíti, hogy a legtöbb mikró-és makróökonómiai modell egyensúlyt keres amellett, hogy felteszik az egyéni racionalitást. Az egyéneket leíró egyenleteket pedig lineáris függvényként definiálják, megalkotják a reprezentatív egyént és innen az aggregált szinten is az összefüggések lineárisak lesznek. Szerinte azonban egy stabil gazdasághoz nem feltétlen kell egyensúly nemlineáris esetben. Azért sem lesz elég a szerző szerint, mert ha megkerestük a modell fixpontját, kiazámoltuk a stabilitási mutatókat az nem lesz elég, mert a sok paraméter miatt érzékeny marad az egész rendszer a többi változó sokkolására. Természetesen a valóság megkövetel bizonyos esetekben magasabb dimenziójú modelleket, azonban ez magával hoz egy következő problémát, mégpedig azt, hogy az új feltevések mögé amiket meg kellett alkotni azoknak van - e vajon bármilyen közgazdasági relevanciája. Ha ezt nem tudjuk megtenni akkor könnyen elmehet egy pusztán matematikai cikkbe a kutatás eredménye. Azonban a szerző szerint ezek az állítások úgyszintén igazajak magára a nemlinearitásra is. Ezáltal azt mondja, hogy csak akkor ragadjanak meg nemlineáris mintaillesztést, ha arra találnak közgazdasági relevanciát. Végezetül arról is beszél Lorenz, hogy mindezek igazak a kaotikus modellezésre is. Azaz amennyiben az empirikus adatsor nem tartalmaz olyan motívumokat amelyek arra utalnak, hogy jól megragadható a folyamat bizonyos kaotikus egyenletekkel, akkor nem érdemes belevágni.\newline
+Az egyik legrégebbi dinamikus modellt \cite{Ezekiel} az 1930-as években alkotta meg Ezekiel. Itt az volt a forradalmi ötlet, hogy eltolta a kereslet és a kínálat közötti kapcsolatot 1 időegységgel olyan piacokon, ahol romlandó termékekkel foglalkoznak. Ez azt jelenti, hogy a keresletre a válasz az előző időszakban megtermelt mennyiség lesz a válasz. Matematikailag felírva ezt a következőképpen formalizálhatjuk :
+\begin{equation*}
+    D(t) = S(t-1)
+\end{equation*}
+Ezzel az összefüggéssel kapcsolta össze az idő múlását Ezekiel a rendszerrel. Az így kapott eredményt pedig pókháló modellnek nevezte el, mivel ha összekötötte a kétdimenziós ábrán a keresletet és a kínálatot pókhálószerű ábra rajzolódott ki. A pókhláló modell ezután több szerzőt is megihletett és mélyebb matematikai összefüggéseket kezdtek el kutatni a pókháló séma mentén. Egyik ilyen kutatási eredmény \cite{HOMMES1994315} az, ahol feloldották a kereslet és a kínálat lineáris felépítését és adaptív várakozásokat építettek bele a modellbe, amellett, hogy mind a kereslet és mind a kínálat monoton leképezések voltak. Alapvetően ez is egy kaotikus megközelítést alkalmaz és a fő eredménye aa cikknek az, hogy ugyan nem lehet használni a modellt a valóságos adatokra, mert arra nem lett megfelelő, viszont a matematikai értelemben vett káosz egyszerű feltételek mellett is kitud alakulni, ráadásul ezeknek a feltételezéseknek még közgazdasági relevanciája is van. Több kutató vizsgálta, hogy mi történik akkor, amikor feloldják akár az egyik függvény monotonitását \cite{Artstein1983} \cite{JENSEN1984235} \cite{LICHTENBERG1989225} és arra az eredményre jutottak, hogy ezesetben kialakul az árban egy kaotikus fluktuáció.
+\newline Ilyen lehet például egy ország adósságrátája vagy a GDP - je. A. Tacchella et. al (2018) \cite{Tacchella} egy olyan dinamikai rendszert építettek, amely a vizsgált országok GDP változását (akár növekedését, akár csökkenésést) volt hivatott előrejelezni. A szerzők megemlítik, hogy a GDP előrejelzés egy nehéz és komplex feladat, mivel rengeteg változóból épül fel ez a negyedévente / évente megszülető adat, ezen feül sok utólagos korrigálásban részesülnek az adatok, amelyek nem jól modellezhetőek, mert szubjektívan készítik el őket. Az eredményeiket jelentősnek írták le, mivel 25 százalék feletti eredménnyel jelezték előre a változást a hivatalos IMF statisztikákhoz képest, ezenfelül az IMF hibái és ő hibáik között alacsony volt a korreláció, ami azt jelenti, hogy az eltéréseik között nem volt érdemi információs átfedés, így új összefüggésekre tudtak rámutatni. A szerzők kiemelnek egy fontos tényezőt a közgazdasági modellezéssel kapcsolban, hogy maga a közgazdaságtan, az elméleti modellezés és az előrejelzés tudomány ágak nincsenek szervesen összekapcsolva. A közgazdasági modell ép0tés azon alapszik, hogy vesznek a kutatók egy leegyszerűsített világot, majd egy váltzó hatását próbálják megérteni. Ezekkel a megközelítésekkel szemben a szerzők úgy álltak a problémához, hogy fizikusi szemmel kiváncsiak egy dinamikai rendszer időbeli fejlődésére olyan korlátozással, hogy egyedül csakis a múltbéli adatokra támaszkodhat. Ez azt jelenti, hogy az információ a historikus adatok és az adatpontok közötti időből nyerhető ki. A cikk bemutat egy nagyon érdekes módszert, angolul a 'method of analogues' módszert, ami azon az elgondoláson alapul, hogy amikor előre szeretnénk jelezni, de nincs információnk a rendszer épp aktuális állapotáról, akkor megnézzük, hogy a meglévő állapotok közül a jelenlegi ponthoz legközelebb álló helyzete miképp fejlődőtt egyik pillanatból a másikba, majd ezzel a tudással a kezünkben haladunk tovább. Az elemzés során felhasználták a \textit{fittség-komplexitás} (fitness-complexity) algoritmust, ami egy iteratív képlet és kapcsolatban áll a dinamikai rendszer megközelítéssel. A használata az előrejelzésekben jelenik meg. Gyakorlatilag egy inputot vár el, mégpedig egy olyan mátrixot amiben reprezentálják a gazdaságok export felépítését. Ez azt jelenti, hogy a sorok az országokat jelentik, az oszlopok a különböző termékeket. Ha az adott ország adott termékből kompetítven képes exportálni, akkor 1-es értéket kap, ha nem akkor 0-át. Egyik előnye, hogy nem függ a kezdeti értékektől, de részletesebben megtalálhatjuk a jellemzőit a többi cikkben. Az algoritmust a következő féle képpen írták fel a cikk szerzői:
 \begin{equation*}
     \begin{cases}
     \widetilde{F}_{c}^{(N + 1)} = \sum_{p} M_{cp} Q_{p}^{(N)} \\
@@ -81,10 +98,7 @@ Itt M jelöli a fent említett bináris mátrixot, a c index jelöli az országo
     \end{cases}
 \end{equation*}
 
-\begin{center}
-    LEGYEN DUMMY ADATTAL IMPLEMENTÁLÁS ÉS ESETLEG NUMBA? HA IGEN : NUMPY OPTIMÁLIS DATAFRAME SZŰRÉS- NEM PEDIG A MEGSZOKOTT PANDAS
-\end{center}
-\pagebreak
+
 \section{Python nyelv}
 \begin{center}
     \includegraphics[width=\textwidth]{plots/python-logo.png}
@@ -123,6 +137,37 @@ Mint minden nyelvben, itt is tudunk importálni már készen levő csomagokat, a
 Amint ezt megtettük, az \textit{import csomag-neve as alias-csomag-neve} módon importálhatjuk a kódunkba. A könnyebb olvashatóság érdekében szokás \textit{alias}-t használni, de nem szükséges.
 
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/import_template.py}
+\subsubsection{Numpy}
+A NumPy a Python egy nagyon elterjedt és hasznos csomagja, ami nagy múltra tekint vissza. Amikor létrejött a Python, akkor  népszerűségre tett szert olyan emberek között, akik sok számítás igényes kódot írtak (mert egyszerű volt - ahogy most is). 1995-ben megalkották a Numeric csomagot, aminek több beceneve is volt : Numerical, Numerical Python, NumPy. 2001-ben a különböző Numeric könyvtárakat egybe dolgozták és létrejött a SciPy (Scientific Python), és nemsokra rá létrejött a "numarray" párhuzamosan. Mivel sokáig párhuzamosan fejlesztették a 2 könyvtárat sok kompatibilitási probléma adódott, emiatt pedig 2005-ben ezt a 2 ágat összeforrasztották és ekkor jött létre a NumPy, már hivatalosan is NumPy néven. Azóta pedig ezen a néven fut. A NumPy használatában törekedni kell arra, hogy oszlopműveleteket használjunk, mert így tud "optimálisan" működni. Ez azt jelenti, hogy skalár és mátrix műveletekre nem lesz gyorsabb a futás várhatóan, de ha ezt oszlopművelekben fogalmazzuk meg akkor gyorsabb lesz. Ennek az az oka, hogy amikor elküldjük a NumPy scriptet, akkor ezt "besorolja" a csomag és C/C++ kódot generál belőle olyan módon, hogy azokra már meglévő és optimális algoritmusokat fog használni (és ettől lesz gyorsabb). Miután legenerálta ezeket az alacsonyabb szintű kódokat, akkor azt már gyorsan letudja fordítani gépi kódra a processzornak a compiler. Ehhez a "generáláshoz" önmagától is készít alacsonyabb szintű kódokat, azonban akárcsak a Matlab, az Octave vagy az R használja az ún. BLAS (Basic Linear Algebra Subprograms), LAPACK(Linear Algebra Package) specifikációkat, amelyekben leírtak és megalkottak optimális algoritmusokat a különbböző algebrai műveleteket alacsony szintű nyelvekben, amelyek használata nagyban megkönnyíti a munkáját a különböző magasabb szintű nyelvek fejlesztőinek.
+\begin{center}
+    \includegraphics[width=\textwidth]{kepek/BLAS.jpg}
+\end{center}
+Ha esetleg nem oszlopműveletekre kihelyezett módon írjuk meg a szkriptünket, akkor nem a fent bemutatott gyorsabb módon megy végbe a futás, hanem a sima Python megoldásokat fogja használni, ami lasabb eredményt fog valószínűleg eredményezni.\newline
+Ilyen oszlop művelet lehet egy for ciklus például. Tegyük fel, hogy az a feladat , hogy egy számlista elemeit négyzetre kell emelni, majd kivonni belőle 1-et. Nézzüknk meg erre egy NumPy mentes Python implementációt és egy NumPyos implementációt:
+\lstinputlisting[language=Python]{python-bevezetohoz-scriptek/numpy_examples.py}
+Az első esetben eredeti python listát hoztunk létre a range() függvénnyel, majd egy ciklussal mentünk végig az elemeken és végeztük el a műveleteket. A második esetben pedig a range() függvény NumPyos változatát, az arange() függvényt használva hoztuk létre a listát, majd a power() függvénnyel emeltük négyzetre és abból vontunk ki egyet belőle. Itt látszik véleményem szerint, hogy akkor tudunk tényleg optimálisabb szkriptet írni, ha figyelünk arra, hogy törekedjünk az oszlopműveletekre amikor Pythonban olyan üzleti igényt fejlesztünk, ami számításigényes.\newline
+A 2 megoldást, mint látni is, ezerszer ismételtem meg és ezekből az eredményekből vontam átlagot.\newline
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+Python      & Numpy       & Arány    \\ \hline
+2.62588e-04 & 3.38959e-06 & 77.46880 \\ \hline
+\end{tabular}
+\end{table}
+Természetesen minden futáskor másabb lesz az eredmény, de többszöri ellenőrzés után az arány sosem ment 70 alá azon a számítógépen, amin ezt számoltam.
+
+\subsubsection{Matplotlib}
+A Matplotlib egy olyan Python csomag ami leginkább kettő dimenziós ábrák renderelésére hoztak létre. A megalkotója John Hunter Matlabban dolgozott már egy huzamosabb ideje és elkezdte érezni a limitációt a szoftvernek. Ebből a felindulásból jött számára az ötlet, hogy egy olyan Python ojektumokkal kompatibilis csomagot hozzon létre, amivel kitudja váltani a fizetős Matlabot, ami akkoriban egyedülálló eszköz volt a 2D-s ábrák készítéséhez. Az, hogy miképpen jön létre egy ábra (renderelődik) több rétegből tevődik össze, akárcsak amikor egy festő vagy grafikus létrehozza a munkáját. A művész is kigondolja miről fog festeni, majd elkezdi felfesteni a különböző rétegeket a vászonra. Ez is hasonló módon történik meg a Matplotlib csomagban. Nagyvonalakban 3 réteg az, ami létrehozza az ábránkat. A legfelső réteg (Scripting) egy felhasználó barát módon bekéri az adatokat a programozótól és ezt átalakítja a következő réteg számára. Gyakorlatilag ez a réteg jelenti magát a Matplotlib szkriptet, amit lefutattunk. Amikor ez megtörtént eljutunk a középső (Artist) réteghez, ami a fentől kapott utasításokat átalakítja olyan formátumúvá, amelyet a kövekező (Backend) réteg már lefog tudni renderelni. Ez azt jelenti, hogy a festőecset a Backend réteg, mert itt kerül fel az ábra a vászonra. Az Artist réteg a festő keze, ami elviszi az ecsetet a vászonig és a Scripting réteg pedig a festő gondolata. Röviden itt is azt láthatjuk, mint pl. a NumPy esetén, hogy a Python szkript, amit megírunk több lépcsős folyamatban alakítódik át alacsonyabb szintű nyelvre, amit könnyű elküldeni már a processzornak.\newline
+A szakdolgozatban a Scripting réteg a matplotlib.pyplot osztály, ez az amivel az ábrákat készítettem.
+A kötvetkező példa ábrát ezzel a kóddal generáltam le.
+\begin{center}
+\includegraphics[width=\textwidth]{kepek/pyplot_example.png}
+\end{center}
+Úgy működik a plot készítés, hogy a plt osztály különböző attribútumait feltöltjük a saját értékeinkkel, majd megjeleneítük a plt.show() hívással.Ezeket pedig jól láthatjuk az alábbi kódban.
+\lstinputlisting[language=Python]{python-bevezetohoz-scriptek/matplotlib_examples.py}
 \section{Numerikus integrálás}
 A numerikus integrálás nagyon fontos része a numerikus módszereknek. Egyrészről gyorsabban megkaphatjuk a határozott  integrál értékét, másrészről vannak olyan függvények, amelyeknek nem tudjuk kiszámolni papíron az integrál értéket, csak becsülni tudjuk alulról és/vagy felülről. A numerikus integrálás nagyban támaszkodik a kvadratúra képletekre.
 \begin{definition}
@@ -144,7 +189,7 @@ Az integrálni való halmazt osszuk fel egyforma hosszúságúra, így vegyünk 
 \begin{equation*}
     x_k = a + hk \;\;, \;\;ahol \;\;k=0,1,...,n ,\;\; h = \frac{b-a}{n}
 \end{equation*}
-Írjuk fel az interpolációs kvadratúra képletet.
+Írjuk fel a Lagrange - interpolációs kvadratúra képletet.
 \newline
 \begin{equation*}
     c_k = \int_a^{b} l_k(x) dx = h \int_0^{n} l_k (a+ht) dt = \frac{b-a}{n} \int_0 ^{n} \Pi_{j=0, j \neq k}^n \frac{t-j}{k-j} dt = \frac{b-a}{n} \frac{1}{k! (n-k)!} \int_0^n \Pi_{j=0}^{k-1} (t-j) \Pi_{j=k+1}^{n} (j-t) dt
@@ -193,7 +238,7 @@ Innen pedig kapjuk, hogy
 
 
 
-\subsection{A trapéz módszer és a Newton - Cortes módszer}
+\subsection{A trapéz módszer és a Newton - Cotes módszer}
 Írjuk fel a Newton - Cortes formulát n = 1 és k = 0 melett:
 \begin{equation*}
 c_0 = \frac{b-a}{1} \frac{1}{0!(1-0)!} \int_0^{1} \Pi_{j=0}^{0-j} \Pi_{j=0+1}^{1} (j-t) dt = (b-a) \int_0^1 (1-t) dt = \frac{b-a}{2}
@@ -225,13 +270,13 @@ Azonban, ha ezen paraméterek között végezzük el a trapéz - területszámí
 
 \subsection{Python kódok a fejezethez}
 A trapéz függvényben használjuk a globals() metódust. Ez a metódus visszaadja az összes olyan objektumot, amely az adott programunk futásakor belekerült a compilerbe(fordítoprogram). Ezek között lesznek azok a függvények, amiket megírtunk. A globals() egy dictionaryt ad vissza, amiben mi a függvény nevét fogjuk használni, mint kulcs.
-\pagebreak
+
 \lstinputlisting[language=Python]{functions.py}
 
 \section{Szukcesszív approximációs módszer}
 
 \begin{definition}{ODE}\\
-Közönséges differenciálegyenletnek(Ordinary Differential Equation) nevezzük azokat az egyenleteket, amelyekben szerepel egy függvény egy változója szerinti deriváltja és célunk meghatározni a derivált függvényt.\\
+Közönséges differenciálegyenletnek(Ordinary Differential Equation) nevezzük azokat az egyenleteket, amelyekben szerepel egy x függvény egy változója szerinti deriváltja és célunk meghatározni az x függvényt.\\
 Például
 \begin{equation*}
     \frac{dx}{dt} (t) = cos(t)
@@ -320,7 +365,7 @@ azaz  $(x_n)$ Cauchy  sorozat.
 Mivel (X,d) metrikus tér teljesn ezért a sorozatunknak létezik határértéke, sőt ez a határéték pont T leképezés fix pontja lesz. A fix pont egyértelműségét igazolhatjuk, ha indirekt feltesszük, hogy van másik fix pont.
 \end{proof}
 %https://en.wikibooks.org/wiki/Ordinary_Differential_Equations/The_Picard–Lindelöf_theorem
-\begin{theorem} [Picard - Lindenlöf] \\
+\begin{theorem} [Picard - Lindelöf] \\
 Legyen I =[a,b] egy intervallum , és egy f függvény,
 
 \begin{equation*}
@@ -1016,7 +1061,6 @@ Azonban ha a Numba-n keresztül szeretnénk futtatni sokkal körültekintőbben 
 Nézzük meg mit jelent ez a gyorsítás a Von Mises eljárás során (domináns sajátérték meghatározása).
 \subsection{Domináns sajátérték probléma}
 Fentebb már láttuk, hogy miképpen implementáltuk ezt a PageRank algoritmust. A 'gyorsítását' egyszerűen megtudjuk tenni a következőképpen. Definiálunk egy más nevű függvényt, de tartalmilag teljesen egyezőt az eredeti metódussal, csak egy \textbf{@jit(nopython = True)} dekorátort elé teszünk. Ezáltal, amikor ezt a függvényt meghívjuk, akkor a jit függvényen keresztül kerül végrehajtásra és a második hívástól kezdve pedig már várhatóan gyorsabb lesz (de nem feltétlen!).
-\pagebreak
 \lstinputlisting[language=Python]{Numba_examples/von_mises_example.py}
 Egy futás idejét nem célszerű viszonyítási alapnak venni, mert nagyon sok tényező történik egyszerre, emiatt pedig mindig egy kicsit másabb lesz a futásidő. Emiatt minden tesztesetre százszor futattan le mindkét fajta implementációra a függvényeket és minden lépésben egy új véletlen mátrixxal dolgoztak a függvények.\newline
 A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg, illetve ezek arányát (eredeti implementációs értékek / dekorált értékek). Fontos figyelembe venni, hogy ezek az értékek a táblázatban azt a célt szolgálják mutatni, hogy nem volt olyan eset, ahol lasította volt a futást a dekorátor. Néhol elképesztően nagy gyorsítást vitt végbe, néhol 'csak' kétszeresen, ami már önmagában nagy szó, például akkor, amikor egy több órás szimulációt futtatunk és fele idő alatt elkészül az eredmény.
@@ -1038,6 +1082,7 @@ A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg,
 \end{tabular}
 \end{center}
 %\end{table}
+\section{Összegzés}
 
 \section{Felhasznált irodalom}
 \begin{itemize}
@@ -1081,4 +1126,9 @@ A következő ábrán pedig kiválasztottam egy commitom, ami a szakdolgozat ír
 \begin{center}
     \includegraphics[width=\textwidth]{git/github usage.PNG}
 \end{center}
+
+\bibliographystyle{apalike}
+\bibliography{References}
 \end{document}
+
+
