@@ -101,9 +101,9 @@ Itt M jelöli a fent említett bináris mátrixot, a c index jelöli az országo
 
 \section{Python nyelv}
 
-A Python egy nyílt forráskodó ,magas szintű programozási nyelv egy könnyen elsajátítható szintaxissal. Azért erre a nyelvre esett
+A Python egy nyílt forráskodó, magas szintű programozási nyelv egy könnyen elsajátítható szintaxissal. Azért erre a nyelvre esett
 a választásom, mert sok csomag elérhető hozzá, nagyon jól dokumentált, nem kell típusokat használni benne az
-esetek többségében. Nagyon elterjedt nyelvről beszélünk, ami rengeteg szakterületén jelen van a programozói világban. Emiatt pedig könnyen fórumozható, illetve karban vannak tartva a csomagok a nagy felhasználói létszám miatt. Alapvetően a nyelv arra épít, hogy kevés funkcionalitás érhető el benne, és ha szükségünk van egy új függvényre, akkor azt be kell importálnunk. A programozási nyelveket szokás két csoportba sorolni: a compiled nyelvek és az interpreted nyelvek. A compiled nyelvek azon alapszanak, hogy a kód bekerül egy fordítóprogramba (compiler), ami aztán gépikódra fordítja az eredeti kódot, ezt pedig már végre tudja hajtani a processzor. Ennek az az előnye, hogy gyors tud lenni, ha elkészült, viszont nehezebb benne a fejlesztés emiatt, mert mindig le kell generálni a gépi kódot. Ezzel szemben léteznek az interpreted nyelvek, amelyek köztes lépcsőfok nélkül futnak le. Ez megkönnyíti a fejlesztést, viszont a kész kód jelentősen lassabb lehet, mint a fordítóprogramos megoldása. A Python pedig az utóbbi kategóriába tartozik. Később lesz még szó a Numba csomagról, ami még érinti ezt a témát.
+esetek többségében. Nagyon elterjedt nyelvről beszélünk, ami rengeteg szakterületén jelen van a programozói világban. Emiatt pedig könnyen fórumozható, illetve karban vannak tartva a csomagok a nagy felhasználói létszám miatt. Alapvetően a nyelv arra épít, hogy kevés funkcionalitás érhető el benne, és ha szükségünk van egy új függvényre, akkor azt be kell importálnunk. A programozási nyelveket szokás két csoportba sorolni: a compiled nyelvek és az interpreted nyelvek. A compiled nyelvek azon alapszanak, hogy a kód bekerül egy fordítóprogramba (compiler), ami aztán gépikódra fordítja az eredeti kódot, ezt pedig már végre tudja hajtani a processzor. Ennek az az előnye, hogy gyors tud lenni, ha elkészült, viszont nehezebb benne a fejlesztés emiatt, mert mindig le kell generálni a gépi kódot. Ezzel szemben léteznek az interpreted nyelvek, amelyek köztes lépcsőfok nélkül futnak le. Ez megkönnyíti a fejlesztést, viszont a kész kód jelentősen lassabb lehet, mint a fordítóprogramos megoldása. A Python pedig az utóbbi kategóriába tartozik. Később lesz még szó a Numba csomagról, ami még érinti ezt a témát, mert dekorálni lehet vele a függvényeinket, hogy gyorsabban lefussanak.
 \subsection{Python függvények}
 Pythonban minden függvényt a \textit{def} szóval kezdünk, amit a függvény neve követ, majd zárójelek közé beírjuk a paramétereket és vesszővel választjuk el, ha vannak. A csukó zárójel után mindig ki kell tenni a kettőspontot. Ezután a következő sorban kell folytatnunk a kódot, de egy tabulátornyi hellyel jobbrább, mint ahogy a \textit{def} szócskát elhelyeztük.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/function_template.py}
@@ -117,7 +117,8 @@ A \textit{for} ciklus ebben a nyelvben nagyon hasonlít más nyelvek \textit{for
 A \textit{for} szó után megadjuk a változót, amit használunk az iterálás alatt, majd az \textit{in} szó után megadjuk a sorozatot, amin végiglépkedünk. A végére itt is kettőspontot kell raknunk, akárcsak a függvényeknél
 
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/for_template.py}
-\pagebreak
+
+A példán szemléltettük, hogy nem szükséges az str lista elemein való iteráláshoz indexelni.
 \subsubsection{While ciklus}
 A while ciklust hasonlóan adjuk meg , mint más nyelvekben. A \textit{while} szó után jön az eldöntendő feltétel, és ameddig a feltétel igaz, addig a blokkban lefog futni a kódrészlet. A feltétel végét itt is kettősponttal zárjuk le.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/while_template.py}
@@ -127,23 +128,62 @@ A dekorátorok olyan lehetőséget nyújtanak a programozás során, ami megkön
 \pagebreak
 Egy matematikával analóg példa lehet a numerikus deriválás függvény használata dekorátorként. Amikor papíron jelöljük egy függvény deriváltját, akkor általában egy vesszővel jelöljük, mondhatni dekoráltuk a függvényünket a differenciálás operátorral. Nézzünk egy példát arra, hogy ezt miképp lehet implementálni ebben a környezetben.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/numerical_derivation_decorator.py}
-A fent csatolt kódban láthatjuk miképp vezettük be a deriválás dekorátort : a függvény, amit deriválunk a 2x lineáris leképezés. Amikor meghívjuk ezt az x = 1 helyen, akkor a dekorátor függvény belsejében létrejön egy belső függvény, ami megkap minden paramétert a 2x függvényből. Ezután elvégzi a differenciálást a belső függvény és ezt az értéket visszaadja a dekorátor függvénynek. A következő lépésben pedig az eredetileg meghívott függvény már ezt az értéket fogja visszaadni. Ehhez a folyamathoz csatoltuk a következő magyarázó ábrát. \newline
+A fent csatolt kódban láthatjuk miképp vezettük be a deriválás dekorátort : a függvény, amit deriválunk az
+\begin{equation*}
+    f(x) \rightarrow 2x
+\end{equation*}
+
+lineáris leképezés. Amikor meghívjuk ezt az x = 1 helyen, akkor a dekorátor függvény belsejében létrejön egy belső függvény, ami megkap minden paramétert a 2x függvényből. Ezután elvégzi a differenciálást a belső függvény és ezt az értéket visszaadja a dekorátor függvénynek. A következő lépésben pedig az eredetileg meghívott függvény már ezt az értéket fogja visszaadni. Ehhez a folyamathoz csatoltuk a következő magyarázó ábrát. \newline
 \includegraphics[width=\textwidth]{plots/numerical_derivation_decorator_explanation.png}
+Természetesen ha kidekoráltunk egy függvényt, akkor az már innentől kezdve végig a dekorált változatával fog működni. Tehát ha volt egy
+\begin{equation*}
+    f(x) \rightarrow 2x
+\end{equation*}
+függvény, amit dekoráltunk mondjuk a
+\begin{equation*}
+    g(x) \rightarrow x + 1
+\end{equation*}
+leképezéssel, akkor az új függvény neve f marad, de a funkcionalitása a következő lesz:
+\begin{equation*}
+    f' = g(f(x)) \rightarrow 2x + 1
+\end{equation*}
+Ennek majd egy nagyon praktikus példáját a Numba csomag használatakor látjuk, mert ott létrehozzuk az új, dekorált függvényt és azzal fogunk tovább dolgozni mindenféle egyéb probléma nélkül az elnevezéseket illetően.
 \subsection{Python csomagok}
 Mint minden nyelvben, itt is tudunk importálni már készen levő csomagokat, amelyek tartalmaznak a célnak megfelelő osztályokat, azon belül metódusokat. Ha nincs feltelepítve a csomag, akkor a \textbf{pip install csomag-neve} paranccsal tehetjük meg azt.
 Amint ezt megtettük, az \textit{import csomag-neve as alias-csomag-neve} módon importálhatjuk a kódunkba. A könnyebb olvashatóság érdekében szokás \textit{alias}-t használni, de nem szükséges.
 
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/import_template.py}
-Amennyiben a beépített pip csomagkezelőjét használjuk a Pythonnak, akkor érdemes megismerkedni a \textbf{pip list} paranccsal. Ezt használva kitudjuk listázni, hogy milyen csomagokat telepítettünk fel és azok épp milyen verziószám alatt működnek. \newline
-Ha esetleg törölni szeretnénk egy csomagot akkor a \textbf{pip uninstall csomag} paranccsal tehetjük meg. Persze az is előfordulhat, hogy valamilyen okból kifolyólag nem jó egy csomag verziója és nekünk specifikusan egy csomag egy adott verziójára van szükségünk, ezt a következő paranccsal tehetjük meg : \textbf{pip install csomag ==verzioszam}. Ha pedig felvan sorolva egy .txt fájlban esetleg, hogy milyen csomag igénye van a környezetnek akkor elég a következő sor : \textbf{pip install -r requirements.txt}, amennyiben a szöveg fájl neve reguirements.txt . \newline
-Azonban van egy elterjedt és hasznos csomagkezelő, az Anaconda. Itt nagyon hasonló parancsokkal lehet csomagokat telepíteni, általában\cite{Anaconda} annyi a külöbség, hogy a pip szó helyett conda-t kell írni. Az Anaconda főleg olyan emberek körében elterjedt, akik nem szeretnek a különböző csomagokkal foglalkozni, azt szeretnék, hogy minden meglegyen egyben. Emiatt is elterjedt az adattudósok körében az Anaconda. Ezen felül ha feltelepítjük az Anacondát, akkor lehetőségünk lesz használni a jupyter notebookot, illetve a JupyterLabot, amelyekben soronként lehet futtatni a Python szkripteket. Ez hatalmas nagy előny minden olyan ember számára, aki a Pythonnak olyan csomagjait szeretné használni, amelyekkel ábrákat készíthet (pl. matplotlib), statisztikai mutatókat számolhat vagy gép tanulásos algoritmusokat szeretne futtatni.
+Amennyiben a beépített pip csomagkezelőjét használjuk a Pythonnak, akkor érdemes megismerkedni a következő paranccsal
+\begin{lstlisting}[language=bash]
+    pip list
+\end{lstlisting}
+Ezt használva kitudjuk listázni, hogy milyen csomagokat telepítettünk fel és azok épp milyen verziószám alatt működnek. \newline
+Ha esetleg törölni szeretnénk egy csomagot akkor a
+\begin{lstlisting}[language=bash]
+    pip uninstall csomag
+\end{lstlisting}paranccsal tehetjük meg. Persze az is előfordulhat, hogy valamilyen okból kifolyólag nem jó egy csomag verziója és nekünk specifikusan egy csomag egy adott verziójára van szükségünk, ezt a következő paranccsal tehetjük meg :
+
+    \begin{lstlisting}[language=bash]
+  pip install csomag == verzioszam
+\end{lstlisting}
+Ha pedig felvan sorolva egy .txt fájlban esetleg, hogy milyen csomag igénye van a környezetnek akkor elég a következő sor :
+\begin{lstlisting}[language=bash]
+pip install -r requirements.txt
+\end{lstlisting}
+, amennyiben a szöveg fájl neve reguirements.txt . \newline
+Azonban van egy elterjedt és hasznos csomagkezelő, az Anaconda. Itt nagyon hasonló parancsokkal lehet csomagokat telepíteni, általában\cite{Anaconda} annyi a külöbség, hogy a pip szó helyett conda-t kell írni.
+\begin{lstlisting}[language=bash]
+conda install numpy
+\end{lstlisting}
+Az Anaconda főleg olyan emberek körében elterjedt, akik nem szeretnek a különböző csomagokkal foglalkozni, azt szeretnék, hogy minden meglegyen egyben. Emiatt is népszerű az adattudósok körében az Anaconda. Ezen felül ha feltelepítjük az Anacondát, akkor lehetőségünk lesz használni a jupyter notebookot, illetve a JupyterLabot, amelyekben soronként lehet futtatni a Python szkripteket. Ez hatalmas nagy előny minden olyan ember számára, aki a Pythonnak olyan csomagjait szeretné használni, amelyekkel ábrákat készíthet (pl. matplotlib), statisztikai mutatókat számolhat vagy gépi tanulásos algoritmusokat szeretne futtatni.
 \subsubsection{Numpy}
-A NumPy a Python egy nagyon elterjedt és hasznos csomagja, ami nagy múltra tekint vissza. Amikor létrejött a Python, akkor  népszerűségre tett szert olyan emberek között, akik sok számítás igényes kódot írtak (mert egyszerű volt - ahogy most is). 1995-ben megalkották a Numeric csomagot, aminek több beceneve is volt : Numerical, Numerical Python, NumPy. 2001-ben a különböző Numeric könyvtárakat egybe dolgozták és létrejött a SciPy (Scientific Python), és nemsokra rá létrejött a "numarray" párhuzamosan. Mivel sokáig párhuzamosan fejlesztették a 2 könyvtárat sok kompatibilitási probléma adódott, emiatt pedig 2005-ben ezt a 2 ágat összeforrasztották és ekkor jött létre a NumPy, már hivatalosan is NumPy néven. Azóta pedig ezen a néven fut. A NumPy használatában törekedni kell arra, hogy oszlopműveleteket használjunk, mert így tud "optimálisan" működni. Ez azt jelenti, hogy skalár és mátrix műveletekre nem lesz gyorsabb a futás várhatóan, de ha ezt oszlopművelekben fogalmazzuk meg akkor gyorsabb lesz. Ennek az az oka, hogy amikor elküldjük a NumPy scriptet, akkor ezt "besorolja" a csomag és C/C++ kódot generál belőle olyan módon, hogy azokra már meglévő és optimális algoritmusokat fog használni (és ettől lesz gyorsabb). Miután legenerálta ezeket az alacsonyabb szintű kódokat, akkor azt már gyorsan letudja fordítani gépi kódra a processzornak a compiler. Ehhez a "generáláshoz" önmagától is készít alacsonyabb szintű kódokat, azonban akárcsak a Matlab, az Octave vagy az R használja az ún. BLAS (Basic Linear Algebra Subprograms), LAPACK(Linear Algebra Package) specifikációkat, amelyekben leírtak és megalkottak optimális algoritmusokat a különbböző algebrai műveleteket alacsony szintű nyelvekben, amelyek használata nagyban megkönnyíti a munkáját a különböző magasabb szintű nyelvek fejlesztőinek.
+A NumPy a Python egy nagyon elterjedt és hasznos csomagja, ami nagy múltra tekint vissza. Amikor létrejött a Python, akkor  népszerűségre tett szert olyan emberek között, akik sok számítás igényes kódot írtak (mert egyszerű volt - ahogy most is). 1995-ben megalkották a Numeric csomagot, aminek több beceneve is volt : Numerical, Numerical Python, NumPy. 2001-ben a különböző Numeric könyvtárakat egybe dolgozták és létrejött a SciPy (Scientific Python), és nemsokra rá létrejött a "numarray" párhuzamosan. Mivel sokáig párhuzamosan fejlesztették a két könyvtárat sok kompatibilitási probléma adódott, emiatt pedig 2005-ben ezt a ettő ágat összeforrasztották és ekkor jött létre a NumPy, már hivatalosan is NumPy néven. Azóta pedig ezen a néven fut. A NumPy használatában törekedni kell arra, hogy oszlopműveleteket használjunk, mert így tud "optimálisan" működni. Ez azt jelenti, hogy skalár és mátrix műveletekre nem lesz gyorsabb a futás várhatóan, de ha ezt oszlopművelekben fogalmazzuk meg akkor gyorsabb lesz. Ennek az az oka, hogy amikor elküldjük a NumPy scriptet, akkor ezt "besorolja" a csomag és C/C++ kódot generál belőle olyan módon, hogy azokra már meglévő és optimális algoritmusokat fog használni (és ettől lesz gyorsabb). Miután legenerálta ezeket az alacsonyabb szintű kódokat, akkor azt már gyorsan letudja fordítani gépi kódra a processzornak a compiler. Ehhez a "generáláshoz" önmagától is készít alacsonyabb szintű kódokat, azonban akárcsak a Matlab, az Octave vagy az R használja az ún. BLAS (Basic Linear Algebra Subprograms), LAPACK(Linear Algebra Package) specifikációkat, amelyekben leírtak és megalkottak optimális algoritmusokat a különbböző algebrai műveleteket alacsony szintű nyelvekben, amelyek használata nagyban megkönnyíti a munkáját a különböző magasabb szintű nyelvek fejlesztőinek.
 \begin{center}
     \includegraphics[width=\textwidth]{kepek/BLAS.jpg}
 \end{center}
-Ha esetleg nem oszlopműveletekre kihelyezett módon írjuk meg a szkriptünket, akkor nem a fent bemutatott gyorsabb módon megy végbe a futás, hanem a sima Python megoldásokat fogja használni, ami lasabb eredményt fog valószínűleg eredményezni.\newline
+Ha esetleg nem oszlopműveletekre kihelyezett módon írjuk meg a szkriptünket, akkor nem a fent bemutatott gyorsabb módon megy végbe a futás, hanem a sima Python megoldásokat fogja használni, ami lasabb eredményt fog valószínűleg eredményezni.Nem elvárható, hogy magától felismerjen helyzeteket a nyelv és átírja a sorokat olyanra, amit hamarabb eltud végezni.\newline
 Ilyen oszlop művelet lehet egy for ciklus például. Tegyük fel, hogy az a feladat , hogy egy számlista elemeit négyzetre kell emelni, majd kivonni belőle 1-et. Nézzüknk meg erre egy NumPy mentes Python implementációt és egy NumPyos implementációt:
+\pagebreak
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/numpy_examples.py}
 Az első esetben eredeti python listát hoztunk létre a range() függvénnyel, majd egy ciklussal mentünk végig az elemeken és végeztük el a műveleteket. A második esetben pedig a range() függvény NumPyos változatát, az arange() függvényt használva hoztuk létre a listát, majd a power() függvénnyel emeltük négyzetre és abból vontunk ki egyet belőle. Itt látszik véleményem szerint, hogy akkor tudunk tényleg optimálisabb szkriptet írni, ha figyelünk arra, hogy törekedjünk az oszlopműveletekre amikor Pythonban olyan üzleti igényt fejlesztünk, ami számításigényes.\newline
 A 2 megoldást, mint látni is, ezerszer ismételtem meg és ezekből az eredményekből vontam átlagot.\newline
@@ -157,16 +197,17 @@ Python      & Numpy       & Arány    \\ \hline
 2.62588e-04 & 3.38959e-06 & 77.46880 \\ \hline
 \end{tabular}
 \end{table}
-Természetesen minden futáskor másabb lesz az eredmény, de többszöri ellenőrzés után az arány sosem ment 70 alá azon a számítógépen, amin ezt számoltam.
+Természetesen minden futáskor másabb lesz az eredmény, de többszöri ellenőrzés után az arány sosem ment 70 alá azon a számítógépen, amin ezket a számításokat végeztem.
 
 \subsubsection{Matplotlib}
-A Matplotlib egy olyan Python csomag ami leginkább kettő dimenziós ábrák renderelésére hoztak létre. A megalkotója John Hunter Matlabban dolgozott már egy huzamosabb ideje és elkezdte érezni a limitációt a szoftvernek. Ebből a felindulásból jött számára az ötlet, hogy egy olyan Python ojektumokkal kompatibilis csomagot hozzon létre, amivel kitudja váltani a fizetős Matlabot, ami akkoriban egyedülálló eszköz volt a 2D-s ábrák készítéséhez. Az, hogy miképpen jön létre egy ábra (renderelődik) több rétegből tevődik össze, akárcsak amikor egy festő vagy grafikus létrehozza a munkáját. A művész is kigondolja miről fog festeni, majd elkezdi felfesteni a különböző rétegeket a vászonra. Ez is hasonló módon történik meg a Matplotlib csomagban. Nagyvonalakban 3 réteg az, ami létrehozza az ábránkat. A legfelső réteg (Scripting) egy felhasználó barát módon bekéri az adatokat a programozótól és ezt átalakítja a következő réteg számára. Gyakorlatilag ez a réteg jelenti magát a Matplotlib szkriptet, amit lefutattunk. Amikor ez megtörtént eljutunk a középső (Artist) réteghez, ami a fentől kapott utasításokat átalakítja olyan formátumúvá, amelyet a kövekező (Backend) réteg már lefog tudni renderelni. Ez azt jelenti, hogy a festőecset a Backend réteg, mert itt kerül fel az ábra a vászonra. Az Artist réteg a festő keze, ami elviszi az ecsetet a vászonig és a Scripting réteg pedig a festő gondolata. Röviden itt is azt láthatjuk, mint pl. a NumPy esetén, hogy a Python szkript, amit megírunk több lépcsős folyamatban alakítódik át alacsonyabb szintű nyelvre, amit könnyű elküldeni már a processzornak.\newline
+A Matplotlib egy olyan Python csomag ami leginkább kettő dimenziós ábrák renderelésére hoztak létre. A megalkotója John Hunter Matlabban dolgozott már egy huzamosabb ideje és elkezdte érezni a limitációt a szoftvernek. Ebből a felindulásból jött számára az ötlet, hogy egy olyan Python ojektumokkal kompatibilis csomagot hozzon létre, amivel kitudja váltani a fizetős Matlabot, ami akkoriban egyedülálló eszköz volt a 2D-s ábrák készítéséhez. Az, hogy miképpen jön létre egy ábra (renderelődik) több rétegből tevődik össze, akárcsak amikor egy festő vagy grafikus létrehozza a munkáját. A művész is kigondolja miről fog festeni, majd elkezdi felfesteni a különböző rétegeket a vászonra. Ez is hasonló módon történik meg a Matplotlib csomagban. Nagyvonalakban 3 réteg az, ami létrehozza az ábránkat. A legfelső réteg (Scripting) egy felhasználó barát módon bekéri az adatokat a programozótól és ezt átalakítja a következő réteg számára. Gyakorlatilag ez a réteg jelenti magát a Matplotlib szkriptet, amit lefutattunk. Amikor ez megtörtént eljutunk a középső (Artist) réteghez, ami a fentől kapott utasításokat átalakítja olyan formátumúvá, amelyet a kövekező (Backend) réteg már lefog tudni renderelni. Ez azt jelenti, hogy a festőecset a Backend réteg, mert itt kerül fel az ábra a vászonra. Az Artist réteg a festő keze, ami elviszi az ecsetet a vászonig és a Scripting réteg pedig a festő gondolata. Röviden itt is azt láthatjuk, mint pl. a NumPy esetén, hogy a Python szkript, amit megírunk több lépcsős folyamatban alakítódik át alacsonyabb szintű nyelvre.\newline
 A szakdolgozatban a Scripting réteg a matplotlib.pyplot osztály, ez az amivel az ábrákat készítettem.
 A kötvetkező példa ábrát ezzel a kóddal generáltam le.
 \begin{center}
 \includegraphics[width=\textwidth]{kepek/pyplot_example.png}
 \end{center}
 Úgy működik a plot készítés, hogy a plt osztály különböző attribútumait feltöltjük a saját értékeinkkel, majd megjeleneítük a plt.show() hívással.Ezeket pedig jól láthatjuk az alábbi kódban.
+\pagebreak
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/matplotlib_examples.py}
 \section{Numerikus integrálás}
 A numerikus integrálás nagyon fontos része a numerikus módszereknek. Egyrészről gyorsabban megkaphatjuk a határozott  integrál értékét, másrészről vannak olyan függvények, amelyeknek nem tudjuk kiszámolni papíron az integrál értéket, csak becsülni tudjuk alulról és/vagy felülről. A numerikus integrálás nagyban támaszkodik a kvadratúra képletekre.
@@ -192,9 +233,12 @@ Az integrálni való halmazt osszuk fel egyforma hosszúságúra, így vegyünk 
 Írjuk fel a Lagrange - interpolációs kvadratúra képletet.
 \newline
 \begin{equation*}
-    c_k = \int_a^{b} l_k(x) dx = h \int_0^{n} l_k (a+ht) dt = \frac{b-a}{n} \int_0 ^{n} \Pi_{j=0, j \neq k}^n \frac{t-j}{k-j} dt = \frac{b-a}{n} \frac{1}{k! (n-k)!} \int_0^n \Pi_{j=0}^{k-1} (t-j) \Pi_{j=k+1}^{n} (j-t) dt
+    c_k = \int_a^{b} l_k(x) dx = h \int_0^{n} l_k (a+ht) dt = \frac{b-a}{n} \int_0 ^{n} \Pi_{j=0, j \neq k}^n \frac{t-j}{k-j} dt
 \end{equation*}
-
+Folytatva az egyenlőséget kapjuk, hogy
+\begin{equation*}
+   c_k =  \frac{b-a}{n} \frac{1}{k! (n-k)!} \int_0^n \Pi_{j=0}^{k-1} (t-j) \Pi_{j=k+1}^{n} (j-t) dt
+\end{equation*}
 \subsection{Összetett kvadratúra képlet}
 
 \begin{equation*}
@@ -459,7 +503,7 @@ Kezdjünk el lépkedni.
 A Runge-Kutta algoritmusok az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, nevesen Carl Runge és Wilhelm Kuttáról.
 
 \subsection{Euler módszer}
-Alapvetően nem fogjuk használni az Euler módszert, azonban mindképp említést kell tennünk róla, mivel a Runge - Kutta módszer erre épít. Ez nagyon szemléletes megoldási metódus, azonban nem praktikus ha általánosan akarunk felírni egy kódot hozzá, mert épít a deriváltakra.\\
+Az Euler módszer az alapja a numerikus differenciálegyenlet megoldó módszereknek, azonban nem hatékony a használata, mert lassabban konvergál a megoldáshoz, mint például a Runge-Kutta módszer Ettől függetlenül érdemes megvizsgálni a módszert, mert szemléletes és korlátozottan, de működőképes.
 
 Vegyünk egy kezdetiérték problémát és hozzá egy lépésközt.
 \begin{equation*}
@@ -628,7 +672,7 @@ Ez az első feladat, ahol jelentős az eltérés, nevesen kb. 0.01
 \end{example}
 A Runge-Kutta és minden egyéb numerikus módszer tehát nem arra jó, hogy meghatározzuk analitikusan , képlettel a függvény formáját, hanem egy közelítést ad arra, hogy mi lehet a keresett függvény \textbf{értéke az adott pontban.}
 \subsection{Eredmények összevetése}
-A Runge Kutta módszert kevesebb lépésből mindig pontosabb eredményt adott, ez is egy oka , amiért ez terjedt el inkább az iparban. Azonban most az egyszerűség kedvéért az Euler módszer eredményeit úgy közlöm ebben a táblázatban, hogy nem ugyanakkora energiabefektetéssel készültek, mint az RK4-es párjai. Ez a gyakorlatban azt jelenti, hogy minden esetben addig emelgettem az iterációs számokat, ameddig be nem állt az adott értékre, amitől már számottevően nem tért el a továbbiakban. Ezek után a legjobb Euler módszer eredményeket tettem bele a táblázatba, míg az RK4-es eredmények konzistensen nem változtak felépítésüket tekintve, nem nyúltam bele sehogy sem a megoldó algoritmus paramétereibe.
+A Runge Kutta módszert kevesebb lépésből mindig pontosabb eredményt adott, ez is egy oka , amiért ez terjedt el inkább az oktatásban. Azonban most az egyszerűség kedvéért az Euler módszer eredményeit úgy közlöm ebben a táblázatban, hogy nem ugyanakkora energiabefektetéssel készültek, mint az RK4-es párjai. Ez a gyakorlatban azt jelenti, hogy minden esetben addig emelgettem az iterációs számokat, ameddig be nem állt az adott értékre, amitől már számottevően nem tért el a továbbiakban. Ezek után a legjobb Euler módszer eredményeket tettem bele a táblázatba, míg az RK4-es eredmények konzistensen nem változtak felépítésüket tekintve, nem nyúltam bele sehogy sem a megoldó algoritmus paramétereibe.
 \begin{table}[H]
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -650,7 +694,7 @@ Természetesen úgy kerek, ha megmutatjuk, hogy más esetekben ezektől függetl
 
 \includegraphics[width=\textwidth, height=290pt]{RK4/plotok/kamatlab_step=100.png}
 \subsection{Magasabb rendű egyenletek megoldása}
-A Runge Kutta módszerek működnek magasabb rendű differenciál egyenletek megoldására is. Alapvetően nagyon hasonlít az elsőrendű megoldó képlethez. Amikor analitikusan szeretnénk megoldani egy magasabb rendű egyenletet, akkor általában úgy szoktuk megoldani, hogy bevezetünk új változókat az egyes deriváltakra és ezt folytatva redukáljuk a problémát egy olyan feladatra, aminek már ismerjük a megoldási lehetőségét, lehetőségeit. Ha letudtuk redukálni a problémát elsőrendű alfeladatokra, akkor azok össze lesznek kapcsolódva a bizonyos változókban és erre tudjuk alkalmazni, például a Runge Kutta módszert (nem feltétlen csak a negyed rendű közelítést).\newline
+A Runge Kutta módszerek működnek magasabb rendű differenciál egyenletek megoldására is. Alapvetően nagyon hasonlít az elsőrendű megoldó képlethez. Amikor analitikusan szeretnénk megoldani egy magasabb rendű egyenletet, akkor általában úgy szoktuk azt megtenni, hogy bevezetünk új változókat az egyes deriváltakra és ezt folytatva redukáljuk a problémát egy olyan feladatra, aminek már ismerjük a megoldási lehetőségét, lehetőségeit. Ha letudtuk redukálni a problémát elsőrendű alfeladatokra, akkor azok össze lesznek kapcsolódva a bizonyos változókban és erre tudjuk alkalmazni, például a Runge Kutta módszert (nem feltétlen csak a negyed rendű közelítést).\newline
 Nézzük meg példának egy (általánosan felírt) másodrendű differenciál egyenlet megoldását az RK4 módszerrel.
 \begin{center}
     \begin{cases}
@@ -701,7 +745,7 @@ Vezessük be a következő változókat:
     K_4 = h (Z_n + L_{1}) , \;\;L_4 = h f(t_n + h, x_n+ K_{3}, Z_n + L_{1})
 \end{equation*}
 
-Ezután pedig a kettő megoldandó egyenletet az előbbiekhez nagyon hasonlóan elkezdjük iterálni a következő képletek alapján:
+Ezután pedig a kettő megoldandó egyenletet az előbbiekhez  hasonlóan elkezdjük iterálni a következő képletek alapján:
 
 \begin{equation*}
     x_{n+1} = x_n + \frac{1}{6}(K_1 + 2K_2 + 2K_3 + K_4)
@@ -714,6 +758,7 @@ Ezután pedig a kettő megoldandó egyenletet az előbbiekhez nagyon hasonlóan 
 Elsőre itt találhatjuk meg a Runge Kutta numerikus módszer implementációját néhány példával, hogy követhető legyen a használata.
 \lstinputlisting[language=Python]{RK4/rk4.py}
 
+\pagebreak
 Itt pedig az Euler módszer általam megírt változatát találhatjuk.
 \lstinputlisting[language=Python]{RK4/euler_method_template.py}
 \section{Stabilitás elméleti kitekintés}
@@ -1049,9 +1094,128 @@ Miután kimondtuk ezeket a szükséges tételeket, nézzük meg, hogy miképp sz
 
 \lstinputlisting[language=Python]{linalg/stabiliy.py}
 
-Azonban sikerült egy szkriptet készíteni, amely numerikus deriválással létrehozza a Jacobi mátrix numerikus közelítését az adott pontban. A kód úgy működik, hogy definiáljuk a Jacobi mátrix sorait leíró függvényeket és egy listában elhelyezzük a függvények neveit str formátumban, illetve a kiértékelendő pont koordinátáit is feltöltjük egy listába. Ezt a két paramétert utána megadjuk a kalkulációs függvénynek, ami visszatérési értéke egy mátrix lesz, ezt pedig beletudjuk helyezni a stabilitást vizsgáló függvényünkbe.
-\section{Perturbáció elméleti megközelítés}
-...Ezzel a résszel a stabilitás után fogok foglalkozni...
+Azonban sikerült egy szkriptet készíteni, amely numerikus deriválással létrehozza a Jacobi mátrix numerikus közelítését az adott pontban. A kód úgy működik, hogy definiáljuk a Jacobi mátrix sorait leíró függvényeket és egy listában elhelyezzük a függvények neveit str formátumban, illetve a kiértékelendő pont koordinátáit is feltöltjük egy listába. Ezt a két paramétert utána megadjuk a kalkulációs függvénynek, ami visszatérési értéke egy mátrix lesz, ezt pedig beletudjuk helyezni a stabilitást vizsgáló függvényünkbe. Természetesen itt is körültekintően kell megválasztani a deriváláshoz használt lépésközt.\newline
+Nézzünk meg egy példát erre. Legyen a rendszert leíró függvény a következő :
+\begin{equation*}
+    F(x_1,x_2) =
+        \begin{bmatrix}
+            F_1 \\
+            F_2
+        \end{bmatrix}
+        = \begin{bmatrix}
+            x_1 ^2 + 2 x_2 \\
+            x_1 ^3 + 4 x_2
+        \end{bmatrix}
+\end{equation*}
+Rendre pedig a derivált vektorok a következő alakot veszik fel :
+\begin{equation*}
+    D F_1(x_1,x_2) = \begin{bmatrix}
+        2 x_1 & 2
+    \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+    D F_2 (x_1,x_2) = \begin{bmatrix}
+        3 x_1^2 & 4
+    \end{bmatrix}
+\end{equation*}
+Az ebből képzett mátrix pedig innen így néz ki:
+\begin{equation*}
+    \begin{bmatrix}
+        2 x_1 & 2 \\
+        3 x_1^2 & 4
+    \end{bmatrix}
+\end{equation*}
+Ez pedig mondjuk az [1, 2] pontban
+\begin{equation*}
+F'(1,2) =
+    \begin{bmatrix}
+        2 & 2 \\
+        3 & 4
+    \end{bmatrix}
+\end{equation*}
+A kód pedig néhány kerekítésbeli hibát leszámítva ezt az eredményt adta. A következő részben pedig magár a szkriptet lehet látni, összhangban a fent leírtakkal.
+\lstinputlisting[language=Python]{linalg/numerical_jacobi_example.py}
+Nézzük meg egy bonyolultabb, nem lineáris példát. Legyen a rendszert leíró függvény a következő:
+\begin{equation*}
+    F(x_1,x_2) =
+    \begin{bmatrix}
+        x_1 ^ 2 + sin(x_2) \\
+        4 \frac{1}{x_1} + ln(x_2)
+    \end{bmatrix}
+\end{equation*}
+Ekkor az deriváltak pedig
+\begin{equation*}
+    D F_1 (x_1, x_2) = ¨\begin{bmatrix}
+        2 x_1 & cos(x_2)
+    \end{bmatrix}
+\end{equation*}
+
+\begin{equation*}
+    D F_2 (x_1,x_2) = \begin{bmatrix}
+        - 4 \frac{1}{x_1 ^ 2} & \frac{1}{x_2}
+    \end{bmatrix}
+\end{equation*}
+
+A mátrix innen pedig a következő alakot ölti:
+\begin{equation*}
+    F'(x_1,x_2) =
+    \begin{bmatrix}
+        2 x_1 & cos(x_2) \\
+        - 4 \frac{1}{x_1 ^ 2} & \frac{1}{x_2}
+    \end{bmatrix}
+\end{equation*}
+Ez pedig az (1,1) pontban:
+\begin{equation*}
+    F'(1,1) = \begin{bmatrix}
+        2 & cos(1) \\
+        -4 & 1
+    \end{bmatrix}
+\end{equation*}
+
+A numerikus értékek pedig így alakultak ebben az esetben:
+\begin{equation*}
+    F'_{num} = \begin{bmatrix}
+        2.00001 & 0.5402981 \\
+        -3.99996 & 0.999995
+    \end{bmatrix}
+\end{equation*}
+A numerikus értékek viszonylag közel kerültek az eredeti, analitikus értékekhez.
+Itt is fontos megemlíteni, hogy alapvetően a pontossága a deriválásnak sok mindentől függ, amibe most részletesen ez a szakdolgozat nem megy bele. A teljesség igénye miatt itt pedig láthatjuk a feladat függvényeinek Python implementációit.
+\lstinputlisting[language=Python]{linalg/jacobi_example1.py}
+Természetesen a kód működik olyan esetekre is, ahol a függvények nagyobb dimenzióval rendelkeznek és valamilyen módon kapcsolatba kerülnek a változók, például szorzódnak egymással. Erre legyen példa a következő eset
+\begin{equation*}
+    F(x_1,x_2,x_3) = \begin{bmatrix}
+        x_1 ^ 2 + x_2 x_3 \\
+        x_2/x_3 \\
+        x_1 ^2 + 2 x_2 + sin(\frac{x_2}{x_3})
+    \end{bmatrix}
+\end{equation*}
+ Ennek pedig a Jacobi mátrixa a következő alakot fogja ölteni
+ \begin{equation*}
+     F'(x_1, x_2, x_3) = \begin{bmatrix}
+         2 x_1 & x_3 & x_2 \\
+         0 & \frac{1}{x_3} & \frac{-x_2}{x_3^2} \\
+         2 x_1 & 2 + cos(\frac{x_2}{x_3}) \frac{1}{x_3} & cos(\frac{x_2}{x_3}) \frac{-x_2}{x_3^2}
+     \end{bmatrix}
+ \end{equation*}
+ Ennek analitkusan az értéke az (1,2,3) pontban pedig a következő lesz:
+  \begin{equation*}
+     F'(1, 2, 3) = \begin{bmatrix}
+         2  & 3 & 2 \\
+         0 & \frac{1}{3} & \frac{-2}{9} \\
+         2  & 2 + cos(\frac{2}{3}) \frac{1}{3}& cos(\frac{2}{3}) \frac{-2}{9}
+     \end{bmatrix}
+ \end{equation*}
+
+ A numerikusan számolt érték pedig a következő:
+\begin{equation*}
+     F'(1, 2, 3) = \begin{bmatrix}
+         2  & 3 & 2 \\
+         0 & 0.33333333 & -0.22222148 \\
+         2.00001  & 2.26196208 & -0.17464118
+     \end{bmatrix}
+\end{equation*}
+Ezez az értékek pedig közel vannak az analitikus eredményekhez.
 \section{Numba}
 Mikroökonómia órán, majd részletesebben egyensúlyelméleten elhangzott, hogy egy vállalat a profitmaximumát többek között akkor tudja elérni, ha a költségeit minimalizálja.A gyakorlatban persze nagyon kevés vállalat tud felírni egy költségfüggvényt, amin azután szélsőértéket tud számolni, de sokféleképpen lehet a 'termelésünket' olcsóbbá tenni. Az utóbbi időkben egyre több és több adatot termelünk magunk után, ami igaz a vállalatokra, sőt van, hogy kifejezetten cél, hogy generáljunk adatot. Minnél több az adat, annál inkább letudjuk modellezni a problémát és annál inkább pontosabb választ tudunk adni egy felmerülő kérdésre, aminek a legvégén valószínűleg az lesz a célja, hogy több pénzt keressünk, vagy épp kevesebb pénzt költsünk.
 
@@ -1060,11 +1224,11 @@ Amikor nagyobb mennyiségű adatot kell feldolgozni, már gyakran kiszervezik az
 Ez az elgondolás vezetett oda, hogy beletegyem a szakdolgozatba ezt a fejezetet, ami egy python csomagról szól, nevesen a \textit{Numbáról}\footnote{https://github.com/numba}.
 \newline
 A Numba egy ingyenes, nyílt forráskódú csomag, amit többek között az Anaconda fejlesztői tartanak karban. Nagyon sok mindenben a segítségünkre lehet, többek között a párhuzamos futtatások beállítására (azaz attól lesz gyorsabb a kód, hogy nem 1, hanem több magját kihasználjuk a processzornak), ami önmagában nem egyszerű feladat ha nincsenek jó előismereteink a témában. Ezen felül pedig a \textit{NumPy} csomag függvényeire nyújt egy nagyon jó optimalizálást. Ez azt jelenti, hogy ha nem NumPy objektumokra használjuk, elképzelhető, hogy csak lassabb lesz az egész.\newline
-A Numba egy jit (just-in-time) compiler, ami azt jelenti, hogy a függvényünket rögtön gépi kódra fordítja, ezzel pedig nagyon meggyorsítja a futást, mivel már benne lesz a processzorban a végrehajtandó feladat és nem kell mindig betölteni. Emiatt azonban az első futásra lassab lesz a kód, de utána minden hívásnál gyorsabb lesz, mint az eredeti változat. Ez akkor lehet különösen hasznos, ha pl. szimulálunk egy problémát.
+A Numba egy jit (just-in-time) compiler, ami azt jelenti, hogy a függvényünket rögtön gépi kódra fordítja, ezzel pedig nagyon meggyorsítja a futást, mivel már benne lesz a processzorban a végrehajtandó feladat és nem kell mindig betölteni. Emiatt azonban az első futásra lassab lesz a kód, de utána minden hívásnál gyorsabb lesz, mint az eredeti változat. Ez akkor lehet különösen hasznos, ha pl. szimulálunk egy problémát. Ez tipikusan olyan probléma, amikor sokszor ugyanazt az algoritmust futtatjuk le, csak pl. megváltozik benne egy paraméter (de a mostani esetben ez azt jelenti, hogy csak a bemenet nem egyezik meg, a függvények ugyanazok maradtak, így használhatjuk a Numba előnyeit).
 
-
-Azonban ha a Numba-n keresztül szeretnénk futtatni sokkal körültekintőbben kell a kódunkat megírni.Sok hasznos tanácsot találni a csomag honlapján, amiket érdemes figyelembe venni, amikor szeretnénk idő-optimalizálni a szkriptjeinket. A legfőbb dolog, amire figyelnünk kell, az az, hogy ahol tudunk ott NumPyos megoldásokat használjunk. Amikor én elkészítettem a példa feladatokat sokszor figyelembe kellett vennem, hogy ha nem elég körültekintően hozom létre a különböző objektumokat akkor az hibát tud eredményezni és még nem annyira elterjedt a csomag, így több idő megtalálni a fórumokon mi is lesz a hibánk forrása (leginkább a a github oldalon lehetett az 'issue'-k között fórumozni.\newline
+Azonban ha a Numba-n keresztül szeretnénk futtatni sokkal körültekintőbben kell a kódunkat megírni. Sok hasznos tanácsot találni a csomag honlapján, amiket érdemes figyelembe venni, amikor szeretnénk idő-optimalizálni a szkriptjeinket. A legfőbb dolog, amire figyelnünk kell, az az, hogy ahol tudunk ott NumPyos megoldásokat használjunk. Amikor én elkészítettem a példa feladatokat sokszor figyelembe kellett vennem, hogy ha nem elég körültekintően hozom létre a különböző objektumokat akkor az hibát tud eredményezni és még nem annyira elterjedt a csomag, így több idő megtalálni a fórumokon mi is lesz a hibánk forrása (leginkább a a github oldalon lehetett az 'issue'-k között fórumozni.\newline
 Nézzük meg mit jelent ez a gyorsítás a Von Mises eljárás során (domináns sajátérték meghatározása).
+
 \subsection{Domináns sajátérték probléma}
 Fentebb már láttuk, hogy miképpen implementáltuk ezt a PageRank algoritmust. A 'gyorsítását' egyszerűen megtudjuk tenni a következőképpen. Definiálunk egy más nevű függvényt, de tartalmilag teljesen egyezőt az eredeti metódussal, csak egy \textbf{@jit(nopython = True)} dekorátort elé teszünk. Ezáltal, amikor ezt a függvényt meghívjuk, akkor a jit függvényen keresztül kerül végrehajtásra és a második hívástól kezdve pedig már várhatóan gyorsabb lesz (de nem feltétlen!).
 \lstinputlisting[language=Python]{Numba_examples/von_mises_example.py}
@@ -1088,7 +1252,7 @@ A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg,
 \end{tabular}
 \end{center}
 %\end{table}
-\section{Összegzés}
+\subsection{}
 
 \section{Felhasznált irodalom}
 \begin{itemize}
@@ -1119,7 +1283,7 @@ Az ábrán azt látni, hogy a narancs sárgával jelölt vonal jelenti a kiindul
 Nézzünk meg egy olyan esetet, amely egy olyan helyzetet mutat be, amikor 2 leágazás készül el egy adott verzióról, de a változtatások felvezetése egyik esetben már másabb verzióba fog megtörténni.
 \end{example}
 A következő ábrán pedig azt az esetet szemléltejük, amikor egy ágról 2 branch ágazik le. Ez magával hozza, hogy ha egy fájlban történik változtatás, akkor könnyen problémába ütközhetünk, mivel össze kell fésülni a 2 változtatást. Ha ez nem okoz gondot akkor automatikusan megtörténik, ha gondot okoz akkor pedig ezt kézzel kell megoldanunk. Látni, hogy az első leágazott verzióban 2 változtatás történt, majd ez be is épült az eredeti branchbe. Azonban a másik leágazott branch ugyan abból az állapotból indult, mint a másik, de amikor beépítenénk az ottani commitokat, akkor már egy olyan változatban kell azt megtenni, ami már eltér a kiinduló állapottól, ezt jelöli a zöld és sárga vonalakkal tűzdelt ábra.
-
+Ehhez pedig a harmadik verzióval jelölt pontban csatoltam az ábrát, ami azt hivatott jelölni, hogy összefésüljük a kód 2 változatát. Természetesen ez nem azt fogja jelenti, mint ahogy az ábrán látni, hogy csak egymás alá írjuk összekeverve a sorokat, ez csak szemléltetés gyanánt készült el így.
 \begin{center}
     \includegraphics{git/conflict_vibe.png}
 \end{center}
@@ -1130,7 +1294,8 @@ A következő ábrán pedig kiválasztottam egy commitom, ami a szakdolgozat ír
 \begin{center}
     \includegraphics[width=\textwidth]{git/github usage.PNG}
 \end{center}
-
+\section{Összegzés}
+A szakdolgozatomban szerettem volna körbejárni azokat a differenciálegyenletekhez kapcsolódó problémákat, amelyeket tanultam a Dinamikai rendszerek nevű tárgyból. Azonban ezt nem az analitikus megközelítéssel tettem, hanem  numerikus szemszögből vizsgáltam a kérdéseket.A szakdolgozat a nemsztochasztikus közönséges differenciálegyenletekkel foglalkozik. A közgazdasági problémák modellezésében is használják a differenciálegyenletek, jelentős részben ezen belül pedig a dinamikai rendszereket. A közgazdasági modellek nyomós része lineáris modelleket használ, a szakdolgozat pedig a stabilitásvizsgálat linearizálási módszeréig megy el, a Ljupanov módszert már nem tárgyalja. A stabilitáselmélet tanult módszereihez csatoltam saját magam által írt kódokat, mert úgy gondoltam ez egy jó kiegészítése lehet a témakörnek. Elkészült olyan kód, ami megold elsőrendű közönséges differenciálegyenleteket, felírja numerikusan a Jacobi mátrixát egy rendszernek, ha megadjuk a sorait leíró függvényt, illetve megadja a stabilitását a problémának ha megadjuk a mátrix reprezentációját. A nyelv amit használtam Python volt, az volt az elgondolás, hogy érdemes úgy felépíteni, hogy minnél több lukat befedjek vele. A Python önmagában még kevés, emiatt pedig nagy hangsúlyt fektettem a NumPy csomag használatára, amit kifejezetten számításigényes problémákhoz alkottak meg. Ha mélyebben belenézünk az olyan megoldásokba, amelyek egyszerűbbé teszik a felhasználó számára az oszlopműveletek felírását, akkor hamar szembetalálkozunk azzal az általános igazsággal, ami alapvetően minden magasabb szintű nyelv alapja. Ez pedig az, hogy amivel találkozunk az valamilyen módon bevan csatornázva egy alacsonyabb szintű nyelvbe. Ez az alapvető megoldása mind a NumPynak, mind a MatLabnak, az R-nek, Julianak és egyéb nyelveknek. Amikor megadunk egy utasítást, hogy emeljen négyzetre egy vektort, akkor az a rétegeken keresztül eljut egy C/C++/Fortran fordítóba és ezt már gyorsan végrehajtja a gép. Emiatt lesz gyorsabb a beépített megoldást használni erre a problémára, mintsem egy ciklusban végig menni rajta. A kódok optimalitása véleményem szerint magában hordozza azt a közgazdasági állítást, hogy akkor lehet a legnagyobb a profitunk, ha a költségeinket minimumon tartjuk.  Ez az elgondolás vezetett el engem ahhoz, hogy beszéljek a Numba csomagról, ami a NumPy megoldásokra egy újabb lehetőséget ad, hogy gyorsabb legyen a futás. Persze nem biztos, hogy sikerül, az is megtörténhet, hogy épp az ellenkezőjét érjük el, vagy egyéb nemvárt problémákba ütközünk. A szakirodalom olvasása közben arra a megállapításra jutottam a cikkek konkluziói alapján, hogy szimuláció igényes tud lenni egy dinamikai rendszer felépítése, mivel érzékeny lesz a paraméterekre a stabilitás, főleg ha nemlineáris a modellünk. Ez pedig azt jelenti, hogy amikor azt tesztelteljük, hogy a különböző változókra milyen érzékenyen hat a rendszer implicit magával hozza, hogy sok futást kell elindítani és megint beleütközünk a már fentebb említett problémákba.
 \bibliographystyle{apalike}
 \bibliography{References}
 \end{document}
