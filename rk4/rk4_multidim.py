@@ -22,8 +22,32 @@ def rk4_multidimensional(func: str,
         t = t + h
 
     return x
+def f1(t: float,x: np.array) -> float:
+    x_1 = x[0]
+    x_2 = x[1]
+    return x_1
 
-def reduced_to_ode():
-    A = np.array([[0,1],[-2,3]])
-    x = np.array([[2],[-3]])
-    pass
+def f2(t: float,x: np.array) -> float:
+    x_1 = x[0]
+    x_2 = x[1]
+
+    return -2 * x_1 + 3 * x_2 + t
+
+def func_wrapper(func_list : list,
+                 t:float,
+                 X: np.array):
+    result = np.array([])
+    for func in func_list:
+        if result.size == 0:
+            result = globals()[func](t, X)
+        else:
+            result.append(result, globals()[func](t, X), axis=0)
+
+    return result
+if __name__ == "__main__":
+    x_0 = np.array([[2],[-3]])
+    t_0 = 0
+    pont = 1
+    h = 0.001
+    func_list = ["f1", "f2"]
+    print(rk4_multidimensional("reduced_to_ode",t_0,pont,x_0,h))
