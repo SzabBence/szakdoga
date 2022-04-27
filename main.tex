@@ -11,7 +11,7 @@
 \theoremstyle{definition}
 \theoremstyle{theorem}
 \usepackage{geometry}
-%\geometry{a4paper,left=25mm,right=25mm,bottom=25mm,top=25mm,footskip=15mm}
+\usepackage[magyar]{babel}
 \geometry{a4paper,outer=25mm,inner=35mm,top=25mm,bottom=25mm}
 \linespread{1.5}
 \frenchspacing
@@ -55,20 +55,30 @@
 
     DIFFERENCIÁLEGYENLETEK NUMERIKUS MEGKÖZELÍTÉSE A KÖZGAZDASÁGBAN\\
     \bigskip
-    Témavezető: Kánnai Zoltán\\
+    Szabó Bence Dániel \\
     \bigskip
-    Készítette: Szabó Bence Dániel\\
-    \bigskip
-    Szak : Gazdaság-és pénzügy matematikai elemzés
+    2022
 \end{center}
 
+\pagebreak
+
+\begin{center}
+\fontsize{40pt}{12pt}\selectfont
+    Budapesti Corvinus Egyetem \\
+    \bigskip
+    Készítette: Szabó Bence Dániel \\
+    \bigskip
+    Konzulens: Dr. Kánnai Zoltán\\
+    \bigskip
+    2022
+\end{center}
 \pagebreak
 \tableofcontents
 \pagebreak
 \section{Bevezetés}
 A szakdolgozatomat szerettem volna egybekötni a programozással, ezen belül a Python nyelvvel és annak különböző részeivel, illetve a differenciálegyenletek numerikus megoldásaival. Ez azonban meglepően sok számomra eddig ismeretlen területet mutatott meg, ilyen volt például a dekorátorok használata, az ábra készítő csomagok működési elve, illetve az oszlopműveletek hatékonysága, beleértve a kapcsolatot az alacsonyabb szintű programozási nyelvekkel. Ezután jobban megértettem, hogy mit is jelent egy programozási nyelv és milyen hasonlóságok és eltérések lehetnek a különböző nyelvek között. A szakirodalom olvasása közben képet kaptam arról, hogy amikor a modellezésben előkerülnek a differenciálegyenletek, akkor a különböző tudományágak képviselői milyen megközelítésekkel szoktak élni a kutatásuk során, és ennek milyen következményei lehetnek a cikkekre ,amiket írtak.
 
-Ahol programozható problémával találkoztam, ott törekedtem arra, hogy csatoljak hozzá egy általam megírt kódot, követve a Python nyelv hivatalos útmutatóit. Ehhez segítségül is vettem a black csomagot, ami átrendezte a kódom, ha az nem felelt meg valamilyen formázási útmutatónak. Természetesen ez funkcionalitást semmilyen mértékben nem érintett, csak az olvashatóságon javított nagy mértékben. Mivel sokat fordul elő kód a szakdolgozatban, így próbáltam egy tömör Python bevezetőt is elkészíteni, mert úgy gondoltam, hogy így lehet kerek a szakdolgozat. Célom volt,  hogy amit csak lehet, öntsek matematikai formalizmusba.  A differenciálegyenletek elmélete nem egyszerű témakör a matematikán belül és a szakdolgozatnak nem is volt célja, hogy teljesen matematikai szempontból tárgyaljam a kérdést, mert ahhoz ez túl nehéz problémakör és meghaladná  a szakdolgozat fizikai kereteit. A numerikus analízis, aminek az eszköztárát vettem segítségül úgyszintén egy nehéz és kiterjedt ága a matematikának és innen is csak érintőlegesen használtam módszereket.
+Ahol programozható problémával találkoztam, ott törekedtem arra, hogy csatoljak hozzá egy általam megírt kódot, követve a Python nyelv hivatalos útmutatóit. Ehhez segítségül is vettem a black csomagot, ami átrendezte a kódom, ha az nem felelt meg valamilyen formázási útmutatónak. Természetesen ez funkcionalitást semmilyen mértékben nem érintett, csak az olvashatóságon javított nagy mértékben. Mivel sokat fordul elő kód a szakdolgozatban, így próbáltam egy tömör Python bevezetőt is elkészíteni, mert úgy gondoltam, hogy így lehet teljes a dolgozat. Célom volt,  hogy amit csak lehet, öntsek matematikai formalizmusba.  A differenciálegyenletek elmélete nem egyszerű témakör a matematikán belül és a szakdolgozatnak nem is volt célja, hogy teljesen matematikai szempontból tárgyaljam a kérdést, mert ahhoz ez túl nehéz problémakör és meghaladná  a szakdolgozat fizikai kereteit. A numerikus analízis, aminek az eszköztárát vettem segítségül úgyszintén egy nehéz és kiterjedt ága a matematikának és innen is csak érintőlegesen használtam módszereket.
 
 A lehető legnagyobb figyelmet próbáltam szentelni annak a takarékossági szempontnak, hogy a kód legyen a tőlem telhető leghatékonyabb. Miközben erre figyeltem, szépen összeállt egy kép előttem, nevesen az, hogy az alapvető közgazdasági tételek ebben a világban is érvényesülnek, mégpedig az, hogy akkor tudunk a legtöbbet spórolni, ha a költségeinket a lehető legkisebb értékre redukáljuk. Ez mindig is szempont volt, amióta léteznek számítógépek, mert egy nem optimálisan megírt algoritmus sok ideig futhat, ezzel pedig több áramot fogyasztunk, ami például egy nagy adathalmazra nézve sok pénzt jelenthet, ha megnézzük a számítási kapacitások árát, főleg ha gyakoriak a feladatok, amire a kódot megírtuk.
 
@@ -107,14 +117,14 @@ esetek többségében. Nagyon elterjedt nyelvről beszélünk, ami rengeteg szak
 \subsection{Python függvények}
 Pythonban minden függvényt a \textit{def} szóval kezdünk, amit a függvény neve követ, majd zárójelek közé beírjuk a paramétereket és vesszővel választjuk el, ha több is van belőlük. A csukó zárójel után mindig ki kell tenni a kettőspontot. Ezután a következő sorban kell folytatnunk a kódot, de egy tabulátornyi hellyel jobbra, mint ahol a \textit{def} szócskát elhelyeztük.
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/function_template.py}
-A függvény paramétereinél nem szükséges, hogy megadjuk milyen típusú inputot vár el, azonban a saját segítségünkre megadhatjuk ezeket a következő képpen: a paraméter neve után kettőspontot írunk, majd az adattípus nevét, pl. str, mint String, dict, mint Dictionary, int, mint integer, stb...
+A függvény paramétereinél nem szükséges, hogy megadjuk milyen típusú inputot vár el, azonban a saját segítségünkre megadhatjuk ezeket a következőképpen: a paraméter neve után kettőspontot írunk, majd az adattípus nevét, pl. str, mint String, dict, mint Dictionary, int, mint integer, stb...
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/typing_template.py}
 
 A függvény visszatérési értékét pedig a \textit{return} szó után adhatjuk meg, amennyiben szükség van rá.
 \subsection{Ciklusok}
 \subsubsection{For ciklus}
 A \textit{for} ciklus ebben a nyelvben nagyon hasonlít más nyelvek \textit{for each} megoldásaira, mert a for mindig valamilyen listán iterál végig, legyenek azok számok vagy egyéb objektumok. A szintaxisa a következő :
-A \textit{for} szó után megadjuk a változót, amit használunk az iterálás alatt, majd az \textit{in} szó után megadjuk a sorozatot, amin végiglépkedünk. Az a bizonyos kettőspont ide is kell:
+A \textit{for} szó után megadjuk a változót, amit használunk az iterálás alatt, majd az \textit{in} szó után megadjuk a sorozatot, amin végiglépkedünk.
 
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/for_template.py}
 
@@ -134,7 +144,13 @@ A fent csatolt kódban láthatjuk miképp vezettük be a deriválás dekorátort
 \end{equation*}
 
 lineáris leképezés. Amikor meghívjuk ezt az x = 1 helyen, akkor a dekorátor függvény belsejében létrejön egy belső függvény, ami megkap minden paramétert a 2x függvényből. Ezután elvégzi a differenciálást a belső függvény és ezt az értéket visszaadja a dekorátor függvénynek. A következő lépésben pedig az eredetileg meghívott függvény már ezt az értéket fogja visszaadni. Ehhez a folyamathoz csatoltuk a következő magyarázó ábrát. \newline
-\includegraphics[width=\textwidth]{plots/numerical_derivation_decorator_explanation.png}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{plots/numerical_derivation_decorator_explanation.png}
+    \caption{Dekorátorok Pythonban (forrás: saját készítés)}
+    \label{python_dekorator}
+\end{figure}
+
 Természetesen ha kidekoráltunk egy függvényt, akkor az már innentől kezdve végig a dekorált változatával fog működni. Tehát ha volt egy
 \begin{equation*}
     f(x) \rightarrow 2x
@@ -178,9 +194,13 @@ conda install numpy
 Az Anaconda főleg olyan emberek körében elterjedt, akik nem szeretnek a különböző csomagokkal foglalkozni, hanem azt szeretnék, hogy minden meglegyen egyben. Emiatt is népszerű az adattudósok körében az Anaconda. Ezen felül ha feltelepítjük az Anacondát, akkor lehetőségünk lesz használni a jupyter notebookot, illetve a JupyterLabot, amelyekben soronként lehet futtatni a Python szkripteket. Ez hatalmas nagy előny minden olyan ember számára, aki a Pythonnak olyan csomagjait szeretné használni, amelyekkel ábrákat készíthet (pl. matplotlib), statisztikai mutatókat számolhat vagy gépi tanulásos algoritmusokat szeretne futtatni.
 \subsubsection{Numpy}
 A NumPy a Python egy nagyon elterjedt és hasznos csomagja, ami nagy múltra tekint vissza. Amikor létrejött a Python, akkor  népszerűségre tett szert olyan emberek között, akik sok számításigényes kódot írtak (mert egyszerű volt - ahogy most is). 1995-ben megalkották a Numeric csomagot, aminek több beceneve is volt : Numerical, Numerical Python, NumPy. 2001-ben a különböző Numeric könyvtárakat egybedolgozták és létrejött a SciPy (Scientific Python), és nemsokra rá létrejött a "numarray" párhuzamosan. Mivel sokáig párhuzamosan fejlesztették a két könyvtárat sok, kompatibilitási probléma adódott, emiatt pedig 2005-ben ezt a kettő ágat összeforrasztották és ekkor jött létre a NumPy, már hivatalosan is NumPy néven. Azóta is ezen a néven fut. A NumPy használatában törekedni kell arra, hogy oszlopműveleteket használjunk, mert így tud "optimálisan" működni. Ez azt jelenti, hogy skalár és mátrix műveletekre nem lesz gyorsabb a futás várhatóan, de ha ezt oszlopműveletekben fogalmazzuk meg akkor gyorsabb lesz. Ennek az az oka, hogy amikor elküldjük a NumPy scriptet, akkor ezt "besorolja" a csomag és C/C++ kódot generál belőle olyan módon, hogy azokra már meglévő és optimális algoritmusokat fog használni (és ettől lesz gyorsabb). Miután legenerálta ezeket az alacsonyabb szintű kódokat, akkor azt már gyorsan le tudja fordítani gépi kódra a processzornak a compiler. Ehhez a "generáláshoz" önmagától is készít alacsonyabb szintű kódokat, azonban akárcsak a Matlab, az Octave vagy az R használja az ún. BLAS (Basic Linear Algebra Subprograms), LAPACK(Linear Algebra Package) specifikációkat, amelyekben leírtak és megalkottak optimális algoritmusokat a különböző algebrai műveletekre alacsony szintű nyelvekben, amelyek használata nagyban megkönnyíti a munkáját a különböző magasabb szintű nyelvek fejlesztőinek.
-\begin{center}
+\begin{figure}[!h]
+    \centering
     \includegraphics[width=\textwidth]{kepek/BLAS.jpg}
-\end{center}
+    \caption{NumPy működése, (forrás: saját készítés)}
+    \label{Numpy működése}
+\end{figure}
+
 Ha esetleg nem oszlopműveletekre kihelyezett módon írjuk meg a szkriptünket, akkor nem a fent bemutatott gyorsabb módon megy végbe a futás, hanem a sima Python megoldásokat fogja használni, ami valószínűleg lassabban szolgáltat eredményt. Nem várható el, hogy magától felismerjen helyzeteket a nyelv ,és átírja a sorokat olyanra, amit hamarabb el tud végezni.\newline
 Ilyen oszlopművelet lehet egy for ciklus például. Tegyük fel, hogy az a feladat, hogy egy számlista elemeit négyzetre kell emelni, majd kivonni belőle 1-et. Nézzünk meg erre egy NumPy mentes Python implementációt és egy NumPyos implementációt:
 \pagebreak
@@ -190,6 +210,7 @@ A 2 megoldást, mint látható is, ezerszer ismételtem meg és ezekből az ered
 
 
 \begin{table}[H]
+\caption{Vanilla Python és NumPy összehasonlítása (forrás: saját készítés)}
 \centering
 \begin{tabular}{|l|l|l|}
 \hline
@@ -200,14 +221,18 @@ Python      & Numpy       & Arány    \\ \hline
 Természetesen minden futáskor más lesz az eredmény, de többszöri ellenőrzés után az arány sosem ment 70 alá azon a számítógépen, amin ezeket a számításokat végeztem.
 
 \subsubsection{Matplotlib}
-A Matplotlib egy olyan Python csomag, ami leginkább kétdimenziós ábrák renderelésére hoztak létre. A megalkotója John Hunter Matlabban dolgozott már egy huzamosabb ideje és elkezdte érezni a szoftver limitációit. Ebből a felismerésből jött számára az ötlet, hogy egy olyan Python ojektumokkal kompatibilis csomagot hozzon létre, amivel kitudja váltani a fizetős Matlabot, ami akkoriban egyedülálló eszköz volt a 2D-s ábrák készítéséhez. Egy ábra úgy jön létre (renderelődik), hogy több rétegből tevődik össze, akárcsak amikor egy festő vagy grafikus létrehozza a munkáját. A művész is kigondolja, miről fog festeni, majd elkezdi felfesteni a különböző rétegeket a vászonra. Ez is hasonló módon történik meg a Matplotlib csomagban. Nagy vonalakban 3 réteg az, ami létrehozza az ábránkat. A legfelső réteg (Scripting) egy felhasználóbarát módon bekéri az adatokat a programozótól és ezt átalakítja a következő réteg számára. Gyakorlatilag ez a réteg jelenti magát a Matplotlib szkriptet, amit lefutattunk. Amikor ez megtörtént, eljutunk a középső (Artist) réteghez, ami a fentől kapott utasításokat átalakítja olyan formátumúvá, amelyet a kövekező (Backend) réteg már lefog tudni renderelni. Ez azt jelenti, hogy a festőecset a Backend réteg, mert itt kerül fel az ábra a vászonra. Az Artist réteg a festő keze, ami elviszi az ecsetet a vászonig és a Scripting réteg pedig a festő gondolata. Röviden itt is azt láthatjuk, mint pl. a NumPy esetén, hogy a Python szkript, amit megírunk több lépcsős folyamatban alakítódik át alacsonyabb szintű nyelvre.\newline
+A Matplotlib egy olyan Python csomag, ami leginkább kétdimenziós ábrák renderelésére hoztak létre. A megalkotója John Hunter Matlabban dolgozott már egy huzamosabb ideje és elkezdte érezni a szoftver limitációit. Ebből a felismerésből jött számára az ötlet, hogy egy olyan Python ojektumokkal kompatibilis csomagot hozzon létre, amivel kitudja váltani a fizetős Matlabot, ami akkoriban egyedülálló eszköz volt a 2D-s ábrák készítéséhez. Egy ábra úgy jön létre (renderelődik), hogy több rétegből tevődik össze, akárcsak amikor egy festő vagy grafikus létrehozza a munkáját. A művész is kigondolja, miről fog festeni, majd elkezdi felfesteni a különböző rétegeket a vászonra. Ez is hasonló módon történik meg a Matplotlib csomagban. Nagy vonalakban 3 réteg az, ami létrehozza az ábránkat. A legfelső réteg (Scripting) egy felhasználóbarát módon bekéri az adatokat a programozótól és ezt átalakítja a következő réteg számára. Gyakorlatilag ez a réteg jelenti magát a Matplotlib szkriptet, amit lefutattunk. Amikor ez megtörtént, eljutunk a középső (Artist) réteghez, ami a fentől kapott utasításokat átalakítja olyan formátumúvá, amelyet a kövekező (Backend) réteg már le fog tudni renderelni. Ez azt jelenti, hogy a festőecset a Backend réteg, mert itt kerül fel az ábra a vászonra. Az Artist réteg a festő keze, ami elviszi az ecsetet a vászonig és a Scripting réteg pedig a festő gondolata. Röviden itt is azt láthatjuk, mint pl. a NumPy esetén, hogy a Python szkript, amit megírunk több lépcsős folyamatban alakítódik át alacsonyabb szintű nyelvre.\newline
 A szakdolgozatban a Scripting réteg a matplotlib.pyplot osztály, ez az amivel az ábrákat készítettem.
 A következő ábrát például ezzel a kóddal generáltam le.
-\begin{center}
-\includegraphics[width=\textwidth]{kepek/pyplot_example.png}
-\end{center}
+\begin{figure} [!h]
+    \centering
+    \includegraphics[width=\textwidth]{kepek/pyplot_example.png}
+    \caption{Matplotlib példa (forrás: saját készítés)}
+    \label{Matplotlib_pelda}
+\end{figure}
+
 Úgy működik a plot készítés, hogy a plt osztály különböző attribútumait feltöltjük a saját értékeinkkel, majd megjelenítük a plt.show() hívással. Ezeket pedig jól láthatjuk az alábbi kódban.
-\pagebreak
+
 \lstinputlisting[language=Python]{python-bevezetohoz-scriptek/matplotlib_examples.py}
 \section{Numerikus integrálás}
 A numerikus integrálás nagyon fontos része a numerikus módszereknek. Egyrészről gyorsabban megkaphatjuk a határozott  integrál értékét, másrészről vannak olyan függvények, amelyeknek nem tudjuk kiszámolni papíron az integrál értéket, csak becsülni tudjuk alulról és/vagy felülről. A numerikus integrálás nagyban támaszkodik a kvadratúra képletekre.
@@ -259,7 +284,7 @@ Innen helyettesítsünk vissza az eredeti képletbe
 
 \subsection{Érintő formula}
 
-Az érintő formulához felfogjuk használni a függvények lineáris Taylor közelítését. Ezen felül vegyük az intervallum ekvidisztáns felosztását.
+Az érintő formulához fel tudjuk használni a függvények lineáris Taylor közelítését. Ezen felül vegyük az intervallum ekvidisztáns felosztását.
 \begin{equation*}
    x_k = a + (k - \frac{1}{2})h ,\;\; ahol\;\; h = \frac{b-a}{n},\;\; k =1,...,n.
 \end{equation*}
@@ -301,8 +326,13 @@ Ekkor
 
 Ez pedig pont a trapéz területe! Nézzünk erre egy példát :
 \newline
+\begin{figure}[!h]
+    \centering
+    \includegraphics{plots/trapez_with_area.png}
+    \caption{Trapéz módszer, (forrás: saját készítés)}
+    \label{trapez_pelda}
+\end{figure}
 
-\includegraphics{plots/trapez_with_area.png}
 
 Az integrál értéke ezen az intervallum 7/3.
 \begin{center}
@@ -310,13 +340,19 @@ $\int_{1}^{2} x ^2 dx = \frac{7}{3}$
 \end{center}
 Azonban, ha ezen paraméterek között végezzük el a trapéz - területszámítást akkor 2.5 - t kapunk eredményként. Ezt onnan is láthatjuk, hogy a fenti ábrán a kék és piros vonal között még akad zöld terület. Azonban most számoljuk ki ezzel a módszerrel az integrál értékét az [1,1.5] és [1.5,2] intervallumokon. Ekkor eredményül 0.8125 és 1.5625, összesen 2.375 értéket kapunk, ami közelebb van a 7/3-hoz
 
-\includegraphics{plots/trapez_n=2.png}
+\begin{figure}[h]
+    \centering
+    \includegraphics{plots/trapez_n=2.png}
+    \caption{Finomított trapéz beállítás (forrás: saját készítés)}
+    \label{n=2_trapez_pelda}
+\end{figure}
+\pagebreak
 
 \subsection{Python kódok a fejezethez}
-A trapéz függvényben használjuk a globals() metódust. Ez a metódus visszaadja az összes olyan objektumot, amely az adott programunk futásakor belekerült a compilerbe(fordítoprogram). Ezek között lesznek azok a függvények, amiket megírtunk. A globals() egy dictionaryt ad vissza, amiben mi a függvény nevét fogjuk használni, mint kulcs.
-
+A trapéz függvényben használjuk a globals() metódust. Ez a metódus visszaadja az összes olyan objektumot, amely az adott programunk futásakor belekerült a compilerbe(fordítoprogram). Ezek között lesznek azok a függvények, amiket megírtunk. A globals() egy dictionaryt ad vissza, amiben mi a függvény nevét fogjuk használni, mint kulcs. Ez azért hasznos számunka, mert minden függvényt megtudunk hívni a nevével, mint paraméter. Eszerint tudunk olyan függvényt írni, aminek egy paramétere egy másik függvény. A limitációi ennek a módszernek többek között az, hogy csak fájlon belül fog működni. Ha a külső függvény nem egy modulban szerepel azzal a függvénnyel, amiben pont a kalkulációt írtuk meg, akkor a külső függvény a globals() metódusból egy olyan listát fog megkapni, ami a vele egy helyen szereplő függvények nevei. Itt pedig könnyen 'KeyError'-t kaphatunk.
+\pagebreak
 \lstinputlisting[language=Python]{functions.py}
-
+\pagebreak
 \section{Szukcesszív approximációs módszer}
 
 \begin{definition}{ODE}\\
@@ -330,11 +366,11 @@ Például
 \begin{definition}Autonóm differenciálegyenlet\\
 Írjuk fel a következő ODE-t:
 \begin{equation*}
-    f(x,y) = \frac{dy}{dt} = y'
+    f(x,y) = \frac{dx}{dt} = x'
 \end{equation*}
-Azokat a differenciálegyenleteket nevezzük autonómnak, amelyek nem függnek az x változótol a fent leírt egyenletben. Erre egy jó példa lehet a következő feladat.
+Azokat a differenciálegyenleteket nevezzük autonómnak, amelyek nem függnek az x változótol a fent leírt egyenletben.Általánosan így néz ki egy autonóm egyenlet.
 \begin{equation*}
-    \frac{dy}{dt} = f(y)
+    \frac{dx}{dt} = f(x)
 \end{equation*}
 Ha t paramétert az időnek vesszük, akkor ebben az egyenletben azt láthatjuk, hogy nem függ az időtől az y megváltozása, mindig állandó a deriváltja, f(y) a változás időtől függetlenül.
 \end{definition}
@@ -343,19 +379,12 @@ Ha t paramétert az időnek vesszük, akkor ebben az egyenletben azt láthatjuk,
 Lineáris differenciálegyenletnek nevezzük azokat a differenciálegyenleteket, ahol a jobb oldali f függvényt feltudjuk írni x deriváltjainak lineáris kombinációjaként.
 Példa erre a következő:
 \begin{equation*}
-    a_1 x'(t) + a_2 x''(t) = f(t,x(t))
+    a_1 x'(t) + a_2 x''(t) = f(t)
 \end{equation*}
 \end{definition}
 
-\begin{definition}Nemlineáris differenciálegyenlet\\
-Azokat a differenciálegyenleteket nevezzük \textit{nemlineáris differenciálegyenleteknek}, amelyben a deriváltak nem írhatóak fel egy lineáris kombinációban
-\end{definition}
-
-\begin{definition}Homogén differenciálegyenlet\\
-Az olyan differenciálegyenlet, amely 0-val egyenlő, \textit{homogén differenciálegyenleteknek} nevezzük.
-\end{definition}
-\begin{definition}Nemhomogén differenciálegyenlet\\
-Az olyan differenciálegyenleteket, amelyek nem 0-val egyenlőek \textit{nemhomogén differenciálegyenleteknek} nevezzük
+\begin{definition}Homogén lineáris differenciálegyenlet\\
+Ha a fenti lineáris differenciálegyenlet jobboldala azonosan nulla, homogén lineáris differenciálegyenletnek nevezzük.Ha a jobboldal nem azonosan nulla, akkor az egyenletet inhomogén lineáris differenciálegyenletnek nevezzük.
 \end{definition}
 \begin{definition}{Kezdetiérték-feladat}\\
 Vegyünk egy ODE problémát és adjunk meg hozzá egy (kezdeti) pont-függvény párost. Az ODE-t ezzel a tulajdonsággal ellátva kezdetiérték problémának  nevezzük
@@ -383,7 +412,7 @@ Legyen (X,$\textit{d}$) egy teljes metrikus tér. T leképezést $\textit{kontra
 \begin{equation*}
     d(T(x),T(y)) \leq q \textit{d}(x,y) \;\;,\forall x,y \in X
 \end{equation*}
-Pongyolán fogalmazva ezt jelenti, hogy azok a  Lipschitz folytonos függvények a kontrakciók, amelyekben az L Lipschitz konstans kisebb 1-nél
+Pongyolán fogalmazva ezt jelenti, hogy azok a  Lipschitz folytonos függvények a kontrakciók, amelyekben az L Lipschitz konstans kisebb 1-nél.
 \end{definition}
 \begin{theorem}[Banach-féle fixponttétel]
 Legyen (X,$\textit{d}$) egy nemüres, teljes metrikus tér ellátva egy T kontrakcióval. Ekkor
@@ -403,10 +432,10 @@ Mivel T kontrakció, így igaz a következő egyenlőtlenség
 \end{equation*}
 Ha ezeket felhasználva elkezdünk \textit{n}-ben iterálni, könnyű belátni, hogy
 \begin{equation*}
-    \forall \;\; \epsilon >0 : \;\;d(x_j,x_k) j < \epsilon\;\;, \;\;j\neq k  \;\;
+    \forall \;\; \epsilon >0 \;\; számhoz \;\; van \;\; olyan \;\; k_0 \;\;küszöbindex,\;\;hogy\;\; \forall j,k \geq k_0 \;\;esetén \;\;;d(x_j,x_k) j < \epsilon, \;\;j\neq k  \;\;
 \end{equation*}
 azaz  $(x_n)$ Cauchy  sorozat.
-Mivel (X,d) metrikus tér teljesn ezért a sorozatunknak létezik határértéke, sőt ez a határéték pont T leképezés fix pontja lesz. A fix pont egyértelműségét igazolhatjuk, ha indirekt feltesszük, hogy van másik fix pont.
+Mivel az (X,d) metrikus tér teljes, ezért a sorozatunknak létezik határértéke, sőt ez a határéték pont T leképezés fix pontja lesz. A fix pont egyértelműségét igazolhatjuk, ha indirekt feltesszük, hogy van másik fix pont.
 \end{proof}
 %https://en.wikibooks.org/wiki/Ordinary_Differential_Equations/The_Picard–Lindelöf_theorem
 \begin{theorem} [Picard - Lindelöf] \\
@@ -500,10 +529,10 @@ Kezdjünk el lépkedni.
 \subsection{Python kódok a fejezethez}
 \lstinputlisting[language=Python]{fokozatos_kozelitesek/successive.py}
 \section{Runge-Kutta módszer}
-A Runge-Kutta algoritmusok az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, nevesen Carl Runge és Wilhelm Kuttáról.
+A Runge-Kutta algoritmusok az egyik legelterjedtebb megoldó módszerek a numerikus analízis eszköztárában, mivel 'olcsó' a használatuk, nem igényelik a függvények deriváltjainak az ismeretét és mégis elfogadható pontossággal műküdnek (ez például nem mondható el feltétlen az Euler módszerről). A módszer a nevét két német matematikusról kapta, névszerint Carl Runge és Wilhelm Kuttáról.
 
 \subsection{Euler módszer}
-Az Euler módszer az alapja a numerikus differenciálegyenlet megoldó módszereknek, azonban nem hatékony a használata, mert lassabban konvergál a megoldáshoz, mint például a Runge-Kutta módszer Ettől függetlenül érdemes megvizsgálni a módszert, mert szemléletes és korlátozottan, de működőképes.
+Az Euler módszer az alapja a numerikus differenciálegyenlet megoldó módszereknek, azonban nem hatékony a használata, mert lassabban konvergál a megoldáshoz, mint például a Runge-Kutta módszer. Ettől függetlenül érdemes megvizsgálni a módszert, mert szemléletes és korlátozottan, de működőképes.
 
 Vegyünk egy kezdetiérték problémát és hozzá egy lépésközt.
 \begin{equation*}
@@ -514,7 +543,7 @@ Vegyünk egy kezdetiérték problémát és hozzá egy lépésközt.
     \end{cases}
 \end{equation*}
 
-Itt pedig a lépésköz pedig legyen \[h = \frac{b-a}{N} = t_i - t_{i-1} \]
+Itt pedig a lépésköz pedig legyen \[h = \frac{b-a}{N} = t_i - t_{i-1} \] .
 
 Használjuk fel a Taylor sorbafejtést másodrendben x-re.
 \begin{equation*}
@@ -549,7 +578,7 @@ A képlete pedig s=4 mellett:
         t_{i+1} = \alpha + ih
 \end{cases}
 \end{equation*}
-Ezt pedig már tudjuk iterálni i-ben egy rögzített h mellett. Ennek a közelítésnek előnye, hogy a hibahatára már elfogadható és nem igényel annyira sok számítást, mint egy magasabb rendű közelítés
+Ezt pedig már tudjuk iterálni i-ben egy rögzített h mellett. Ennek a közelítésnek előnye, hogy a hibahatára már elfogadható és nem igényel annyira sok számítást, mint egy magasabb rendű közelítés.
 \subsection{Példa feladatok}
 \begin{example} [Konstans együtthatós lineáris ODE]
 Legyen \\
@@ -591,13 +620,13 @@ Nézzük meg mennyit ad a függvény a t=1 pontban:
 \begin{equation*}
     x(1) = \frac{e^{5(1 + \frac{ln2}{5})} + 3}{5} \approx 59.9653
 \end{equation*}
-A függvényünk h = 0.1-es lépésköz mellett 59.8632 -es értéket adott. Ha h = 0.01, akkor sok tizedesjegyig megegyezik az eredmény. Azonban nem feltétlen szabad a megoldó algoritmusban h - t igazán kicsinek venni, mert könnyen a visszajára fordulhat. (Ez például függ attól, hogy hány bites a processzor. Nagyon nagy irodalma van az optimális értékek beállítására, azonban most ez a szakdolgozat ezzel nem foglalkozik)
+A függvényünk h = 0.1-es lépésköz mellett 59.8632 -es értéket adott. Ha h = 0.01, akkor sok tizedesjegyig megegyezik az eredmény. Azonban nem feltétlen szabad a megoldó algoritmusban h - t igazán kicsinek venni, mert könnyen a visszajára fordulhat. (Ez például függ attól, hogy hány bites a processzor. Nagyon nagy irodalma van az optimális értékek beállítására, azonban most ez a szakdolgozat ezzel nem foglalkozik).
 \end{example}
 
 \begin{example}[Folytonos kamatozás]
 Tegyük fel, hogy elhelyezünk egy bankban konstans kamatláb mellett egy betétet folytonos kamatozás mellett. Tudjuk, hogy a folytonos kamatozás képlete
 \begin{equation*}
-    e^{rt},\;\; ahol \; r\; a\; kamatláb \;és\;t\; az \;idő
+    e^{rt},\;\; ahol \; r\; a\; kamatláb \;és\;t\; az \;idő.
 \end{equation*}
 Ezt kifejezhetjük egy kezdetiérték probléma alakban is a következő módon : \\
 \begin{center}
@@ -622,9 +651,9 @@ Ennek a megoldása pedig pont visszaadja a fentebb írt képletet: \\
 \begin{equation*}
     x = e^{rt + c}
 \end{equation*}
-Mivel a kezdetifeltétel x(0) = 1, így c = 0 és visszakapjuk az eredeti képletet\\
+Mivel a kezdeti feltétel x(0) = 1, így c = 0 és visszakapjuk az eredeti képletet\\
 
-Nézzük meg mennyi lehet x(1), úgy hogy r = 0.1 a kamatláb. A képlet szerint tudjuk, hogy
+Nézzük meg mennyi lehet x(1) értéke, úgy hogy r = 0.1 a kamatláb. A képlet szerint tudjuk, hogy
 \begin{equation*}
     e^0.1 = x(1) = 1.105170918...
 \end{equation*}
@@ -670,10 +699,11 @@ Ennek a feladatnak az analitikus megoldása :
 A numerikus eredmény pedig: 1.0110.
 Ez az első feladat, ahol jelentős az eltérés, nevesen kb. 0.01
 \end{example}
-A Runge-Kutta és minden egyéb numerikus módszer tehát nem arra jó, hogy meghatározzuk analitikusan , képlettel a függvény formáját, hanem egy közelítést ad arra, hogy mi lehet a keresett függvény \textbf{értéke az adott pontban.}
+A Runge-Kutta és minden egyéb numerikus módszer tehát nem alkalmas a függvény formájának analitikus módon történő képlettel való meghatározására, hanem egy közelítést ad arra, hogy mi lehet a keresett függvény \textbf{értéke az adott pontban.}
 \subsection{Eredmények összevetése}
-A Runge Kutta módszert kevesebb lépésből mindig pontosabb eredményt adott, ez is egy oka , amiért ez terjedt el inkább az oktatásban. Azonban most az egyszerűség kedvéért az Euler módszer eredményeit úgy közlöm ebben a táblázatban, hogy nem ugyanakkora energiabefektetéssel készültek, mint az RK4-es párjai. Ez a gyakorlatban azt jelenti, hogy minden esetben addig emelgettem az iterációs számokat, ameddig be nem állt az adott értékre, amitől már számottevően nem tért el a továbbiakban. Ezek után a legjobb Euler módszer eredményeket tettem bele a táblázatba, míg az RK4-es eredmények konzistensen nem változtak felépítésüket tekintve, nem nyúltam bele sehogy sem a megoldó algoritmus paramétereibe.
+A Runge Kutta módszer kevesebb lépésből mindig pontosabb eredményt adott, ez is egy oka , amiért ez terjedt el inkább az oktatásban. Azonban most az egyszerűség kedvéért az Euler módszer eredményeit úgy közlöm ebben a táblázatban, hogy nem ugyanakkora energiabefektetéssel készültek, mint az RK4-es párjai. Ez a gyakorlatban azt jelenti, hogy minden esetben addig emelgettem az iterációs számokat, ameddig be nem állt az adott értékre, amitől már számottevően nem tért el a továbbiakban. Ezek után a legjobb Euler módszer eredményeket tettem bele a táblázatba, míg az RK4-es eredmények konzistensen nem változtak felépítésüket tekintve, nem nyúltam bele sehogy sem a megoldó algoritmus paramétereibe.
 \begin{table}[H]
+\caption{Numerikus algoritmusok performacia vizsgálata (forrás: saját készítés)}
 \begin{tabular}{|l|l|l|l|}
 \hline
                            & Analitikus megoldás & Runge Kutta & Euler módszer \\ \hline
@@ -684,18 +714,35 @@ Bonyolultabb példa          & 1.0000              & 1.0110      & 1.0936       
 \end{tabular}
 \end{table}
 Látni az eredményeken, hogy az RK4 jobb eredményekre vezetett az Euler módszernél. A következő néhány képen pedig bemutatjuk a két módszer pontosságát. Az első képen a konstans együtthatós példa szerepel 100-as és 200-as lépésszámok mellett. Látni, hogy az RK4 kevesebb lépésből közelebb került a megoldáshoz.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth, height=290pt]{RK4/plotok/konstans_rk4=100_euler=200.png}
+    \caption{Runge-Kutta és Euler módszer különböző lépésszám mellett (forrás: saját készítés)}
+    \label{Rk4_euler_1}
+\end{figure}
 
-\includegraphics[width=\textwidth, height=290pt]{RK4/plotok/konstans_rk4=100_euler=200.png}
 A második képen pedig látni, hogy ugyanakkora lépésszám mellett ebben az esetben pedig pontosabb eredményt adott az RK4.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{RK4/plotok/konstans_mindketto_200.png}
+    \caption{RK4 - Euler azonos lépésszám mellett (forrás: saját készítés)}
+    \label{rk4_euler_pelda2}
+\end{figure}
 
-\includegraphics[width=\textwidth]{RK4/plotok/konstans_mindketto_200.png}
 
-Természetesen úgy kerek, ha megmutatjuk, hogy más esetekben ezektől függetlenül nehéz leolvasni az ábráról, hogy van eltérés az eredmények között. Ilyen volt az a példa, ahol a kamatláb esetet vizsgáltuk. Itt a piros vonalat meg kellett vastag0tani, mert végig fej fej mellett haladt a két vonal
+Természetesen úgy teljes, ha megmutatjuk, hogy más esetekben ezektől függetlenül nehéz leolvasni az ábráról, hogy van eltérés az eredmények között. Ilyen volt az a példa, ahol a kamatláb esetet vizsgáltuk. Itt a piros vonalat meg kellett vastagítani, mert végig fej fej mellett haladt a két vonal.\newline
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth, height=290pt]{RK4/plotok/kamatlab_step=100.png}
+    \caption{Kamatláb modell azonos lépésszám mellett (forrás: saját készítés)}
+    \label{kamatlab_pelda}
+\end{figure}
 
-\includegraphics[width=\textwidth, height=290pt]{RK4/plotok/kamatlab_step=100.png}
+\pagebreak
+
 \subsection{Magasabb rendű egyenletek megoldása}
-A Runge Kutta módszerek működnek magasabb rendű differenciál egyenletek megoldására is. Alapvetően nagyon hasonlít az elsőrendű megoldó képlethez. Amikor analitikusan szeretnénk megoldani egy magasabb rendű egyenletet, akkor általában úgy szoktuk azt megtenni, hogy bevezetünk új változókat az egyes deriváltakra és ezt folytatva redukáljuk a problémát egy olyan feladatra, aminek már ismerjük a megoldási lehetőségét, lehetőségeit. Ha letudtuk redukálni a problémát elsőrendű alfeladatokra, akkor azok össze lesznek kapcsolódva a bizonyos változókban és erre tudjuk alkalmazni, például a Runge Kutta módszert (nem feltétlen csak a negyed rendű közelítést).\newline
-Nézzük meg példának egy (általánosan felírt) másodrendű differenciál egyenlet megoldását az RK4 módszerrel.
+A Runge Kutta módszerek alkalmazhatóak magasabb rendű differenciálegyenletek megoldására is. Alapvetően nagyon hasonlít az elsőrendű megoldó képlethez. Amikor analitikusan szeretnénk megoldani egy magasabb rendű egyenletet, akkor általában úgy szoktuk azt megtenni, hogy bevezetünk új változókat az egyes deriváltakra és ezt folytatva redukáljuk a problémát egy olyan feladatra, aminek már ismerjük a megoldási lehetőségét, lehetőségeit. Ha le tudtuk redukálni a problémát elsőrendű alfeladatokra, akkor azok össze lesznek kapcsolódva a bizonyos változókban és erre tudjuk alkalmazni például a Runge Kutta módszert (nem feltétlenül csak a negyed rendű közelítést).\newline
+Nézzük meg példának egy (általánosan felírt) másodrendű differenciálegyenlet megoldását az RK4 módszerrel.
 \begin{center}
     \begin{cases}
     x'' = f(t,x,x') \\
@@ -755,25 +802,28 @@ Ezután pedig a kettő megoldandó egyenletet az előbbiekhez  hasonlóan elkezd
     Z_{n+1} = Z_n + \frac{1}{6}(K_1 + 2K_2 + 2K_3 + K_4)
 \end{equation*}
 \subsection{Python kódok a fejezethez}
-Ebben az alfejezetben találjuka Runge Kutta numerikus módszer implementációját elsőre, majd a második szkriptben a példa függvényeket és a fő függvény használatára példát. Nézzük is meg elsőre magát a fő függvényt. Miután felsoroljuk a bemeneti változókat a dokumentációban eltudjuk olvasni, hogy mi mit is jelent. Meghatározódik n változóban a lépésszám, majd a globals() segítségével elkezdjük kiszámolni a konstansokat a különböző iterációs lépésekben és a ki folyamatosan mozgatjuk az értékeket. Végül megkapjuk a numerikus közelítését a differenciálegyenletnek.
+
+Ebben az alfejezetben találjuk a Runge Kutta numerikus módszer implementációját elsőre, majd a második szkriptben a példa függvényeket és a megoldó függvény használatára példákat. Nézzük is meg elsőre magát a megoldó függvényt. Miután felsoroljuk a bemeneti változókat a dokumentációban eltudjuk olvasni, hogy mi mit is jelent. Meghatározódik n változóban a lépésszám, majd a globals() segítségével elkezdjük kiszámolni az adott konstansokat a különböző iterációs lépésekben és ezeken keresztül haladunk a numerikus megoldás felé.
+\pagebreak
 \lstinputlisting[language=Python]{RK4/rk4.py}
 
 \lstinputlisting[language=Python]{RK4/rk4_examples.py}
+\pagebreak
 Itt pedig az Euler módszer általam megírt változatát találhatjuk.
 \lstinputlisting[language=Python]{RK4/euler_method_template.py}
-\section{Stabilitás elméleti kitekintés}
-A stabilitás elmélet egy nagy része a differenciálegyenletek témakörének. Ebben a dolgozatban szeretnénk egy kicsi betekintést nyerni ebbe a világba. Első körben tisztázzunk néhány definíciót
+\section{Stabilitáselméleti kitekintés}
+A stabilitáselmélet számottevő részét képezi a differenciálegyenletek témakörének. Ebben a dolgozatban szeretnénk egy kicsi betekintést nyerni ebbe a világba. Első körben tisztázzunk néhány definíciót.
 \subsection{Alapfogalmak}
 A fejezetben végig vegyük adottnak a
 \begin{equation*}
     x' = f(t,x)
 \end{equation*}
-függvényt, ahol
+differenciálegyenlet, ahol
 \begin{equation*}
     f: I \times \Omega \rightarrow \mathbb{R}^n \\
 \end{equation*}
 \begin{equation*}
-    (t,x) \rightarrow f(t,x)
+    (t,x) \rightarrow f(x)
 \end{equation*}
 \begin{equation*}
     I=(t,\infty)
@@ -782,39 +832,10 @@ függvényt, ahol
     0 \in I
 \end{equation*}
 \begin{definition}[Egyensúlyi pont]
-A fent bevezetett függvény mellett az
-\begin{equation*}
-    x' = 0 = f(t,x)
-\end{equation*}
-pontot egyensúlyi pontnak nevezzük
+Egy f(a) = 0 tulajdonságú pontot a differenciálegyenlet egyensúlyi pontjának nevezzük.
 \end{definition}
-A továbbiakban az
-\begin{equation*}
-    (x_0,t_o) \in I \times \Omega
-\end{equation*}
-legyen olyan intervallum, hogy f-nek egy megoldása legyen csak
-
-\begin{definition}
-Jelöljük a következő módon a vektorok felsőbecslésének halmazát :
-\begin{equation*}
-    B_{\rho} : = \{ x \in \mathbb{R}^n: \lVert x \rVert < \rho \}
-\end{equation*}
-\end{definition}
-A következő néhány definíció fontos alapfogalmai a stabilitáselméletnek, így minnél pontosabb megfogalmazásra törekedünk, a [Sárga könyv] alapján. Amikor egy stabilitás fajtát tárgyalunk, azt a megoldásra kell értelmezni. Tehát ha megállapítjuk, hogy valami stabil, akkor azt arra fogjuk érteni, hogy a megoldás stabil.
-\begin{definition}[Megoldás legbővebb halmaza]
-Jelölje $J^+$ az x legbővebb lehetséges megoldás halmazát. Természetesen
-\begin{equation*}
-    J^+ \subseteq [t_0, \infty]
-\end{equation*}
-\end{definition}
-\begin{definition} [Stabilitás]
-\begin{equation*}
-    \forall \epsilon > 0 \;-hoz\;\;és\;\;t_0 \in I \;-re\; \exists\;
-    \delta >0\;,\;hogy\;\; \forall x_0 \in B_{\delta} \;és\; t \in J^+ \;esetén
-\end{equation*}
-\begin{equation*}
-    \lVert x(t,(t_0,x_0)) \rVert < \epsilon
-\end{equation*}
+\begin{definition}[Stabilitás]
+Legyen $x_0 \in \Omega$ egyensúlyi helye az egyenletünknek. Ekkor azt mondjuk, hogy $x_0$ egyensúlyi pont stabil, ha $\forall \epsilon > 0 $ számhoz létezik olyan $\delta > 0$ szám, hogy a kiinduló egyenlet minden $|x(0) - x_0| \leq \delta$ tulajdonságú megoldására minden $t \in \mathcal{D}_x \cup  [0, + \infty)$ esetén  $|x(t) - x_0| \leq \epsilon$
 \end{definition}
 
 \begin{definition}[Instabilitás]
@@ -822,121 +843,22 @@ Az instabil, ami nem stabil.
 \end{definition}
 
 \begin{definition}[Vonzás (attraktivitás)]
-Az x' = f(t,x) x=0 megoldását vonzónak nevezzük, ha
+Az x' = f(t,x) x=0 megoldását vonzónak nevezzük, ha létezik
+$\delta_0 > 0$ szám, hogy a kiinduló egyenlet bármely,  a nemnegatív félegyenes egészén értelmezett, $|x(0) - x_0| \leq \delta_0$ tulajdonságú megoldására fennáll a következő
 \begin{equation*}
-    \forall t_0 \in I \; esetén\; \exists\; \eta = \eta(t_0)
+    \lim_{t \rightarrow + \infty} x(t) = x_0
 \end{equation*}
-\begin{center}
-    és
-\end{center}
-\begin{equation*}
-    \forall \epsilon > 0\; esetén \;és\; \forall \; \lVert x_0 \rVert < \eta \;-ra \; \exists \; \sigma = \sigma(t_0,\epsilon,x_0) > 0
-\end{equation*}
-\begin{center}
-    olyan módon, hogy
-\end{center}
-\begin{equation*}
-    \forall \; t_0 + \sigma \leq t \;és\; t \in J^+ \;esetén \; \lVert x(t,t_o,x_0) \rVert < \epsilon
-\end{equation*}
+határérték.
 \end{definition}
-\begin{definition}[Egyenletes stabilitás]
-\begin{equation*}
-    \forall \; \epsilon > 0 \; mellett \; \exists \; \delta  = \delta(\epsilon) \;olyan \;módon,\;hogy
-\end{equation*}
-\begin{equation*}
-    \lVert x(t,(t_0,x_0)) \rVert < \epsilon
-\end{equation*}
-\begin{equation*}
-    \forall t_0 \in I, \forall \; \lVert x_0 \rVert < \delta,
-    \forall \; t_0 \leq t-ra \;teljesül
-\end{equation*}
+\begin{definition}[Asztimptotikus stabilitás]
+A kiinduló egyenlet megoldását aszimptotikusan stabilnak nevezzük, ha egyszerre stabil és vonzó
 \end{definition}
 
-\begin{definition}[Egyenlően vonzó]
-\begin{equation*}
-    \forall \; t_0 \in I \; esetén \; \exists \eta = \eta(t_0).
-\end{equation*}
-\begin{center}
-    és
-\end{center}
-\begin{equation*}
-    \forall \epsilon > 0 \; mellett \; \exists \; \sigma = \sigma(t_0,\epsilon) > 0
-\end{equation*}
-\begin{center}
-    olyan módon, hogy
-\end{center}
-\begin{equation*}
-    t_0 + \sigma \in J^+ : \lVert x(t,(t_0,x_0)) \rVert < \epsilon
-    \;
-\end{equation*}
-\begin{equation*}
-     \forall \; \lVert x_0 \rVert < \eta
-\end{equation*}
-\begin{equation*}
-     \forall t_0 + \sigma \leq ; \; t \in J^+
-\end{equation*}
-\end{definition}
-
-\begin{definition}[Egyenletesen vonzó]
-\begin{equation*}
-  \exists \eta > 0 \;és \; \forall \; \epsilon > 0 \;mellett \; \exists \sigma = \sigma(\epsilon)
-\end{equation*}
-\begin{center}
-olyan módon, hogy $t_0 + \sigma \in J^+,$ és
-\end{center}
-\begin{equation*}
-    \lVert x(t,(t_0,x_0)) \rVert < \epsilon
-\end{equation*}
-\begin{equation*}
-    \forall \lVert x_0 \rVert < \eta, \;és
-\end{equation*}
-\begin{equation*}
-    t_0 + \sigma \leq t, t \in J^+
-\end{equation*}
-\end{definition}
-
-\begin{definition}[Globálisan vonzó]
-\begin{equation*}
-    \forall \eta > 0 \;és\; \forall t_0 \in I\;esetén
-\end{equation*}
-\begin{equation*}
-     \lim_{t\to 0} x(t,(t_0,x_0))  \rightarrow 0
-\end{equation*}
-és emellé mind $t_0$-ban ,mind $x_0$-ban egyenletes a konvergencia
-\end{definition}
-
-A globálisan vonzó megoldás definíciója után ésszerű lehet kimondani ,hogy milyen lehet egy pont vonzási körzete, jelesül az origóé.
-
-\begin{definition}[Origó vonzási körzete vagy attraktivitási tartománya]
-Jelölje A() a következő halmazt :
-\begin{equation*}
-    A(t_0) := \{ x_0 \in \Omega : \lim_{t\to 0} x(t,(t_0,x_0))  \rightarrow 0 \}
-\end{equation*}
-Ha ez $t_0$-tól független, akkor egyenletesnek mondjuk a vonzási körzetet.
-\end{definition}
-
-Az alapvető definíciók mellé még mondjunk ki 4 megoldási jellemzhetőséget, amelyek egymásnak finomításai.
-
-\begin{definition}[Aszimptotikus stabilitás]
-Az x' = f(t,x) függvénynek az x = 0 megoldási aszimptotikusan stabil, ha stabil és vonzó
-\end{definition}
-
-\begin{definition}[Egyenlően aszimptotikusan stabil]
-Minden megoldás egyenlően aszimptotikusan stabil, ha stabil és egyenlően vonzó
-\end{definition}
-
-\begin{definition}[Egyenletesen aszimptotikusan stabil]
-Egyenletesen aszimptotikusan stabilnak nevezzük azokat a megoldásokat, amelyek egyenletesen stabilok és egyenletesen vonzóak
-\end{definition}
-
-\begin{definition}[Globálisan egyenletesen aszimptotikusan stabil]
-Globálisan egyenletesen aszimptotikusan stabil hívjuk azokat a megoldásokat, amelyek egyenletesen stabil és egyenletesen globálisan vonzó
-\end{definition}
 \subsection{Lineáris algebrai kitekintő}
-Amikor egy rendszer stabilitását vizsgáljuk, akkor nagyban kell támaszkodnunk a különböző lineáris algebrai ismereteinkre.Ezért a következőkben kimondunk néhány tételt és definíciót, amelyek segítenek megérteni a különböző tételeket amelyek a stabilitásvizsgálathoz kapcsolódnak.
+Amikor egy rendszer stabilitását vizsgáljuk, akkor nagyban kell támaszkodnunk a különböző lineáris algebrai ismereteinkre. Ezért a következőkben kimondunk néhány tételt és definíciót, amelyek segítenek megérteni a különböző tételeket, amelyek a stabilitásvizsgálathoz kapcsolódnak. Érdemes megemlíteni, hogy már fentebb beszéltünk a vektorműveletek hatékonyságáról, ami nagyban támaszkodik a lineáris algebra eszköztárára. Természetesen ezeknél a számításoknál is a NumPy csomag osztályaira hagyatkozunk, nevesen a linalg modulra.
 
 \subsubsection{Mátrix az exponenciális függvényben}
-Az egydimenziós exponenciális függvény és a mátrixokra kiterjesztett változata képletben nem mutat eltérést, sőt a különböző konvergencia megállapítások is hasonlítanak egymásra.
+Az egydimenziós exponenciális függvény és a mátrixokra kiterjesztett változata képletben nem mutat eltérést, sőt a különböző konvergencia megállapítások is hasonlítanak egymásra. Az alábbo fogalmak tisztázása szükséges a fejezet megértéséhez.
 \begin{definition}[Mátrixokra kiterjesztett exponenciális függvény]
 Legyen X egy négyzetes mátrix. Ekkor a következő módon értelmezzük a mátrix kitevőt az exponenciális függvényben.
 \begin{equation*}
@@ -946,20 +868,20 @@ Legyen X egy négyzetes mátrix. Ekkor a következő módon értelmezzük a mát
 \begin{theorem}
 A mátrixokra kiterjesztett exponenciáliss függvény tartja a következő tulajdonságokat:
         \begin{equation*}
-            e^{A+B} = e^A + e^B
+            e^{A+B} = e^A  e^B
         \end{equation*}
-
+        amennyiben AB = BA.
         \begin{equation*}
             e^{-A} e^{A} = I
         \end{equation*}
-
+        Ahol I az egységmátrix.
         \begin{equation*}
             \frac{d}{dt} e^{tA} = A e^{tA}
         \end{equation*}
 \end{theorem}
 \subsubsection{Sajátértékek és sajátvektorok}
 \begin{definition}[Sajátérték]
-Legyen A egy lineáris operátor (mátrix). Vegyünk emellé egy nem nem nulla vektort. Ekkor a $ \lambda \in \mathbb{C}$ az A mátrix sajátértéke, ha kielégíti a következő egyenletet
+Legyen A egy lineáris operátor (mátrix). Vegyünk emellé egy nemnulla vektort. Ekkor a $ \lambda \in \mathbb{C}$ az A mátrix sajátértéke, ha kielégíti a következő egyenletet
 \begin{equation*}
     Ax = \lambda x
 \end{equation*}
@@ -972,7 +894,7 @@ ahol I természetesen az egységoperátor (mátrix)
 \end{definition}
 A lambda skalárt a komplex számok felett definiáltuk, hogy ne sértsük meg az általánosságot, de ez működik a valós számtest felett is (ami a komplex számtest részhalmaza).
 \begin{definition}[Sajátvektor]
-Legyen A egy lineáris operátor , jelesül egy mátrix .Az A mátrix minden olyan nem zérus \mathbb{x} vektorát sajátvektorának nevezzük, amelyre fenáll a következő egyenlőség
+Legyen A egy lineáris operátor, jelesül egy mátrix .Az A mátrix minden olyan nem zérus \mathbb{x} vektorát sajátvektorának nevezzük, amelyre fennáll a következő egyenlőség
 \begin{equation*}
     Ax = \lambda x
 \end{equation*}
@@ -982,37 +904,36 @@ A sajátvektor skalárszorosa is sajátvektor marad ugyanazzal a sajátértékke
 Tehát a sajátérték és a sajátvektor fogalmak nagyon szoros kapcsolatban állnak egymással.
 
 \subsubsection{Sajátértékek meghatározása}
-Amikor meg kell határoznunk egy mátrix sajátértékeit, akkor azt alapvetően több féle képpen tudjuk megtenni. Azonban amikor ezeket papíron végezzük el, az a mátrix dimenziójának növekedésével nem lineárisan megnöveli a számítási igényt, ezzel pedig méginkább nagyobb lesz az esély, hogy valahol elrontjuk a számolást és ezzel a végeredményt. A lineáris rendszerek stabilitásvizsgálatában központi szerepet játszanak a sajátértékek, így ebben az alfejeztben körbejárunk ezt numerikus megközelítésből.
+Amikor meg kell határoznunk egy mátrix sajátértékeit, akkor azt alapvetően többféle képpen tudjuk megtenni. Azonban amikor ezeket papíron végezzük el, az a mátrix dimenziójának növekedésével nemlineárisan megnöveli a számítási igényt, ezzel pedig méginkább nagyobb lesz az esély, hogy valahol elrontjuk a számolást és ezzel a végeredményt. A lineáris rendszerek stabilitásvizsgálatában központi szerepet játszanak a sajátértékek, így ebben az alfejezetben körbejáruk ezt numerikus megközelítésből.
 
-Amikor felakarjuk írni egy mátrix sajátértékeit, akkor azt általában a karakterisztikus polinom gyökeinek megoldásaiként szoktuk megkapni.
+Amikor fel akarjuk írni egy mátrix sajátértékeit, akkor azt általában a karakterisztikus polinom gyökeinek meghatározásával tesszük.
 
 \begin{equation*}
     det(A-\lambda I) = 0
 \end{equation*}
 
-Ez egy nxn-es mátrix esetén egy legfeljebb n-edfokú polinomot eredményet.
+Ez egy nxn-es mátrix esetén egy  n-edfokú polinomot eredményez.
 \begin{equation*}
     p(\lambda) = \sum_{i=0}^{n} c_i \lambda^i
 \end{equation*}
-Polinomokra mindig fogunk megoldást találni, így a sajátértékek is megfogjuk találni.
+Polinomok gyökeire mindig fogunk megoldást találni, így a sajátértékeket is meg fogjuk találni.
 
-Elsőre  érdekességképp bemutatjuk a hatványmódszert (power method). Ez a módszer azért érdekes, mert csak a domináns sajátértékét számolja ki egy mátrixnak. Az alapgondolatát Richard von Mises és H. Pollaczek-Geiringer mutatták be még az 1920-as években. Ez egy iteratív eljárás, ami lépésről lépésre konvergál a domináns sajátérték felé. Gyakorlati haszna olyan mátrixok esetében van, amiben rengeteg a 0. Ez leginkább csak a számítógépes problémák esetében kerül elő. Talán a leghíresebb algoritmus, ami épít erre az a Google PageRank algoritmusa. Ez pont ideális, mert ha a honlapok kapcsolati gráfját mátrix formában írjuk fel, akkor meglehetősen sok 0 elemet fog tartalmazni (sparse matrix) és ekkor már ideális megközelítés lehet a hatványmódszer.
+Elsőre  érdekességképp bemutatjuk a hatványmódszert (power method). Ez a módszer azért érdekes, mert csak a domináns sajátértékét számolja ki egy mátrixnak. Ez egy iteratív eljárás, ami lépésről lépésre konvergál a domináns sajátérték felé. Gyakorlati haszna olyan mátrixok esetében van, amely sok 0 elemet tartalmaz. Ez leginkább csak a számítógépes problémák esetében kerül elő. Talán a leghíresebb algoritmus, ami épít erre az a Google PageRank\cite{ilprints422} algoritmusa. Ez pont ideális, mert ha a honlapok kapcsolati gráfját mátrix formában írjuk fel, akkor meglehetősen sok 0 elemet fog tartalmazni (sparse matrix) és ekkor már ideális megközelítés lehet a hatványmódszer.
 
-Az algoritmus maga úgy működik, hogy veszünk egy diagonalizálható mátrixot (A) és mellé egy \textbf{b} vektort. Ez a vektor legyen véletlen vagy ha tudunk valamit a problémáról, akkor közelítése a domináns sajátvektort.
+Az algoritmus maga úgy működik, hogy veszünk egy diagonalizálható mátrixot (A) és mellé egy \textbf{b} vektort. Ez a vektor legyen véletlen vagy ha tudunk valamit a problémáról, akkor közelítése a domináns sajátvektort. A véletlenségre amiatt van szükség, mert ha ortogonális lenne a kettő vektor, akkor a szorzatuk 0 lenne, ekkor pedig nem tudnánk tovább haladni a számítással.
 
-Ezután a következő lépéssorozatot iteráljuk, addig ameddig beállítjuk, hogy k milyen indexhalmazon megy végig:
+Ezután a következő lépéssorozatot iteráljuk, addig ameddig beállítjuk, hogy k milyen indexhalmazon menjen végig:
 \begin{equation*}
     b_{k+1} =\frac{A b_{k}}{\lVert A b_{k} \rVert}
 \end{equation*}
-A norma alatt a szokásos euklideszi normát értjük. A módszer azonban nem feltétlen lesz konvergens, különböző feltételeknek kell teljesülnie ahhoz, hogy azzá váljon adott mátrixra.
+A norma alatt a szokásos euklideszi normát értjük. A módszer azonban nem feltétlenül lesz konvergens, különböző feltételeknek kell teljesülnie ahhoz, hogy azzá váljon adott mátrixra.
 
-Erre nézzünk egy rövid Python kódot, ami elvégzni ezt a lépéssorozatot:
+Erre nézzünk egy rövid Python kódot, ami elvégzni ezt a lépéssorozatot (a függény neve Richard Von Mises német matematikus nevét hordozza, mert a szakirodalomban így is szoktak rá hivatkozni). Használjuk a NumPy dot() függvényét, amivel vektorokat leshet összerozoni, illetve a linalg osztály norma függvényét. Alul pedig egy példát találunk a használatára. Mi itt nem adtuk meg a lehetőséget, hogy a felhasználó maga dönthessen arról, hogy van - e esetleg közeli tippje a valós sajátvektorrol, hogy onnan induljon az eljárás. Emiatt pedig maradt a véletlen mátrix használata, hogy elkerüljük az ortogonalitást. Ez az implementáció nem volt pontos a saját számolások után, nem olyan pontosan beállított függvényről beszélünk itt, mint amit mondjuk egy BLAS csomagban találnánk.
+
 \pagebreak
 \lstinputlisting[language=Python]{linalg/eigenvals.py}
 
-Ha azonban minden sajátértékre szükségünk van, akkor megprobálhatunk a QR algoritmussal haladni, aminek az alapjait az 1950-es években John G. F. Francis és Vera N. Kublanovskaya dolgozták ki egymástól függetlenül.
-
-Végezetül nézzük meg a \textit{numpy} csomag sajátérték és sajátvektor kiszámító függvényt.
+Nézzük meg a \textit{numpy} csomag sajátérték és sajátvektor kiszámító függvényt.
 
 A függvény bemenete egy mátrix (numpy arrayt adunk meg most), a kimenete pedig a sajátértékek listája és a sajátvektorok listája.
 
@@ -1035,21 +956,22 @@ mátrix sajátértékeit és sajátvektorait.
 \begin{equation*}
     v_2 = [0.4574 , 1]
 \end{equation*}
-és ezek a sajátvektorok konstanszorosai a numpy.linalg.ein() által megadott eredményeknek
+és ezek a sajátvektorok skalárszorosai a numpy.linalg.ein() által megadott eredményeknek
+\pagebreak
 \lstinputlisting[language=Python]{linalg/numpy_linalg_eigenvals.py}
 Szerencsére ez a függvény a numpy.linalg csomagból azt is meghatározza, ha egy mátrix sajátértéke komplex szám, amire nagy szükségünk lesz a lineáris rendszerek stabilitásának vizsgálatakor.
 
 
-A következő alfejezetben nézzünk meg néhány tételt, amelyek a stabilitás meghatározására vonatkoznak a lineáris esetekben
+A következő alfejezetben vizsgáljunk meg néhány tételt, amelyek a stabilitáselmélet linearizációs ágának alapköveit képezik és alkalmazzuk a fentebb említett numerikus lehetőségeket.
 \subsection{Rendszerek stabilitása linearizálással}
 
 \begin{theorem}
-Legyen A négyzetes mátrix diagonalizálható, és
+Legyen az A négyzetes mátrix diagonalizálható, és
 
 \begin{equation*}
     \lambda_{1}, \lambda_{2}, \lambda_{3}, ... ,\lambda_{r}
 \end{equation*}
-a különböző sajátértékei. Ha P jelöli a következő halmazt,
+a különböző sajátértékei. Ha P jelöli a következő mátrixot,
 \begin{equation*}
     P_k := \prod_{j \neq k, 1 \leq j \leq r} \frac{A - \lambda_{j} I} {\lambda_{k} - \lambda_{j}}
 \end{equation*}
@@ -1066,19 +988,29 @@ akkor
 Ez a tétel azért volt fontos, mert ennek a segítségével könnyen fogjuk tudni kezelni egy mátrix exponenciális eredményét.
 
 \begin{theorem}
-Legyen A egy négyzetes és diagonalizálható mátrix, $\lambda_1,...,\lambda_r$ pedig az összes különböző sajátértéke. Ekkor, az elöző tétel jelölését követve fenáll a következő egyenlőség
+Legyen A egy négyzetes és diagonalizálható mátrix, $\lambda_1,...,\lambda_r$ pedig az összes különböző sajátértéke. Ekkor, az elöző tétel jelölését követve fennáll a következő egyenlőség
 \begin{equation*}
     e^{tA} = \sum_{k=1}^r e^{\lambda_k t} P_k
 \end{equation*}
 \end{theorem}
-A következő néhány tétel erejéig a vizsgálandó mátrix alatt az \textbf{x'} = f(\textbf{x}) -et értjük
+A következő néhány tétel erejéig a vizsgálandó mátrix alatt az \textbf{x'} = f(\textbf{x}) -et értjük azaz a Jacobi mátrixot.
+\begin{definition}[Jacobi mátrix]
+Legyen f egy vektorértékű leképezés. Jacobi mátrix alatt az f komponenseinek parciális deriváltjaiból álló mátrixot értjük olyan módon, hogy az első sorban a vektor első elemének parciális deriváltjait vesszük egyesével, a második sorban a vektor második elemének parciális deriváltjait és így tovább. Ezáltal egy négyzetes mátrixot kapunk eredményül, ha a komponensek és a változók száma egyenlő..
+\begin{center}
+   \begin{bmatrix}
+\dfrac{\partial f_{1}(\mathbf{x})}{\partial x_{1}} & \cdots & \dfrac{\partial f_{1}(\mathbf{x})}{\partial x_{n}} \\
+\vdots & \ddots & \vdots \\
+\dfrac{\partial f_{m}(\mathbf{x})}{\partial x_{1}} & \cdots & \dfrac{\partial f_{m}(\mathbf{x})}{\partial x_{n}}
+\end{bmatrix}
+\end{center}
+\end{definition}
+A továbbiakban ezen mátrix sajátértékeinek tulajdonságait vizsgáljuk.
 \begin{theorem}
-Ha az f'(a) \in \mathbb{R} ^ {n x n} \;\;mátrixra \;\;
+Ha az f'(a) \in \mathbb{R} ^ {n x n} \;\;Jacobi \;\;mátrixra \;\;
 \begin{equation*}
-    \forall \lambda_i : Re(\lambda_i) < 0
+    \forall \lambda_i : Re(\lambda_i) < 0\;\;
 \end{equation*}
-
-akkor a pont aszimptotikusan stabil megoldása a feladatnak
+akkor az $a$ pont aszimptotikusan stabil egyensúlya a differenciálegyenlet-rendszernek.
 \end{theorem}
 
 \begin{theorem}
@@ -1087,10 +1019,10 @@ Ha az f'(a) mátrixnak
 \begin{equation*}
     \exists \lambda_i : Re(\lambda_i) > 0,
 \end{equation*}
- akkor a pont instabil egyensúlya a feladatnak
+ akkor $a$ pont instabil egyensúlya a feladatnak
 \end{theorem}
 
-Miután kimondtuk ezeket a szükséges tételeket, nézzük meg, hogy miképp számolhatnánk ki Python segítségével egy rendszer linearitását. Mint tudjuk, fel kell írnunk a Jacobi mátrixot, amit eddig f'() módon jelöltünk. Ha analitikusan szeretnénk meghatározni, akkor a feladat komplexitásától függően nagy munkát vehet igénybe a deriváltak felírása, majd a deriváltfüggvényekbe való behelyettesítés és onnan a sajátértékek számítása, amiből letudjuk vonni a stabilitási jellemzőket. Nézzük meg elsőre, hogy miképp tudjuk meghatározni a NumPy csomag segítségével egy mátrix sajátértékeit. Ehhez a linalg() osztályra lesz szükségünk, azon belül pedig az eig() metódusra, amit már fentebb bemutattunk. Ha megvan a mátrix, tudjuk már a sajátértékeket, akkor már nem lesz nehéz dolgunk meghatározni a stabilitást. Erre nézzük meg a következő szkriptet:
+Miután kimondtuk ezeket a szükséges tételeket, nézzük meg, hogy miképp számolhatnánk ki Python segítségével egy rendszer stabilitását. Mint tudjuk, fel kell írnunk a Jacobi mátrixot, amit eddig f'() módon jelöltünk. Ha analitikusan szeretnénk meghatározni, akkor a feladat komplexitásától függően nagy munkát vehet igénybe a deriváltak felírása, majd a deriváltfüggvényekbe való behelyettesítés és onnan a sajátértékek számítása, amiből le tudjuk vonni a stabilitási jellemzőket. Nézzük meg elsőre, hogy miképp tudjuk meghatározni a NumPy csomag segítségével egy mátrix sajátértékeit. Ehhez a linalg() osztályra lesz szükségünk, azon belül pedig az eig() metódusra, amit már fentebb bemutattunk. Ha megvan a mátrix, tudjuk már a sajátértékeket, akkor már nem lesz nehéz dolgunk meghatározni a stabilitást. Erre nézzük meg a következő szkriptet:
 
 \lstinputlisting[language=Python]{linalg/stabiliy.py}
 
@@ -1125,7 +1057,7 @@ Az ebből képzett mátrix pedig innen így néz ki:
         3 x_1^2 & 4
     \end{bmatrix}
 \end{equation*}
-Ez pedig mondjuk az [1, 2] pontban
+Ez pedig az [1, 2] pontban
 \begin{equation*}
 F'(1,2) =
     \begin{bmatrix}
@@ -1133,7 +1065,7 @@ F'(1,2) =
         3 & 4
     \end{bmatrix}
 \end{equation*}
-A kód pedig néhány kerekítésbeli hibát leszámítva ezt az eredményt adta. A következő részben pedig magár a szkriptet lehet látni, összhangban a fent leírtakkal.
+A kód pedig néhány kerekítésbeli hibát leszámítva ezt az eredményt adta. A következő részben pedig magát a szkriptet lehet látni, összhangban a fent leírtakkal.
 \lstinputlisting[language=Python]{linalg/numerical_jacobi_example.py}
 Nézzük meg egy bonyolultabb, nem lineáris példát. Legyen a rendszert leíró függvény a következő:
 \begin{equation*}
@@ -1182,7 +1114,7 @@ A numerikus értékek pedig így alakultak ebben az esetben:
 A numerikus értékek viszonylag közel kerültek az eredeti, analitikus értékekhez.
 Itt is fontos megemlíteni, hogy alapvetően a pontossága a deriválásnak sok mindentől függ, amibe most részletesen ez a szakdolgozat nem megy bele. A teljesség igénye miatt itt pedig láthatjuk a feladat függvényeinek Python implementációit.
 \lstinputlisting[language=Python]{linalg/jacobi_example1.py}
-Természetesen a kód működik olyan esetekre is, ahol a függvények nagyobb dimenzióval rendelkeznek és valamilyen módon kapcsolatba kerülnek a változók, például szorzódnak egymással. Erre legyen példa a következő eset
+Természetesen a kód működik olyan esetekre is, ahol a függvények nagyobb dimenzióval rendelkeznek és valamilyen módon kapcsolatba kerülnek a változók, például szorzódnak egymással. Erre legyen példa a következő:
 \begin{equation*}
     F(x_1,x_2,x_3) = \begin{bmatrix}
         x_1 ^ 2 + x_2 x_3 \\
@@ -1198,7 +1130,7 @@ Természetesen a kód működik olyan esetekre is, ahol a függvények nagyobb d
          2 x_1 & 2 + cos(\frac{x_2}{x_3}) \frac{1}{x_3} & cos(\frac{x_2}{x_3}) \frac{-x_2}{x_3^2}
      \end{bmatrix}
  \end{equation*}
- Ennek analitkusan az értéke az (1,2,3) pontban pedig a következő lesz:
+ Ennek az analitkus értéke az (1,2,3) pontban pedig a következő lesz:
   \begin{equation*}
      F'(1, 2, 3) = \begin{bmatrix}
          2  & 3 & 2 \\
@@ -1223,20 +1155,21 @@ Amikor nagyobb mennyiségű adatot kell feldolgozni, már gyakran kiszervezik az
 
 Ez az elgondolás vezetett oda, hogy beletegyem a szakdolgozatba ezt a fejezetet, ami egy python csomagról szól, nevesen a \textit{Numbáról}\footnote{https://github.com/numba}.
 \newline
-A Numba egy ingyenes, nyílt forráskódú csomag, amit többek között az Anaconda fejlesztői tartanak karban. Nagyon sok mindenben a segítségünkre lehet, többek között a párhuzamos futtatások beállítására (azaz attól lesz gyorsabb a kód, hogy nem 1, hanem több magját kihasználjuk a processzornak), ami önmagában nem egyszerű feladat ha nincsenek jó előismereteink a témában. Ezen felül pedig a \textit{NumPy} csomag függvényeire nyújt egy nagyon jó optimalizálást. Ez azt jelenti, hogy ha nem NumPy objektumokra használjuk, elképzelhető, hogy csak lassabb lesz az egész.\newline
-A Numba egy jit (just-in-time) compiler, ami azt jelenti, hogy a függvényünket rögtön gépi kódra fordítja, ezzel pedig nagyon meggyorsítja a futást, mivel már benne lesz a processzorban a végrehajtandó feladat és nem kell mindig betölteni. Emiatt azonban az első futásra lassab lesz a kód, de utána minden hívásnál gyorsabb lesz, mint az eredeti változat. Ez akkor lehet különösen hasznos, ha pl. szimulálunk egy problémát. Ez tipikusan olyan probléma, amikor sokszor ugyanazt az algoritmust futtatjuk le, csak pl. megváltozik benne egy paraméter (de a mostani esetben ez azt jelenti, hogy csak a bemenet nem egyezik meg, a függvények ugyanazok maradtak, így használhatjuk a Numba előnyeit).
+A Numba egy ingyenes, nyílt forráskódú csomag, amit többek között az Anaconda fejlesztői tartanak karban. Nagyon sok mindenben a segítségünkre lehet, többek között a párhuzamos futtatások beállítására (azaz attól lesz gyorsabb a kód, hogy nem 1, hanem több magját használjuk ki a processzornak), ami önmagában nem egyszerű feladat ha nincsenek jó előismereteink a témában. Ezen felül pedig a \textit{NumPy} csomag függvényeire nyújt egy nagyon jó optimalizálást. Ez azt jelenti, hogy ha nem NumPy objektumokra használjuk, elképzelhető, hogy csak lassabb lesz a kód.\newline
+A Numba egy jit (just-in-time) compiler, ami azt jelenti, hogy a függvényünket rögtön gépi kódra fordítja, ezzel pedig nagyon meggyorsítja a futást, mivel már benne lesz a processzorban a végrehajtandó feladat és nem kell mindig betölteni. Emiatt azonban az első futásra lasabb lesz a kód, de utána minden hívásnál gyorsabb lesz, mint az eredeti változat. Ez akkor lehet különösen hasznos, ha pl. szimulálunk egy problémát. Ez tipikusan olyan probléma, amikor sokszor ugyanazt az algoritmust futtatjuk le, csak pl. megváltozik benne egy paraméter (de a mostani esetben ez azt jelenti, hogy csak a bemenet nem egyezik meg, a függvények ugyanazok maradtak, így használhatjuk a Numba előnyeit).
 
 Azonban ha a Numba-n keresztül szeretnénk futtatni sokkal körültekintőbben kell a kódunkat megírni. Sok hasznos tanácsot találni a csomag honlapján, amiket érdemes figyelembe venni, amikor szeretnénk idő-optimalizálni a szkriptjeinket. A legfőbb dolog, amire figyelnünk kell, az az, hogy ahol tudunk ott NumPyos megoldásokat használjunk. Amikor én elkészítettem a példa feladatokat sokszor figyelembe kellett vennem, hogy ha nem elég körültekintően hozom létre a különböző objektumokat akkor az hibát tud eredményezni és még nem annyira elterjedt a csomag, így több idő megtalálni a fórumokon mi is lesz a hibánk forrása (leginkább a a github oldalon lehetett az 'issue'-k között fórumozni.\newline
 Nézzük meg mit jelent ez a gyorsítás a Von Mises eljárás során (domináns sajátérték meghatározása).
 
 \subsection{Domináns sajátérték probléma}
-Fentebb már láttuk, hogy miképpen implementáltuk ezt a PageRank algoritmust. A 'gyorsítását' egyszerűen megtudjuk tenni a következőképpen. Definiálunk egy más nevű függvényt, de tartalmilag teljesen egyezőt az eredeti metódussal, csak egy \textbf{@jit(nopython = True)} dekorátort elé teszünk. Ezáltal, amikor ezt a függvényt meghívjuk, akkor a jit függvényen keresztül kerül végrehajtásra és a második hívástól kezdve pedig már várhatóan gyorsabb lesz (de nem feltétlen!).
+Fentebb már láttuk, hogy miképpen implementáltuk ezt az algoritmust. A 'gyorsítását' egyszerűen megtudjuk tenni a következőképpen. Definiálunk egy más nevű függvényt, de tartalmilag teljesen egyezőt az eredeti metódussal, csak egy \textbf{@jit(nopython = True)} dekorátort elé teszünk. Ezáltal, amikor ezt a függvényt meghívjuk, akkor a jit függvényen keresztül kerül végrehajtásra és a második hívástól kezdve pedig már várhatóan gyorsabb lesz (de nem feltétlen!). Attól lehet lasabb, hogy nem olyan objektumokat adunk tovább a dekorátornak, amit tudna esetleg gyorsítani, hanem olyat ami nem NumPy objektum, de attól függetlenül ugyanúgy működik.
+\pagebreak
 \lstinputlisting[language=Python]{Numba_examples/von_mises_example.py}
 Egy futás idejét nem célszerű viszonyítási alapnak venni, mert nagyon sok tényező történik egyszerre, emiatt pedig mindig egy kicsit másabb lesz a futásidő. Emiatt minden tesztesetre százszor futattan le mindkét fajta implementációra a függvényeket és minden lépésben egy új véletlen mátrixxal dolgoztak a függvények.\newline
-A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg, illetve ezek arányát (eredeti implementációs értékek / dekorált értékek). Fontos figyelembe venni, hogy ezek az értékek a táblázatban azt a célt szolgálják mutatni, hogy nem volt olyan eset, ahol lasította volt a futást a dekorátor. Néhol elképesztően nagy gyorsítást vitt végbe, néhol 'csak' kétszeresen, ami már önmagában nagy szó, például akkor, amikor egy több órás szimulációt futtatunk és fele idő alatt elkészül az eredmény.
-
-%\begin{table}[htb]
-\begin{center}
+A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg, illetve ezek arányát (eredeti implementációs értékek / dekorált értékek). Fontos figyelembe venni, hogy ezek az értékek a táblázatban azt a célt szolgálják, hogy megmutassuk nem volt olyan eset, ahol lasította volna a futást a dekorátor. Néhol elképesztően nagy gyorsítást vitt végbe, néhol 'csak' kétszeresen, ami már önmagában nagy szó, például akkor, amikor egy több órás szimulációt futtatunk és fele idő alatt elkészül az eredmény.
+\begin{table}[]
+\centering
+\caption{Numba és vanilla Python összehasonlítása(forrás: saját készítés)}
 \begin{tabular}{l|ll|ll|ll|}
 \cline{2-7}
                               & \multicolumn{2}{c|}{eredeti}           & \multicolumn{2}{c|}{numba}             & \multicolumn{2}{c|}{arány}              \\ \cline{2-7}
@@ -1250,30 +1183,23 @@ A táblázatban adott esetre 100 futásidő átlagát és szórását adtam meg,
 \multicolumn{1}{|l|}{50x50}   & \multicolumn{1}{l|}{0.00167} & 0.00322 & \multicolumn{1}{l|}{0.00019} & 0.00087 & \multicolumn{1}{l|}{8.71627}  & 3.66516 \\ \hline
 \multicolumn{1}{|l|}{100x100} & \multicolumn{1}{l|}{0.00150} & 0.00230 & \multicolumn{1}{l|}{0.00067} & 0.00173 & \multicolumn{1}{l|}{2.23159}  & 1.32747 \\ \hline
 \end{tabular}
-\end{center}
-%\end{table}
-\subsection{}
-
-\section{Felhasznált irodalom}
-\begin{itemize}
-    \item Kis Ottó, Kovács Margit - Numerikus módszerek
-    \item Richard L. Burden, J Douglas Faires - Numerical Analysis (9th edition)
-    \item Kánnai Zoltán dinamika jegyzetei
-    \item stabilitásos sárga könyv
-\end{itemize}
-
+\end{table}
 \section{Git és GitHub}
-A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat , és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam.
+A dolgozat tex fájlban készült és csatoltam mellé sok Python szkriptet. Mivel sok a kód, nehéz nyomon követni, hogy mikor mit változtattam meg, esetleg kitöröltem valami olyasmit, amire nem volt szükség vagy éppen kitöröltem olyat, amelyet nem kellett volna. A Git verziókövető nyelvvel könnyen el lehet menteni a kódokban (és fájlokban) a változtatásokat, és minden változtatáshoz egy üzenetet kell csatolnunk az átláthatóság érdekében. Mivel a Git csak a fájlokat mozgatja, nem feltétlen könnyű átlátni a terminálban, hogy épp milyen állapotban vannak a fájlok. Erre nyújt megoldást a GitHub, ahol egy felhasználóbarát interfészen keresztül látható mindaz, amit felsoroltam.
 \subsection{GIT}
-A Git egy olyan szoftver, amelyet a Linux alkotója, Linus Torvalds kezdett el fejleszteni 2005-ben, mert elégedetlen volt az akkor elterjedt verziókövető rendszerekkel. A szoftver elnevezése szándékosan homályos, több lehetséges magyarázatot is megadott hozzá Torvalds, mint pl. a 'Global Information Tracker', de egyéb szakdolgozati nyelvet nem tűrő lehetőséget is felsorolt. A Git egy alacsony szintű motor, ami megadja a vázát a különböző rendszereknek, amelyek felhasználóbarát módon tudják a fejlesztők elé tárni a változásokat. Ilyen rendszer például a GitLab, a GitHub, vagy a BitBucket.
+A Git \cite{git} egy olyan szoftver, amelyet a Linux alkotója, Linus Torvalds kezdett el fejleszteni 2005-ben, mert elégedetlen volt az akkor elterjedt verziókövető rendszerekkel. A szoftver elnevezése szándékosan homályos, több lehetséges magyarázatot is megadott hozzá Torvalds, mint pl. a 'Global Information Tracker', de egyéb szakdolgozati nyelvet nem tűrő lehetőséget is felsorolt. A Git egy alacsony szintű motor, ami megadja a vázát a különböző rendszereknek, amelyek felhasználóbarát módon tudják a fejlesztők elé tárni a változásokat. Ilyen rendszer például a GitLab, a GitHub, vagy a BitBucket.
 
 Nézzük meg nagyvonalakban a Git működését. Szép analógiát lehet vonni az élőlények evolúciója és a kódok verziókövetése között. Az előlények is generációról generációra lassan és megfontolva változnak és adaptálódnak az új fajta környezet újfajta kihívásaihoz, a genetikához értő emberek pedig megtudják állapítani, hogy miben változtak meg az egyedeket felépítő kódok. Hasonlóan működik ez egy szoftver fejlesztése közben is. Az új igényekhez adaptálni kell a kódot, ami magát a funkciót adja, ezt pedig kicsi és megfontolt lépéseken keresztül érik el a fejlesztők, akik a verziókövetést használva pontosan dokumentálják, hogy miben és mikor változott az adott részlet amihez hozzányúltak. A kulcsa az, hogy minden kis lépést nyomon követünk.
 
 \begin{example}
 Nézzünk meg egy olyan esetet, ahol egyszerűen a fő águnkonról leszármaztatunk egy másik ágat, azon dolgozunk, majd végül ezeket a változtatásokat visszavezetjük.
-\begin{center}
+\begin{figure}[H]
+    \centering
     \includegraphics{git/branch_with_only_commits.png}
-\end{center}
+    \caption{Fejlesztés probléma nélkül (forrás: saját készítés)}
+    \label{nincs_konflikt}
+\end{figure}
+
 \end{example}
 
 Az ábrán azt látni, hogy a narancs sárgával jelölt vonal jelenti a kiinduló változatot, majd ahol az első citromsárga kör található, ott megindul egy új ág, amit zöld vonallal jelöltünk. Ezen az ágon 3 változtatás történt meg, amit piros körrel jelölünk. Ezután a jobb oldali függőleges zöld vonal jelöli a feature branchből való mergelést az eredeti branchbe.
@@ -1282,20 +1208,29 @@ Az ábrán azt látni, hogy a narancs sárgával jelölt vonal jelenti a kiindul
 \begin{example}
 Nézzünk meg egy olyan esetet, amely egy olyan helyzetet mutat be, amikor 2 leágazás készül el egy adott verzióról, de a változtatások felvezetése egyik esetben már másabb verzióba fog megtörténni.
 \end{example}
-A következő ábrán pedig azt az esetet szemléltejük, amikor egy ágról 2 branch ágazik le. Ez magával hozza, hogy ha egy fájlban történik változtatás, akkor könnyen problémába ütközhetünk, mivel össze kell fésülni a 2 változtatást. Ha ez nem okoz gondot akkor automatikusan megtörténik, ha gondot okoz akkor pedig ezt kézzel kell megoldanunk. Látni, hogy az első leágazott verzióban 2 változtatás történt, majd ez be is épült az eredeti branchbe. Azonban a másik leágazott branch ugyan abból az állapotból indult, mint a másik, de amikor beépítenénk az ottani commitokat, akkor már egy olyan változatban kell azt megtenni, ami már eltér a kiinduló állapottól, ezt jelöli a zöld és sárga vonalakkal tűzdelt ábra.
+A következő ábrán pedig azt az esetet szemléltejük, amikor egy ágról 2 branch ágazik le. Ez magával hozza, hogy ha egy fájlban történik több felhasználó által változtatás, akkor könnyen problémába ütközhetünk, mivel össze kell fésülni a 2 verziót. Ha ez nem okoz gondot akkor automatikusan megtörténik, ha gondot okoz akkor pedig ezt kézzel kell megoldanunk. Látni, hogy az első leágazott verzióban 2 változtatás történt, majd ez be is épült az eredeti branchbe. Azonban a másik leágazott branch ugyan abból az állapotból indult, mint a másik, de amikor beépítenénk az ottani commitokat, akkor már egy olyan változatban kell azt megtenni, ami már eltér a kiinduló állapottól, ezt jelöli a zöld és sárga vonalakkal tűzdelt ábra.
 Ehhez pedig a harmadik verzióval jelölt pontban csatoltam az ábrát, ami azt hivatott jelölni, hogy összefésüljük a kód 2 változatát. Természetesen ez nem azt fogja jelenti, mint ahogy az ábrán látni, hogy csak egymás alá írjuk összekeverve a sorokat, ez csak szemléltetés gyanánt készült el így.
-\begin{center}
+\begin{figure}[H]
+    \centering
     \includegraphics{git/conflict_vibe.png}
-\end{center}
+    \caption{Konfliktus a verziók között (forrás: saját készítés)}
+    \label{van_konflikt}
+\end{figure}
 \subsection{GitHub}
-A GitHub egy szolgáltató oldal, amin nyomon tudjuk követni a szoftvereink verzióit a Git segítségével. Ez azt jelenti, hogy könnyebbé teszi számunkra a Git használatát, mert felhasználó barátabb környezetbe helyezi azt számunkra, emellé sok egyéb szolgáltatást is igénybe lehet venni rajta keresztül.
-
-A következő ábrán pedig kiválasztottam egy commitom, ami a szakdolgozat írása közben készült. Itt a stabilitás vizsgálathoz kapcsolódó függvényhez készítettem el egy változtatást és jól látni milyen sorokban történt módosítás. A piros színű sorok jelölik a régi változatot, a zöld pedig  az újat.
-\begin{center}
+A GitHub\cite{github} egy szolgáltató oldal, amin nyomon tudjuk követni a szoftvereink verzióit a Git segítségével. Ez azt jelenti, hogy könnyebbé teszi számunkra a Git használatát, mert felhasználó barátabb környezetbe helyezi azt számunkra, emellé sok egyéb szolgáltatást is igénybe lehet venni rajta keresztül. Ha egy nagyobb projekten dolgozunk többen, akkor egy idő után szinte megkerülhetetlen lesz a tesztek használata és azoknak az automatizálása. Az ilyen szolgáltató oldalak, mint például a GitHub lehetőséget teremt számunkra, hogy ezt egy távoli számítógépen automatizáljuk. Ezzel a kódok is védve vannak, mert kicsi az esélye, hogy elvesznének, illetve olcsóbb megoldás, mintha ezt magunknak kellene megoldani. Természetesen nagyon megkönnyíti a fejlesztést a különböző kényelmi funkciók használata, azonban mégiscsak a git szoftver adja a lelkét minden ilyen szolgáltatásnak.Hogy ezt szemléltessem, kiválasztottam egy commitom, ami a szakdolgozat írása közben készült. Itt a stabilitás vizsgálathoz kapcsolódó függvényhez készítettem el egy változtatást és jól látni milyen sorokban történt módosítás. A piros színű sorok jelölik a régi változatot, a zöld pedig  az újat.
+\begin{figure}[H]
+    \centering
     \includegraphics[width=\textwidth]{git/github usage.PNG}
-\end{center}
+    \caption{Példa a változások nyomon követésére (forrás: saját készítés)}
+    \label{github_pelda}
+\end{figure}
+Látni, hogy mennyivel egyszerűbb ezzel nyomonkövetni a változásokat, főleg akkor ha más munkáját kell használnunk, mert arra már nem is emlékszünk
 \section{Összegzés}
-A szakdolgozatomban szerettem volna körbejárni azokat a differenciálegyenletekhez kapcsolódó problémákat, amelyeket tanultam a Dinamikai rendszerek nevű tárgyból. Azonban ezt nem az analitikus megközelítéssel tettem, hanem  numerikus szemszögből vizsgáltam a kérdéseket.A szakdolgozat a nemsztochasztikus közönséges differenciálegyenletekkel foglalkozik. A közgazdasági problémák modellezésében is használják a differenciálegyenletek, jelentős részben ezen belül pedig a dinamikai rendszereket. A közgazdasági modellek nyomós része lineáris modelleket használ, a szakdolgozat pedig a stabilitásvizsgálat linearizálási módszeréig megy el, a Ljupanov módszert már nem tárgyalja. A stabilitáselmélet tanult módszereihez csatoltam saját magam által írt kódokat, mert úgy gondoltam ez egy jó kiegészítése lehet a témakörnek. Elkészült olyan kód, ami megold elsőrendű közönséges differenciálegyenleteket, felírja numerikusan a Jacobi mátrixát egy rendszernek, ha megadjuk a sorait leíró függvényt, illetve megadja a stabilitását a problémának ha megadjuk a mátrix reprezentációját. A nyelv amit használtam Python volt, az volt az elgondolás, hogy érdemes úgy felépíteni, hogy minnél több lukat befedjek vele. A Python önmagában még kevés, emiatt pedig nagy hangsúlyt fektettem a NumPy csomag használatára, amit kifejezetten számításigényes problémákhoz alkottak meg. Ha mélyebben belenézünk az olyan megoldásokba, amelyek egyszerűbbé teszik a felhasználó számára az oszlopműveletek felírását, akkor hamar szembetalálkozunk azzal az általános igazsággal, ami alapvetően minden magasabb szintű nyelv alapja. Ez pedig az, hogy amivel találkozunk az valamilyen módon bevan csatornázva egy alacsonyabb szintű nyelvbe. Ez az alapvető megoldása mind a NumPynak, mind a MatLabnak, az R-nek, Julianak és egyéb nyelveknek. Amikor megadunk egy utasítást, hogy emeljen négyzetre egy vektort, akkor az a rétegeken keresztül eljut egy C/C++/Fortran fordítóba és ezt már gyorsan végrehajtja a gép. Emiatt lesz gyorsabb a beépített megoldást használni erre a problémára, mintsem egy ciklusban végig menni rajta. A kódok optimalitása véleményem szerint magában hordozza azt a közgazdasági állítást, hogy akkor lehet a legnagyobb a profitunk, ha a költségeinket minimumon tartjuk.  Ez az elgondolás vezetett el engem ahhoz, hogy beszéljek a Numba csomagról, ami a NumPy megoldásokra egy újabb lehetőséget ad, hogy gyorsabb legyen a futás. Persze nem biztos, hogy sikerül, az is megtörténhet, hogy épp az ellenkezőjét érjük el, vagy egyéb nemvárt problémákba ütközünk. A szakirodalom olvasása közben arra a megállapításra jutottam a cikkek konkluziói alapján, hogy szimuláció igényes tud lenni egy dinamikai rendszer felépítése, mivel érzékeny lesz a paraméterekre a stabilitás, főleg ha nemlineáris a modellünk. Ez pedig azt jelenti, hogy amikor azt tesztelteljük, hogy a különböző változókra milyen érzékenyen hat a rendszer implicit magával hozza, hogy sok futást kell elindítani és megint beleütközünk a már fentebb említett problémákba.
+A szakdolgozatomban szerettem volna körbejárni azokat a differenciálegyenletekhez kapcsolódó problémákat, amelyeket tanultam a Dinamikai rendszerek nevű tárgyból. Azonban ezt nem az analitikus megközelítéssel tettem, hanem  numerikus szemszögből vizsgáltam a kérdéseket.A szakdolgozat a nemsztochasztikus közönséges differenciálegyenletekkel foglalkozik. A közgazdasági problémák modellezésében is használják a differenciálegyenletek, jelentős részben ezen belül pedig a dinamikai rendszereket. A közgazdasági modellek nyomós része lineáris modelleket használ, a szakdolgozat pedig a stabilitásvizsgálat linearizálási módszeréig megy el, a Ljupanov módszert már nem tárgyalja. A stabilitáselmélet tanult módszereihez csatoltam saját magam által írt kódokat, mert úgy gondoltam ez egy jó kiegészítése lehet a témakörnek. Elkészült olyan kód, ami megold elsőrendű közönséges differenciálegyenleteket, felírja numerikusan a Jacobi mátrixát egy rendszernek, ha megadjuk a sorait leíró függvényt, illetve megadja a stabilitását a problémának ha megadjuk a mátrix reprezentációját. A nyelv amit használtam Python volt, az volt az elgondolás, hogy érdemes úgy felépíteni, hogy minnél több lukat befedjek vele. A Python önmagában még kevés, emiatt pedig nagy hangsúlyt fektettem a NumPy csomag használatára, amit kifejezetten számításigényes problémákhoz alkottak meg. Ha mélyebben belenézünk az olyan megoldásokba, amelyek egyszerűbbé teszik a felhasználó számára az oszlopműveletek felírását, akkor hamar szembetalálkozunk azzal az általános igazsággal, ami alapvetően minden magasabb szintű nyelv alapja. Ez pedig az, hogy amivel találkozunk az valamilyen módon be van csatornázva egy alacsonyabb szintű nyelvbe. Ez az alapvető megoldása mind a NumPynak, mind a MatLabnak, az R-nek, Julianak és egyéb nyelveknek. Amikor megadunk egy utasítást, hogy emeljen négyzetre egy vektort, akkor az a rétegeken keresztül eljut egy C/C++/Fortran fordítóba és ezt már gyorsan végrehajtja a gép. Emiatt lesz gyorsabb a beépített megoldást használni erre a problémára, mintsem egy ciklusban végig menni rajta. A kódok optimalitása véleményem szerint magában hordozza azt a közgazdasági állítást, hogy akkor lehet a legnagyobb a profitunk, ha a költségeinket minimumon tartjuk.  Ez az elgondolás vezetett el engem ahhoz, hogy beszéljek a Numba csomagról, ami a NumPy megoldásokra egy újabb lehetőséget ad, hogy gyorsabb legyen a futás. Persze nem biztos, hogy sikerül, az is megtörténhet, hogy épp az ellenkezőjét érjük el, vagy egyéb nemvárt problémákba ütközünk. A szakirodalom olvasása közben arra a megállapításra jutottam a cikkek konkluziói alapján, hogy szimuláció igényes tud lenni egy dinamikai rendszer felépítése, mivel érzékeny lesz a paraméterekre a stabilitás, főleg ha nemlineáris a modellünk. Ez pedig azt jelenti, hogy amikor azt tesztelteljük, hogy a különböző változókra milyen érzékenyen hat a rendszer implicit magával hozza, hogy sok futást kell elindítani és megint beleütközünk a már fentebb említett problémákba. Ha valamilyen eredményt kell szállítanunk döntéshozóknak, akkor figyelni kell arra, vajon mennyi időt is vesz igénybe a kalkuláció, illetve azt is számításba kell venni, hogy mennyire lesz kézenfekvő bizonyos új igények felvétele. Ehhez pedig nagyon jó eszköz a verziókövetés a GIT által és az a köré épített szolgáltatások használata. Ezekkel minden változtatást ténylegesen nyomon tudunk követni, a változtatásokhoz csatolt üzenetekből a céljait és megérthetjük. Ezen felül még egy előnyét látom a verziókövetők használatának, nevesen azt, hogy ha a munkánkat egy külső ellenőrző szerv (Magyarországon például a MNB) validálni kivánja, akkor ott megtudja nézni, hogy mikor és mi történt milyen okból kifolyólag.Ez pedig biztonságos, mert a commit üzenetekhez egyedi kódjelek tartoznak (hash). \footnote{https://gist.github.com/masak/2415865}
+\pagebreak
+\listoffigures
+\listoftables
+\pagebreak
 \bibliographystyle{apalike}
 \bibliography{References}
 \end{document}
