@@ -12,6 +12,8 @@
 \theoremstyle{theorem}
 \usepackage{geometry}
 \usepackage[magyar]{babel}
+\usepackage{epigraph}
+\usepackage{hyperref}
 \geometry{a4paper,outer=25mm,inner=35mm,top=25mm,bottom=25mm}
 \linespread{1.5}
 \frenchspacing
@@ -74,6 +76,12 @@
 \end{center}
 \pagebreak
 \tableofcontents
+\pagebreak
+\textbf{Köszönetnyilvánítás} \newline
+Szeretném megköszönni Dr. Kánnai Zoltán segítségét, amit a szakdolgozat írás közben nyújtott számomra! Köszönöm a munkásságát és a szemlélet átadását amit kaptam tőle a tanulmányaim alatt.
+
+\pagebreak
+\epigraph{A tudomány nem próbál magyarázni, s alig próbál interpretálni - a tudomány főként modelleket állít fel. Modellen egy olyan matematikai konstrukciót értünk, amely - bizonyos szóbeli értelmezést hozzáadva - leírja a megfigyelt jelenségeket.}{\textit{Neumann János}}
 \pagebreak
 \section{Bevezetés}
 A szakdolgozatomat szerettem volna egybekötni a programozással, ezen belül a Python nyelvvel és annak különböző részeivel, illetve a differenciálegyenletek numerikus megoldásaival. Ez azonban meglepően sok számomra eddig ismeretlen területet mutatott meg, ilyen volt például a dekorátorok használata, az ábra készítő csomagok működési elve, illetve az oszlopműveletek hatékonysága, beleértve a kapcsolatot az alacsonyabb szintű programozási nyelvekkel. Ezután jobban megértettem, hogy mit is jelent egy programozási nyelv és milyen hasonlóságok és eltérések lehetnek a különböző nyelvek között. A szakirodalom olvasása közben képet kaptam arról, hogy amikor a modellezésben előkerülnek a differenciálegyenletek, akkor a különböző tudományágak képviselői milyen megközelítésekkel szoktak élni a kutatásuk során, és ennek milyen következményei lehetnek a cikkekre ,amiket írtak.
@@ -384,7 +392,7 @@ Példa erre a következő:
 \end{definition}
 
 \begin{definition}Homogén lineáris differenciálegyenlet\\
-Ha a fenti lineáris differenciálegyenlet jobboldala azonosan nulla, homogén lineáris differenciálegyenletnek nevezzük.Ha a jobboldal nem azonosan nulla, akkor az egyenletet inhomogén lineáris differenciálegyenletnek nevezzük.
+Ha a fenti lineáris differenciálegyenlet jobboldala azonosan nulla, homogén lineáris\newline differenciálegyenletnek nevezzük.Ha a jobboldal nem azonosan nulla, akkor az egyenletet inhomogén lineáris differenciálegyenletnek nevezzük.
 \end{definition}
 \begin{definition}{Kezdetiérték-feladat}\\
 Vegyünk egy ODE problémát és adjunk meg hozzá egy (kezdeti) pont-függvény párost. Az ODE-t ezzel a tulajdonsággal ellátva kezdetiérték problémának  nevezzük
@@ -476,12 +484,12 @@ Ez a Newton - Leibniz tétel miatt pedig erre az alakra hozható:
  \begin{equation*}
     \begin{split}
      \lVert T(x,t) - T(y,t) \rVert =\lVert \int_a^t f(s,x(s)) ds - \int_a^t f(s,x(s)) ds \rVert &
-     \leq \int_a^t \lVert f(s,x(s)) - f(s,y(s)) \rVert ds \leq \int_a^t L \lVert x(s) - y(s) \rVert &
+     \leq \int_a^t \lVert f(s,x(s)) - f(s,y(s)) \rVert ds \leq\\ \leq \int_a^t L \lVert x(s) - y(s) \rVert &
      \leq (t-a) L \lVert x-y\rVert_{\infty} \leq \epsilon L \lVert x - y \rVert_{\infty}
      \end{split}
  \end{equation*}
 
- Mivel T pedig kontrakció, így a Banach-féle fixpont tétel alkalmazható,amivel igazoltuk a létezését a megoldásnak. Továbbá felhasználva a Peano-egyenlőtlenséget megkapjuk az egyértelműséget is.
+ Mivel T pedig kontrakció, így a Banach-féle fixpont tétel alkalmazható,amivel igazoltuk a létezését a megoldásnak. Továbbá felhasználva a Peano-egyenlőtlenséget megkapjuk az egyértelműsé\-get is.
 \end{proof}
 \begin{definition}[Szukcesszív approximációs módszer]
 Vegyük a következő kezdetiérték problémát
@@ -491,7 +499,7 @@ Vegyük a következő kezdetiérték problémát
        x(a) = b
     \end{cases}
 \end{equation*}
-Fentebb tárgyaltuk a Picard-Lindelöf tételnél, hogy a Newton - Leibniz tétel miatt fennáll a következő
+Fentebb tárgyaltuk a Picard-Lindelöf tételnél, hogy a Newton-Leibniz tétel miatt fennáll a következő
 egyenlőség: \newline
 \begin{equation*}
     x(t) = x(0) + \int_a^t f(s,x(s)) ds
@@ -657,7 +665,7 @@ Nézzük meg mennyi lehet x(1) értéke, úgy hogy r = 0.1 a kamatláb. A képle
 \begin{equation*}
     e^0.1 = x(1) = 1.105170918...
 \end{equation*}
-Ha ezt az értéket beheleyttesítjük a numerikus RK4-es függvényünkbe, akkor az x(1) = 1.1051709180665144 eredményt kapjuk 0.1-es lépésköz mellett. Ennél példánál a negyedrendű Runge-Kutta módszer elég pontos eredményt adott
+Ha ezt az értéket beheleyttesítjük a numerikus RK4-es függvényünkbe, akkor az x(1) = 1.10517091806 eredményt kapjuk 0.1-es lépésköz mellett. Ennél példánál a negyedrendű Runge-Kutta módszer elég pontos eredményt adott
 \end{example}
 
 
@@ -855,10 +863,10 @@ A kiinduló egyenlet megoldását aszimptotikusan stabilnak nevezzük, ha egysze
 \end{definition}
 
 \subsection{Lineáris algebrai kitekintő}
-Amikor egy rendszer stabilitását vizsgáljuk, akkor nagyban kell támaszkodnunk a különböző lineáris algebrai ismereteinkre. Ezért a következőkben kimondunk néhány tételt és definíciót, amelyek segítenek megérteni a különböző tételeket, amelyek a stabilitásvizsgálathoz kapcsolódnak. Érdemes megemlíteni, hogy már fentebb beszéltünk a vektorműveletek hatékonyságáról, ami nagyban támaszkodik a lineáris algebra eszköztárára. Természetesen ezeknél a számításoknál is a NumPy csomag osztályaira hagyatkozunk, nevesen a linalg modulra.
+Amikor egy rendszer stabilitását vizsgáljuk, akkor nagyban kell támaszkodnunk a különböző lineáris algebrai ismereteinkre. Ezért a következőkben kimondunk néhány tételt és definíciót, amelyek segítenek megérteni a különböző tételeket, amelyek a stabilitásvizsgálathoz kapcsolódnak. Érdemes megemlíteni, hogy már fentebb beszéltünk a vektorműveletek hatékonyságáról, ami nagyban támaszko\-dik a lineáris algebra eszköztárára. Természetesen ezeknél a számításoknál is a NumPy csomag osztályaira hagyatkozunk, nevesen a linalg modulra.
 
 \subsubsection{Mátrix az exponenciális függvényben}
-Az egydimenziós exponenciális függvény és a mátrixokra kiterjesztett változata képletben nem mutat eltérést, sőt a különböző konvergencia megállapítások is hasonlítanak egymásra. Az alábbo fogalmak tisztázása szükséges a fejezet megértéséhez.
+Az egydimenziós exponenciális függvény és a mátrixokra kiterjesztett változata képletben nem mutat eltérést, sőt a különböző konvergencia megállapítások is hasonlítanak egymásra. Az alábbi fogalmak tisztázása szükséges a fejezet megértéséhez.
 \begin{definition}[Mátrixokra kiterjesztett exponenciális függvény]
 Legyen X egy négyzetes mátrix. Ekkor a következő módon értelmezzük a mátrix kitevőt az exponenciális függvényben.
 \begin{equation*}
@@ -1151,7 +1159,7 @@ Ezek az értékek pedig közel vannak az analitikus eredményekhez.
 \section{Numba}
 Mikroökonómia órán, majd részletesebben egyensúlyelméleten elhangzott, hogy egy vállalat a profitmaximumát többek között akkor tudja elérni, ha a költségeit minimalizálja.A gyakorlatban persze nagyon kevés vállalat tud felírni egy költségfüggvényt, amin azután szélsőértéket tud számolni, de sokféleképpen lehet a 'termelésünket' olcsóbbá tenni. Az utóbbi időkben egyre több és több adatot termelünk magunk után, ami igaz a vállalatokra, sőt van, hogy kifejezetten cél, hogy generáljunk adatot. Minnél több az adat, annál inkább letudjuk modellezni a problémát és annál inkább pontosabb választ tudunk adni egy felmerülő kérdésre, aminek a legvégén valószínűleg az lesz a célja, hogy több pénzt keressünk, vagy épp kevesebb pénzt költsünk.
 
-Amikor nagyobb mennyiségű adatot kell feldolgozni, már gyakran kiszervezik azt külső szolgáltatókhoz, ahol számítási kapacitást bérelnek. Persze ez nem olcsó és minnél gyorsabban minnél több eredményre van szükségünk, annál inkább a zsebünkbe kell nyúlni.
+Amikor nagyobb mennyiségű adatot kell feldolgozni, már gyakran kiszervezik azt külső szolgálta\-tókhoz, ahol számítási kapacitást bérelnek. Persze ez nem olcsó és minnél gyorsabban minnél több eredményre van szükségünk, annál inkább a zsebünkbe kell nyúlni.
 
 Ez az elgondolás vezetett oda, hogy beletegyem a szakdolgozatba ezt a fejezetet, ami egy python csomagról szól, nevesen a \textit{Numbáról}\footnote{https://github.com/numba}.
 \newline
@@ -1227,6 +1235,11 @@ A GitHub\cite{github} egy szolgáltató oldal, amin nyomon tudjuk követni a szo
 Látni, hogy mennyivel egyszerűbb ezzel nyomonkövetni a változásokat, főleg akkor ha más munkáját kell használnunk, mert arra már nem is emlékszünk
 \section{Összegzés}
 A szakdolgozatomban szerettem volna körbejárni azokat a differenciálegyenletekhez kapcsolódó problémákat, amelyeket tanultam a Dinamikai rendszerek nevű tárgyból. Azonban ezt nem az analitikus megközelítéssel tettem, hanem  numerikus szemszögből vizsgáltam a kérdéseket.A szakdolgozat a nemsztochasztikus közönséges differenciálegyenletekkel foglalkozik. A közgazdasági problémák modellezésében is használják a differenciálegyenletek, jelentős részben ezen belül pedig a dinamikai rendszereket. A közgazdasági modellek nyomós része lineáris modelleket használ, a szakdolgozat pedig a stabilitásvizsgálat linearizálási módszeréig megy el, a Ljupanov módszert már nem tárgyalja. A stabilitáselmélet tanult módszereihez csatoltam saját magam által írt kódokat, mert úgy gondoltam ez egy jó kiegészítése lehet a témakörnek. Elkészült olyan kód, ami megold elsőrendű közönséges differenciálegyenleteket, felírja numerikusan a Jacobi mátrixát egy rendszernek, ha megadjuk a sorait leíró függvényt, illetve megadja a stabilitását a problémának ha megadjuk a mátrix reprezentációját. A nyelv amit használtam Python volt, az volt az elgondolás, hogy érdemes úgy felépíteni, hogy minnél több lukat befedjek vele. A Python önmagában még kevés, emiatt pedig nagy hangsúlyt fektettem a NumPy csomag használatára, amit kifejezetten számításigényes problémákhoz alkottak meg. Ha mélyebben belenézünk az olyan megoldásokba, amelyek egyszerűbbé teszik a felhasználó számára az oszlopműveletek felírását, akkor hamar szembetalálkozunk azzal az általános igazsággal, ami alapvetően minden magasabb szintű nyelv alapja. Ez pedig az, hogy amivel találkozunk az valamilyen módon be van csatornázva egy alacsonyabb szintű nyelvbe. Ez az alapvető megoldása mind a NumPynak, mind a MatLabnak, az R-nek, Julianak és egyéb nyelveknek. Amikor megadunk egy utasítást, hogy emeljen négyzetre egy vektort, akkor az a rétegeken keresztül eljut egy C/C++/Fortran fordítóba és ezt már gyorsan végrehajtja a gép. Emiatt lesz gyorsabb a beépített megoldást használni erre a problémára, mintsem egy ciklusban végig menni rajta. A kódok optimalitása véleményem szerint magában hordozza azt a közgazdasági állítást, hogy akkor lehet a legnagyobb a profitunk, ha a költségeinket minimumon tartjuk.  Ez az elgondolás vezetett el engem ahhoz, hogy beszéljek a Numba csomagról, ami a NumPy megoldásokra egy újabb lehetőséget ad, hogy gyorsabb legyen a futás. Persze nem biztos, hogy sikerül, az is megtörténhet, hogy épp az ellenkezőjét érjük el, vagy egyéb nemvárt problémákba ütközünk. A szakirodalom olvasása közben arra a megállapításra jutottam a cikkek konkluziói alapján, hogy szimuláció igényes tud lenni egy dinamikai rendszer felépítése, mivel érzékeny lesz a paraméterekre a stabilitás, főleg ha nemlineáris a modellünk. Ez pedig azt jelenti, hogy amikor azt tesztelteljük, hogy a különböző változókra milyen érzékenyen hat a rendszer implicit magával hozza, hogy sok futást kell elindítani és megint beleütközünk a már fentebb említett problémákba. Ha valamilyen eredményt kell szállítanunk döntéshozóknak, akkor figyelni kell arra, vajon mennyi időt is vesz igénybe a kalkuláció, illetve azt is számításba kell venni, hogy mennyire lesz kézenfekvő bizonyos új igények felvétele. Ehhez pedig nagyon jó eszköz a verziókövetés a GIT által és az a köré épített szolgáltatások használata. Ezekkel minden változtatást ténylegesen nyomon tudunk követni, a változtatásokhoz csatolt üzenetekből a céljait és megérthetjük. Ezen felül még egy előnyét látom a verziókövetők használatának, nevesen azt, hogy ha a munkánkat egy külső ellenőrző szerv (Magyarországon például a MNB) validálni kivánja, akkor ott megtudja nézni, hogy mikor és mi történt milyen okból kifolyólag.Ez pedig biztonságos, mert a commit üzenetekhez egyedi kódjelek tartoznak (hash). \footnote{https://gist.github.com/masak/2415865}
+
+A szakdolgozatom pedig ebben az adattárban található a GitHubon:
+\begin{center}
+    \href{https://github.com/SzabBence/szakdoga}{GitHub}
+\end{center}
 \pagebreak
 \listoffigures
 \listoftables
